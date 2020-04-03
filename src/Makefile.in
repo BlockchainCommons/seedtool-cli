@@ -1,0 +1,44 @@
+# @configure_input@
+
+#
+#  Makefile.in
+#
+#  Copyright © 2020 by Blockchain Commons, LLC
+#  Licensed under the "BSD-2-Clause Plus Patent License"
+#
+
+# Package-specific substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+tarname = @PACKAGE_TARNAME@
+
+# Prefix-specific substitution variables
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+
+# VPATH-specific substitution variables
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+CFLAGS = -g -O0
+
+.PHONY: all
+all: seedtool
+
+OBJS = seedtool.o utils.o
+LDFLAGS = -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -largp
+
+seedtool: $(OBJS)
+
+seedtool.o: utils.h
+utils.o: utils.h
+
+.PHONY: clean
+clean:
+	rm -f seedtool $(OBJS)
+	rm -rf *.dSYM
+
+.PHONY: distclean
+distclean: clean
+	rm -f Makefile

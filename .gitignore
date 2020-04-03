@@ -87,3 +87,12 @@ Mkfile.old
 dkms.conf
 
 # End of https://www.gitignore.io/api/c
+
+*.tar.gz
+autom4te.cache
+autoscan.log
+Makefile
+config.log
+config.status
+configure.scan
+config.h

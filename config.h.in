@@ -1,0 +1,34 @@
+/* config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* Define to 1 if you have the `argp' library (-largp). */
+#undef HAVE_LIBARGP
+
+/* Define to 1 if you have the `bc-bip39' library (-lbc-bip39). */
+#undef HAVE_LIBBC_BIP39
+
+/* Define to 1 if you have the `bc-crypto-base' library (-lbc-crypto-base). */
+#undef HAVE_LIBBC_CRYPTO_BASE
+
+/* Define to 1 if you have the `bc-shamir' library (-lbc-shamir). */
+#undef HAVE_LIBBC_SHAMIR
+
+/* Define to 1 if you have the `bc-slip39' library (-lbc-slip39). */
+#undef HAVE_LIBBC_SLIP39
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
