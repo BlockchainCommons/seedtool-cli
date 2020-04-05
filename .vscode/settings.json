@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "Makefile.in": "makefile",
+        "*.h": "c"
+    }
+}

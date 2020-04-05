@@ -23,20 +23,43 @@ VPATH = @srcdir@
 
 CFLAGS = -g -O0
 
-.PHONY: all
-all: seedtool
+toolname = seedtool
 
-OBJS = seedtool.o utils.o
+.PHONY: all
+all: $(toolname)
+
+OBJS = seedtool.o utils.o generators.o params.o input.o output.o
+
 LDFLAGS = -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -largp
 
-seedtool: $(OBJS)
+$(toolname): $(OBJS)
 
-seedtool.o: utils.h
+seedtool.o: generators.h params.h
 utils.o: utils.h
+input.o: input.h params.h
+output.o: output.h params.h utils.h
+params.o: params.h utils.h input.h output.h
+generators.o: generators.h utils.h
+
+bindir = $(DESTDIR)/$(prefix)/bin
+
+.PHONY: install
+install: $(toolname)
+	install -d $(bindir)
+	install $(toolname) $(bindir)
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(bindir)/$(toolname)
+	-rmdir $(bindir) >/dev/null 2>&1
+
+.PHONY: check
+check: $(toolname)
+	./$(toolname)
 
 .PHONY: clean
 clean:
-	rm -f seedtool $(OBJS)
+	rm -f $(toolname) $(OBJS)
 	rm -rf *.dSYM
 
 .PHONY: distclean

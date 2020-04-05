@@ -47,6 +47,7 @@ $(distdir): FORCE
 	cp $(srcdir)/CONTRIBUTING.md $(distdir)
 	cp $(srcdir)/LICENSE $(distdir)
 	cp $(srcdir)/README.md $(distdir)
+	cp $(srcdir)/MANUAL.md $(distdir)
 	cp -r $(srcdir)/CLA-signed $(distdir)
 	cp $(srcdir)/bootstrap.sh $(distdir)
 	cp $(srcdir)/configure.ac $(distdir)

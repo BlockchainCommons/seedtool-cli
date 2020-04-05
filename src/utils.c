@@ -11,6 +11,8 @@
 #include <string.h>
 #include <assert.h>
 
+#include <bc-crypto-base/bc-crypto-base.h>
+
 char* data_to_hex(uint8_t* in, size_t insz)
 {
   char* out = malloc(insz * 2 + 1);
@@ -43,8 +45,13 @@ bool hex_digit_to_bin(const char hex, char *out) {
 }
 
 size_t hex_to_data(const char *hex, uint8_t **out) {
-	if (hex == NULL || *hex == '\0' || out == NULL)
+	if (hex == NULL || *hex == '\0') {
+        *out = NULL;
 		return 0;
+    }
+    if (out == NULL) {
+        return 0;
+    }
 
 	size_t len = strlen(hex);
 	if (len % 2 != 0)

@@ -1,6 +1,38 @@
-# Blockchain Commons `$projectname`
+# Blockchain Commons bc-seedtool-cli
 
-**`$projectdescription`**
+A tool for creating and transforming cryptographic seeds.
+
+## Prerequisites
+
+If any of the following prerequisites are not installed, the `configure` step below will fail.
+
+* [`bc-crypto-base`](https://github.com/blockchaincommons/bc-crypto-base)
+* [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
+* [`bc-slip39`](https://github.com/blockchaincommons/bc-slip39)
+* [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
+* [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html) This may be installed via `brew install argp-standalone`.
+
+## Installation
+
+```bash
+$ ./configure
+$ make check
+$ sudo make install
+```
+
+## Use
+
+See [`MANUAL.md`](MANUAL.md).
+
+## Notes for Maintainers
+
+Before accepting a PR that can affect build or unit tests, make sure the following sequence of commands succeeds:
+
+```bash
+$ ./configure
+$ make distcheck
+$ make distclean
+```
 
 ## Origin, Authors, Copyright & Licenses
 
@@ -12,23 +44,10 @@ This table below also establishes provenance (repository of origin, permalink, a
 
 | File      | From                                                         | Commit                                                       | Authors & Copyright (c)                                | License                                                     |
 | --------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------ | ----------------------------------------------------------- |
-| exception-to-the-rule.c or exception-folder | [https://github.com/community/repo-name/PERMALINK](https://github.com/community/repo-name/PERMALINK) | [https://github.com/community/repo-name/commit/COMMITHASH]() | 2020 Exception Author  | [MIT](https://spdx.org/licenses/MIT)                        |
-
-### Used with…
-
-These are other projects that work with or leverage `$projectname`:
-
-- [community/repo-name/](https://github.com/community/repo-name) — Repo that does what, by [developer](https://github.com/developer)  or from  [community](https://community.com).
-
-### Derived from…
-
-This  `$projectname` project is either derived from or was inspired by:
-
-- [community/repo-name/](https://github.com/community/repo-name) — Repo that does what, by [developer](https://github.com/developer)  or from  [community](https://community.com).
 
 ### Dependencies
 
-To build the  `$projectname` you'll need to use the following tools:
+To build `seedtool` you'll need to use the following tools:
 
 - autotools - Gnu Build System from Free Software Foundation ([intro](https://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)).
 
@@ -43,6 +62,7 @@ The following people directly contributed to this repository. You can add your n
 | Name              | Role                | Github                                            | Email                                 | GPG Fingerprint                                    |
 | ----------------- | ------------------- | ------------------------------------------------- | ------------------------------------- | -------------------------------------------------- |
 | Christopher Allen | Principal Architect | [@ChristopherA](https://github.com/@ChristopherA) | \<ChristopherA@LifeWithAlacrity.com\> | FDFE 14A5 4ECB 30FC 5D22  74EF F8D3 6C91 3574 05ED |
+| Wolf McNally      | Project Lead        | [@WolfMcNally](https://github.com/wolfmcnally)    | \<Wolf@WolfMcNally.com\>              | 9436 52EE 3844 1760 C3DC  3536 4B6C 2FCF 8947 80AE |
 
 ## Responsible Disclosure
 
