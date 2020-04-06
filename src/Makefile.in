@@ -28,7 +28,7 @@ toolname = seedtool
 .PHONY: all
 all: $(toolname)
 
-OBJS = seedtool.o utils.o generators.o params.o input.o output.o
+OBJS = seedtool.o utils.o generators.o params.o input.o output.o random.o randombytes.o hkdf.o
 
 LDFLAGS = -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -largp
 
@@ -40,6 +40,9 @@ input.o: input.h params.h
 output.o: output.h params.h utils.h
 params.o: params.h utils.h input.h output.h
 generators.o: generators.h utils.h
+random.o: random.h randombytes.h hkdf.h
+randombytes.o: randombytes.h
+hkdf.o: hkdf.h
 
 bindir = $(DESTDIR)/$(prefix)/bin
 
