@@ -11,6 +11,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+typedef void (*random_generator)(uint8_t*, size_t);
+
 // Generates a buffer of random bytes using the OS's cryptographically strong random number generator.
 void crypto_random(uint8_t* buf, size_t n);
 

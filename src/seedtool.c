@@ -6,13 +6,13 @@
 //
 
 #include <stdio.h>
-#include "generators.h"
 #include "params.h"
+#include "format.h"
 
 int main( int argc, char *argv[] ) {
-    params* p = parse_params(argc, argv);
-    p->process_input(p);
-    p->process_output(p);
+    params* p = params_parse(argc, argv);
+    p->input_format->process_input(p->input_format, p);
+    p->output_format->process_output(p->output_format, p);
 
     // char* string = random_ints(0, 9, 32, " ");
     // char* string = random_ints(1, 100, 10, " ");
@@ -40,7 +40,7 @@ int main( int argc, char *argv[] ) {
     }
     printf("%s\n", p->output);
 
-    dispose_params(p);
+    params_dispose(p);
 
     return 0;
 }

@@ -28,21 +28,47 @@ toolname = seedtool
 .PHONY: all
 all: $(toolname)
 
-OBJS = seedtool.o utils.o generators.o params.o input.o output.o random.o randombytes.o hkdf.o
+OBJS = \
+	seedtool.o \
+	utils.o \
+	params.o \
+	random.o \
+	randombytes.o \
+	hkdf.o \
+	format.o \
+	format-base6.o \
+	format-base10.o \
+	format-bip39.o \
+	format-bits.o \
+	format-cards.o \
+	format-dice.o \
+	format-hex.o \
+	format-ints.o \
+	format-random.o \
+	format-slip39.o
 
 LDFLAGS = -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -largp
 
 $(toolname): $(OBJS)
 
-seedtool.o: generators.h params.h
+seedtool.o: params.h format.h
 utils.o: utils.h
-input.o: input.h params.h
-output.o: output.h params.h utils.h
-params.o: params.h utils.h input.h output.h
-generators.o: generators.h utils.h
+params.o: params.h utils.h random.h formats-all.h
 random.o: random.h randombytes.h hkdf.h
 randombytes.o: randombytes.h
 hkdf.o: hkdf.h
+format.o: format.h utils.h
+formats-all.h: format-base6.h format-base10.h format-bip39.h format-bits.h format-cards.h format-dice.h format-hex.h format-ints.h format-random.h format-slip39.h
+format-base6.o: format-base6.h format.h params.h
+format-base10.o: format-base10.h format.h params.h
+format-bip39.o: format-bip39.h format.h params.h
+format-bits.o: format-bits.h format.h params.h
+format-cards.o: format-cards.h format.h params.h
+format-dice.o: format-dice.h format.h params.h
+format-hex.o: format-hex.h format.h params.h
+format-ints.o: format-ints.h format.h params.h
+format-random.o: format-random.h random.h format.h params.h
+format-slip39.o: format-slip39.h format.h params.h
 
 bindir = $(DESTDIR)/$(prefix)/bin
 
@@ -62,7 +88,7 @@ check: $(toolname)
 
 .PHONY: clean
 clean:
-	rm -f $(toolname) $(OBJS)
+	rm -f $(toolname) *.o
 	rm -rf *.dSYM
 
 .PHONY: distclean

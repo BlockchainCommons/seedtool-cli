@@ -17,6 +17,7 @@
 #include <bc-bip39/bc-bip39.h>
 
 #include "utils.h"
+#include "random.h"
 
 static uint8_t* random_seed(size_t count) {
     uint8_t* bytes = malloc(count);
