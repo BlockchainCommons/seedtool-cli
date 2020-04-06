@@ -72,12 +72,24 @@ static int parse_opt(int key, char* arg, struct argp_state* state) {
             printf("count: %s\n", arg);
         }
         break;
-        case 1000: {
+        case 'l': {
             printf("low: %s\n", arg);
         }
         break;
-        case 1001: {
+        case 'h': {
             printf("high: %s\n", arg);
+        }
+        break;
+        case 'd': {
+            printf("deterministic: %s\n", arg);
+        }
+        break;
+        case 'g': {
+            printf("group: %s\n", arg);
+        }
+        break;
+        case 't': {
+            printf("group-threshold: %s\n", arg);
         }
         break;
         case ARGP_KEY_INIT: {
@@ -97,16 +109,20 @@ static int parse_opt(int key, char* arg, struct argp_state* state) {
 }
 
 struct argp_option options[] = {
-    {"in", 'i', "[random|hex|bits|cards|dice|base6|base10|ints|bip39|slip39]", 0, "Specify the input format (default: random)"},
-    {"out", 'o', "[hex|bits|cards|dice|base6|base10|ints|bip39|slip39]", 0, "Specify the output format (default: hex)."},
-    {"count", 'c', "N", 0, "Specify the count of output units (default: 32)"},
+    {"in", 'i', "[random|hex|bits|cards|dice|base6|base10|ints|bip39|slip39]", 0, "The input format (default: random)"},
+    {"out", 'o', "[hex|bits|cards|dice|base6|base10|ints|bip39|slip39]", 0, "The output format (default: hex)"},
+    {"count", 'c', "N", 0, "The number of output units (default: 32)"},
+    {0, 0, 0, 0, "Deterministic Random Numbers:", 8},
     {"deterministic", 'd', "SEED", 0, "Use a deterministic random number generator with SEED"},
     {0, 0, 0, 0, "ints Input and Output Options:", 7},
-    {"low", 1000, "LOW", 0, "The lowest int returned (default: 1)"},
-    {"high", 1001, "HIGH", 0, "The highest int returned (default: 9)"},
+    {"low", 'l', "LOW", 0, "The lowest int returned (default: 1)"},
+    {"high", 'h', "HIGH", 0, "The highest int returned (default: 9)"},
+    {"0 <= low < high <= 255", 0, 0, OPTION_DOC, 0},
     {0, 0, 0, 0, "SLIP39 Output Options:", 6},
-    {"group-threshold", 1002, "N", 0, "The number of groups that must contribute (default: 1)"},
-    {"group", 1003, "N-of-M", 0, "The group specification (default: 1-of-1)"},
+    {"group-threshold", 'g', "G", 0, "The number of groups that must contribute (default: 1)"},
+    {"group", 't', "N-of-M", 0, "The group specification (default: 1-of-1)"},
+    {"The --group option may appear more than once.", 0, 0, OPTION_DOC, 0},
+    {"The group threshold G must be <= the number of group specifications.", 0, 0, OPTION_DOC, 0},
     { 0 }
 };
 
@@ -114,7 +130,7 @@ const char* argp_program_version = "version 1.0";
 const char* argp_program_bug_address = "who@dunnit.com";
 
 char doc[] = "Converts cryptographic seeds between various forms.";
-struct argp argp = { options, parse_opt, "WORD [WORD [WORD [WORD]]]", doc };
+struct argp argp = { options, parse_opt, "INPUT", doc };
 
 params* parse_params( int argc, char *argv[] ) {
     params* p = new_params();
