@@ -16,27 +16,27 @@
 #include "formats-all.h"
 
 static raw_params* raw_params_new() {
-    return calloc(sizeof(raw_params), 1);
+    return (raw_params*)calloc(sizeof(raw_params), 1);
 }
 
-static void raw_params_dispose(raw_params* this) {
-    free(this);
+static void raw_params_dispose(raw_params* p) {
+    free(p);
 }
 
-static void raw_params_add_group(raw_params* this, const char* g) {
-    if(this->slip39_groups_count == MAX_RAW_GROUPS) { return; }
-    this->slip39_groups[this->slip39_groups_count] = g;
-    this->slip39_groups_count++;
+static void raw_params_add_group(raw_params* p, const char* g) {
+    if(p->slip39_groups_count == MAX_RAW_GROUPS) { return; }
+    p->slip39_groups[p->slip39_groups_count] = g;
+    p->slip39_groups_count++;
 }
 
-static void raw_params_add_arg(raw_params* this, const char* a) {
-    if(this->args_count == MAX_ARGS) { return; }
-    this->args[this->args_count] = a;
-    this->args_count++;
+static void raw_params_add_arg(raw_params* p, const char* a) {
+    if(p->args_count == MAX_ARGS) { return; }
+    p->args[p->args_count] = a;
+    p->args_count++;
 }
 
 static params* params_new() {
-    params* p = calloc(sizeof(params), 1);
+    params* p = (params*)calloc(sizeof(params), 1);
     p->raw = raw_params_new();
 
     // // ints-specific
@@ -265,7 +265,7 @@ static void parse_input_opt(params* p, const char* arg, struct argp_state* state
 }
 
 static int parse_opt(int key, char* arg, struct argp_state* state) {
-    params* p = state->input;
+    params* p = (params*)state->input;
     raw_params* raw = p->raw;
 
     switch (key) {

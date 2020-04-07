@@ -12,16 +12,16 @@
 #include "params.h"
 #include "utils.h"
 
-void format_bits_process_output(format* this, params* p) {
+void format_bits_process_output(format* f, params* p) {
     p->output = data_to_ints(p->seed, p->seed_len, 0, 1, "");
 }
 
-static void format_bits_dispose(format* this) {
-    free(this);
+static void format_bits_dispose(format* f) {
+    free(f);
 }
 
 format* format_bits_new() {
-    format* f = calloc(sizeof(format), 1);
+    format* f = (format*)calloc(sizeof(format), 1);
     f->key = format_key_bits;
     f->name = "bits";
     f->process_output = format_bits_process_output;

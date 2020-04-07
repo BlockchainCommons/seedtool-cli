@@ -9,16 +9,16 @@
 #include "params.h"
 #include "utils.h"
 
-void format_base10_process_output(format* this, params* p) {
+void format_base10_process_output(format* f, params* p) {
     p->output = data_to_ints(p->seed, p->seed_len, 0, 9, "");
 }
 
-static void format_base10_dispose(format* this) {
-    free(this);
+static void format_base10_dispose(format* f) {
+    free(f);
 }
 
 format* format_base10_new() {
-    format* f = calloc(sizeof(format), 1);
+    format* f = (format*)calloc(sizeof(format), 1);
     f->key = format_key_base10;
     f->name = "base10";
     f->process_output = format_base10_process_output;

@@ -17,7 +17,7 @@ static const char* card_ranks[] = { "a", "2", "3", "4", "5", "6", "7", "8", "9",
 
 static char* to_card(size_t n) {
     if(n > 51) { return NULL; }
-    char* buf = malloc(3);
+    char* buf = (char*)malloc(3);
     size_t rank = n % 13;
     size_t suit = n / 13;
     const char* rank_string = card_ranks[rank];
@@ -27,16 +27,16 @@ static char* to_card(size_t n) {
     return buf;
 }
 
-void format_cards_process_output(format* this, params* p) {
+void format_cards_process_output(format* f, params* p) {
     p->output = data_to_alphabet(p->seed, p->seed_len, 52, to_card);
 }
 
-static void format_cards_dispose(format* this) {
-    free(this);
+static void format_cards_dispose(format* f) {
+    free(f);
 }
 
 format* format_cards_new() {
-    format* f = calloc(sizeof(format), 1);
+    format* f = (format*)calloc(sizeof(format), 1);
     f->key = format_key_cards;
     f->name = "cards";
     f->process_output = format_cards_process_output;

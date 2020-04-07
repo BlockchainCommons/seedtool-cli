@@ -14,21 +14,21 @@ typedef struct format_ints_options_t {
     size_t high;
 } format_ints_options;
 
-void format_ints_process_output(format* this, params* p) {
-    format_ints_options* opts = this->format_options;
+void format_ints_process_output(format* f, params* p) {
+    format_ints_options* opts = (format_ints_options*)f->format_options;
     p->output = data_to_ints(p->seed, p->seed_len, opts->low, opts->high, " ");
 }
 
-static void format_ints_dispose(format* this) {
-    free(this->format_options);
-    free(this);
+static void format_ints_dispose(format* f) {
+    free(f->format_options);
+    free(f);
 }
 
 format* format_ints_new() {
-    format* f = calloc(sizeof(format), 1);
+    format* f = (format*)calloc(sizeof(format), 1);
     f->key = format_key_ints;
     f->name = "ints";
-    format_ints_options* opts = calloc(sizeof(format_ints_options), 1);
+    format_ints_options* opts = (format_ints_options*)calloc(sizeof(format_ints_options), 1);
     opts->low = 0;
     opts->high = 9;
     f->format_options = opts;
@@ -38,21 +38,21 @@ format* format_ints_new() {
 }
 
 size_t format_ints_get_low(const format* f) {
-    format_ints_options* opts = f->format_options;
+    format_ints_options* opts = (format_ints_options*)f->format_options;
     return opts->low;
 }
 
 size_t format_ints_get_high(const format* f) {
-    format_ints_options* opts = f->format_options;
+    format_ints_options* opts = (format_ints_options*)f->format_options;
     return opts->high;
 }
 
 void format_ints_set_low(format* f, size_t low) {
-    format_ints_options* opts = f->format_options;
+    format_ints_options* opts = (format_ints_options*)f->format_options;
     opts->low = low;
 }
 
 void format_ints_set_high(format* f, size_t high) {
-    format_ints_options* opts = f->format_options;
+    format_ints_options* opts = (format_ints_options*)f->format_options;
     opts->high = high;
 }

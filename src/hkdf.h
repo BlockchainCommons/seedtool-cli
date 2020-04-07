@@ -1,6 +1,10 @@
 #ifndef CCAN_CRYPTO_HKDF_SHA256_H
 #define CCAN_CRYPTO_HKDF_SHA256_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -36,4 +40,9 @@ void hkdf_sha256(uint8_t *okm, size_t okm_size,
 		 const uint8_t *s, size_t ssize,
 		 const uint8_t *k, size_t ksize,
 		 const uint8_t *info, size_t isize);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* CCAN_CRYPTO_HKDF_SHA256_H */

@@ -19,23 +19,23 @@ bool format_bip39_is_seed_length_valid(size_t seed_len) {
     return true;
 }
 
-void format_bip39_process_output(format* this, params* p) {
+void format_bip39_process_output(format* f, params* p) {
     if(!format_bip39_is_seed_length_valid(p->seed_len)) { return; }
 
     size_t max_mnemonics_len = 300;
     char mnemonics[max_mnemonics_len];
     size_t len = bip39_mnemonics_from_secret(p->seed, p->seed_len, mnemonics, max_mnemonics_len);
-    char* string = malloc(len);
+    char* string = (char*)malloc(len);
     strcpy(string, mnemonics);
     p->output = string;
 }
 
-static void format_bip39_dispose(format* this) {
-    free(this);
+static void format_bip39_dispose(format* f) {
+    free(f);
 }
 
 format* format_bip39_new() {
-    format* f = calloc(sizeof(format), 1);
+    format* f = (format*)calloc(sizeof(format), 1);
     f->key = format_key_bip39;
     f->name = "bip39";
     f->process_output = format_bip39_process_output;

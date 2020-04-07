@@ -9,16 +9,16 @@
 #include "params.h"
 #include "utils.h"
 
-void format_hex_process_output(format* this, params* p) {
+void format_hex_process_output(format* f, params* p) {
     p->output = data_to_hex(p->seed, p->seed_len);
 }
 
-static void format_hex_dispose(format* this) {
-    free(this);
+static void format_hex_dispose(format* f) {
+    free(f);
 }
 
 format* format_hex_new() {
-    format* f = calloc(sizeof(format), 1);
+    format* f = (format*)calloc(sizeof(format), 1);
     f->key = format_key_hex;
     f->name = "hex";
     f->process_output = format_hex_process_output;

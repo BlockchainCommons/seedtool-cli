@@ -17,7 +17,7 @@
 
 char* data_to_hex(uint8_t* in, size_t insz)
 {
-  char* out = malloc(insz * 2 + 1);
+  char* out = (char*)malloc(insz * 2 + 1);
   uint8_t* pin = in;
   const char * hex = "0123456789abcdef";
   char* pout = out;
@@ -60,7 +60,7 @@ size_t hex_to_data(const char *hex, uint8_t **out) {
 		return 0;
 	len /= 2;
 
-	*out = malloc(len);
+	*out = (uint8_t*)malloc(len);
 	for (size_t i = 0; i < len; i++) {
   	char b1;
   	char b2;
@@ -77,7 +77,7 @@ bool equal_strings(const char* a, const char* b) {
 }
 
 uint8_t* alloc_uint8_buffer(size_t len, uint8_t value) {
-  uint8_t* buf = malloc(len);
+  uint8_t* buf = (uint8_t*)malloc(len);
   for(int i = 0; i < len; i++) {
     buf[i] = value;
   }
@@ -85,7 +85,7 @@ uint8_t* alloc_uint8_buffer(size_t len, uint8_t value) {
 }
 
 uint16_t* alloc_uint16_buffer(size_t len, uint16_t value) {
-  uint16_t* buf = malloc(len * sizeof(uint16_t));
+  uint16_t* buf = (uint16_t*)malloc(len * sizeof(uint16_t));
   for(int i = 0; i < len; i++) {
     buf[i] = value;
   }
@@ -123,7 +123,7 @@ bool equal_uint16_buffers(const uint16_t* buf1, size_t len1, const uint16_t* buf
 uint8_t* data_to_base(size_t base, const uint8_t* buf, size_t count) {
     assert(2 <= base && base <= 256);
 
-    uint8_t* out = malloc(count);
+    uint8_t* out = (uint8_t*)malloc(count);
     if (base < 256) {
         for(int i = 0; i < count; i++) {
             out[i] = roundf(buf[i] / 255.0 * (base - 1));
@@ -146,7 +146,7 @@ char* data_to_alphabet(const uint8_t* in, size_t count, size_t base, char* (to_a
         free(a);
     }
 
-    char* string = malloc(len + 1);
+    char* string = (char*)malloc(len + 1);
     string[0] = '\0';
     for(int i = 0; i < count; i++) {
         char* a = to_alphabet(data[i]);
@@ -184,7 +184,7 @@ char* data_to_ints(const uint8_t* in, size_t count, size_t low, size_t high, con
         len += strlen(buf) + separator_len;
     }
 
-    char* string = malloc(len + 1);
+    char* string = (char*)malloc(len + 1);
     string[0] = '\0';
     for(int i = 0; i < count; i++) {
         if(i > 0) {

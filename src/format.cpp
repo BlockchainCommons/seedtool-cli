@@ -43,7 +43,7 @@ format_key format_key_for_string(const char* arg) {
 
     for(int i = 0; i < format_key_count; i++) {
         if(equal_strings(arg, format_key_names[i])) {
-            return i;
+            return (format_key)i;
         }
     }
 
