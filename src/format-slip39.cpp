@@ -7,9 +7,6 @@
 
 #include "format-slip39.hpp"
 
-#include <stdlib.h>
-#include <assert.h>
-#include <strings.h>
 #include "params.hpp"
 #include "utils.hpp"
 

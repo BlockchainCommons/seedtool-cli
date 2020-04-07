@@ -5,8 +5,7 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef PARAMS_HPP
-#define PARAMS_HPP
+#pragma once
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -73,5 +72,3 @@ private:
     void validate_bip39_specific(struct argp_state* state);
     void validate_slip39_specific(struct argp_state* state);
 };
-
-#endif /* PARAMS_HPP */

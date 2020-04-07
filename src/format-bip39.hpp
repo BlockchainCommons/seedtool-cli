@@ -7,9 +7,6 @@
 
 #pragma once
 
-#include <stdbool.h>
-#include <stdlib.h>
-
 #include "format.hpp"
 
 class FormatBIP39 : public Format {

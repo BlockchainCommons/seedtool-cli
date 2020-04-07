@@ -8,9 +8,6 @@
 #pragma once
 
 #include <bc-slip39/bc-slip39.h>
-#include <stdbool.h>
-#include <stdlib.h>
-
 #include <vector>
 
 #include "format.hpp"

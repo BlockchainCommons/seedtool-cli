@@ -5,8 +5,7 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMATS_ALL_H
-#define FORMATS_ALL_H
+#pragma once
 
 #include "format-base6.hpp"
 #include "format-base10.hpp"
@@ -18,5 +17,3 @@
 #include "format-ints.hpp"
 #include "format-random.hpp"
 #include "format-slip39.hpp"
-
-#endif /* FORMATS_ALL_H */
