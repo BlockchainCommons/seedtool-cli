@@ -1,16 +1,16 @@
 //
-//  format-hex.c
+//  format-hex.cpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#include "format-hex.h"
-#include "params.h"
-#include "utils.h"
+#include "format-hex.hpp"
+#include "params.hpp"
+#include "utils.hpp"
 
 void format_hex_process_output(format* f, params* p) {
-    p->output = data_to_hex(p->seed, p->seed_len);
+    p->output = data_to_hex(p->seed);
 }
 
 static void format_hex_dispose(format* f) {

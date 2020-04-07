@@ -1,12 +1,12 @@
 //
-//  format.h
+//  format.hpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_H
-#define FORMAT_H
+#ifndef FORMAT_HPP
+#define FORMAT_HPP
 
 class params;
 struct format;
@@ -42,4 +42,4 @@ void format_dispose(format* f);
 
 format_key format_key_for_string(const char* arg);
 
-#endif /* FORMAT_H */
+#endif /* FORMAT_HPP */

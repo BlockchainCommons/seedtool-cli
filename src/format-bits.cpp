@@ -1,19 +1,19 @@
 //
-//  format-bits.c
+//  format-bits.cpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#include "format-bits.h"
+#include "format-bits.hpp"
 
 #include <strings.h>
 
-#include "params.h"
-#include "utils.h"
+#include "params.hpp"
+#include "utils.hpp"
 
 void format_bits_process_output(format* f, params* p) {
-    p->output = data_to_ints(p->seed, p->seed_len, 0, 1, "");
+    p->output = data_to_ints(p->seed, 0, 1, "");
 }
 
 static void format_bits_dispose(format* f) {

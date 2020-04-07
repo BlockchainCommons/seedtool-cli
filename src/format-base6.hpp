@@ -1,15 +1,15 @@
 //
-//  format-base6.h
+//  format-base6.hpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_BASE6_H
-#define FORMAT_BASE6_H
+#ifndef FORMAT_BASE6_HPP
+#define FORMAT_BASE6_HPP
 
-#include "format.h"
+#include "format.hpp"
 
 format* format_base6_new();
 
-#endif /* FORMAT_BASE6_H */
+#endif /* FORMAT_BASE6_HPP */

@@ -1,15 +1,15 @@
 //
-//  format-hex.h
+//  format-hex.hpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_HEX_H
-#define FORMAT_HEX_H
+#ifndef FORMAT_HEX_HPP
+#define FORMAT_HEX_HPP
 
-#include "format.h"
+#include "format.hpp"
 
 format* format_hex_new();
 
-#endif /* FORMAT_HEX_H */
+#endif /* FORMAT_HEX_HPP */

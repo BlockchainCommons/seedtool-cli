@@ -1,17 +1,17 @@
 //
-//  format-slip39.c
+//  format-slip39.cpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#include "format-slip39.h"
+#include "format-slip39.hpp"
 
 #include <stdlib.h>
 #include <assert.h>
 #include <strings.h>
-#include "params.h"
-#include "utils.h"
+#include "params.hpp"
+#include "utils.hpp"
 
 bool format_slip39_is_seed_length_valid(size_t seed_len) {
     if(!(16 <= seed_len && seed_len <= 32)) { return false; }
@@ -26,7 +26,7 @@ struct format_slip39_options {
 };
 
 void format_slip39_process_output(format* f, params* p) {
-    if(!format_slip39_is_seed_length_valid(p->seed_len)) { return; }
+    if(!format_slip39_is_seed_length_valid(p->seed.size())) { return; }
 
     format_slip39_options* opts = (format_slip39_options*)f->format_options;
 
@@ -40,7 +40,7 @@ void format_slip39_process_output(format* f, params* p) {
 
     int share_count = slip39_generate(
         opts->groups_threshold, opts->groups, opts->groups_count,
-        p->seed, p->seed_len, password,
+        &p->seed[0], p->seed.size(), password,
         iteration_exponent, &words_in_each_share, shares_buffer,
         shares_buffer_size, p->rng);
 

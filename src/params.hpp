@@ -1,16 +1,19 @@
 //
-//  params.h
+//  params.hpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef PARAMS_H
-#define PARAMS_H
+#ifndef PARAMS_HPP
+#define PARAMS_HPP
 
 #include <stdlib.h>
 #include <stdint.h>
-#include "random.h"
+#include <string>
+#include <vector>
+
+#include "random.hpp"
 
 #define MAX_GROUPS 16
 #define MAX_RAW_GROUPS (MAX_GROUPS + 1)
@@ -52,10 +55,9 @@ public:
     struct format* output_format = NULL;
 
     char* input = NULL;
-    char* output = NULL;
+    std::string output;
 
-    uint8_t* seed = NULL;
-    size_t seed_len = 0;
+    std::vector<uint8_t> seed;
 
     size_t count = 0;
 
@@ -78,4 +80,4 @@ private:
 params* params_parse( int argc, char *argv[] );
 // void params_dispose(struct params*);
 
-#endif /* PARAMS_H */
+#endif /* PARAMS_HPP */

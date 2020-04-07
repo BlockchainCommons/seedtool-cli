@@ -1,13 +1,13 @@
 //
-//  format-ints.c
+//  format-ints.cpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#include "format-ints.h"
-#include "params.h"
-#include "utils.h"
+#include "format-ints.hpp"
+#include "params.hpp"
+#include "utils.hpp"
 
 struct format_ints_options {
     size_t low;
@@ -16,7 +16,7 @@ struct format_ints_options {
 
 void format_ints_process_output(format* f, params* p) {
     format_ints_options* opts = (format_ints_options*)f->format_options;
-    p->output = data_to_ints(p->seed, p->seed_len, opts->low, opts->high, " ");
+    p->output = data_to_ints(p->seed, opts->low, opts->high, " ");
 }
 
 static void format_ints_dispose(format* f) {

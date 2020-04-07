@@ -1,5 +1,5 @@
 //
-//  params.c
+//  params.cpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
@@ -11,9 +11,9 @@
 
 #include <bc-crypto-base/bc-crypto-base.h>
 
-#include "params.h"
-#include "utils.h"
-#include "formats-all.h"
+#include "params.hpp"
+#include "utils.hpp"
+#include "formats-all.hpp"
 
 void raw_params::add_group(const char* g) {
     if(slip39_groups_count == MAX_RAW_GROUPS) { return; }
@@ -32,8 +32,6 @@ params::~params() {
     format_dispose(input_format);
     format_dispose(output_format);
     free(input);
-    free(output);
-    free(seed);
 }
 
 void params::validate_count(struct argp_state* state) {

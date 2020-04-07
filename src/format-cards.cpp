@@ -1,34 +1,32 @@
 //
-//  format-cards.c
+//  format-cards.cpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#include "format-cards.h"
+#include "format-cards.hpp"
 
 #include <strings.h>
 
-#include "params.h"
-#include "utils.h"
+#include "params.hpp"
+#include "utils.hpp"
 
-static const char* card_suits[] = { "c", "d", "h", "s" };
-static const char* card_ranks[] = { "a", "2", "3", "4", "5", "6", "7", "8", "9", "t", "j", "q", "k"};
+static const std::string card_suits[] = { "c", "d", "h", "s" };
+static const std::string card_ranks[] = { "a", "2", "3", "4", "5", "6", "7", "8", "9", "t", "j", "q", "k"};
 
-static char* to_card(size_t n) {
+static std::string to_card(size_t n) {
     if(n > 51) { return NULL; }
-    char* buf = (char*)malloc(3);
+    std::string buf;
     size_t rank = n % 13;
     size_t suit = n / 13;
-    const char* rank_string = card_ranks[rank];
-    const char* suit_string = card_suits[suit];
-    strcpy(buf, rank_string);
-    strcat(buf, suit_string);
+    buf.append(card_ranks[rank]);
+    buf.append(card_suits[suit]);
     return buf;
 }
 
-void format_cards_process_output(format* f, params* p) {
-    p->output = data_to_alphabet(p->seed, p->seed_len, 52, to_card);
+static void format_cards_process_output(format* f, params* p) {
+    p->output = data_to_alphabet(p->seed, 52, to_card);
 }
 
 static void format_cards_dispose(format* f) {

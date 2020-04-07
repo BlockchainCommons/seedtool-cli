@@ -1,15 +1,15 @@
 //
-//  format-random.h
+//  format-random.hpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_RANDOM_H
-#define FORMAT_RANDOM_H
+#ifndef FORMAT_RANDOM_HPP
+#define FORMAT_RANDOM_HPP
 
-#include "format.h"
+#include "format.hpp"
 
 format* format_random_new();
 
-#endif /* FORMAT_RANDOM_H */
+#endif /* FORMAT_RANDOM_HPP */

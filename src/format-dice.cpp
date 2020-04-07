@@ -1,16 +1,16 @@
 //
-//  format-dice.c
+//  format-dice.cpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#include "format-dice.h"
-#include "params.h"
-#include "utils.h"
+#include "format-dice.hpp"
+#include "params.hpp"
+#include "utils.hpp"
 
 void format_dice_process_output(format* f, params* p) {
-    p->output = data_to_ints(p->seed, p->seed_len, 1, 6, "");
+    p->output = data_to_ints(p->seed, 1, 6, "");
 }
 
 static void format_dice_dispose(format* f) {

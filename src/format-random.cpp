@@ -1,17 +1,16 @@
 //
-//  format-random.c
+//  format-random.cpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#include "format-random.h"
-#include "params.h"
+#include "format-random.hpp"
+#include "params.hpp"
 
 static void format_random_process_input(format* f, params* p) {
-    p->seed_len = p->count;
-    p->seed = (uint8_t*)malloc(p->seed_len);
-    p->rng(p->seed, p->seed_len);
+    p->seed.resize(p->count);
+    p->rng(&p->seed[0], p->count);
 }
 
 static void format_random_dispose(format* f) {

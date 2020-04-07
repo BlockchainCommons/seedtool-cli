@@ -53,24 +53,24 @@ LDFLAGS = -lstdc++ -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -largp
 
 $(toolname): $(OBJS)
 
-seedtool.o: params.h format.h
-utils.o: utils.h
-params.o: params.h utils.h random.h formats-all.h
-random.o: random.h randombytes.h hkdf.h
+seedtool.o: params.hpp format.hpp
+utils.o: utils.hpp
+params.o: params.hpp utils.hpp random.hpp formats-all.hpp
+random.o: random.hpp randombytes.h hkdf.h
 randombytes.o: randombytes.h
 hkdf.o: hkdf.h
-format.o: format.h utils.h
-formats-all.h: format-base6.h format-base10.h format-bip39.h format-bits.h format-cards.h format-dice.h format-hex.h format-ints.h format-random.h format-slip39.h
-format-base6.o: format-base6.h format.h params.h
-format-base10.o: format-base10.h format.h params.h
-format-bip39.o: format-bip39.h format.h params.h
-format-bits.o: format-bits.h format.h params.h
-format-cards.o: format-cards.h format.h params.h
-format-dice.o: format-dice.h format.h params.h
-format-hex.o: format-hex.h format.h params.h
-format-ints.o: format-ints.h format.h params.h
-format-random.o: format-random.h format.h params.h
-format-slip39.o: format-slip39.h format.h params.h
+format.o: format.hpp utils.hpp
+formats-all.hpp: format-base6.hpp format-base10.hpp format-bip39.hpp format-bits.hpp format-cards.hpp format-dice.hpp format-hex.hpp format-ints.hpp format-random.hpp format-slip39.hpp
+format-base6.o: format-base6.hpp format.hpp params.hpp
+format-base10.o: format-base10.hpp format.hpp params.hpp
+format-bip39.o: format-bip39.hpp format.hpp params.hpp
+format-bits.o: format-bits.hpp format.hpp params.hpp
+format-cards.o: format-cards.hpp format.hpp params.hpp
+format-dice.o: format-dice.hpp format.hpp params.hpp
+format-hex.o: format-hex.hpp format.hpp params.hpp
+format-ints.o: format-ints.hpp format.hpp params.hpp
+format-random.o: format-random.hpp format.hpp params.hpp
+format-slip39.o: format-slip39.hpp format.hpp params.hpp
 
 bindir = $(DESTDIR)/$(prefix)/bin
 
