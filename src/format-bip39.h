@@ -10,4 +10,10 @@
 
 #include "format.h"
 
+#include <stdbool.h>
+#include <stdlib.h>
+
+format* format_bip39_new();
+bool format_bip39_is_seed_length_valid(size_t seed_len);
+
 #endif /* FORMAT_BIP39_H */

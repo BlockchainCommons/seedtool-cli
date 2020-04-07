@@ -10,4 +10,6 @@
 
 #include "format.h"
 
+format* format_base10_new();
+
 #endif /* FORMAT_BASE10_H */

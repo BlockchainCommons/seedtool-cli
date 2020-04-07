@@ -10,4 +10,6 @@
 
 #include "format.h"
 
+format* format_bits_new();
+
 #endif /* FORMAT_BITS_H */

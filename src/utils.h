@@ -23,4 +23,8 @@ uint16_t* alloc_uint16_buffer(size_t len, uint16_t value);
 bool equal_uint8_buffers(const uint8_t* buf1, size_t len1, const uint8_t* buf2, size_t len2);
 bool equal_uint16_buffers(const uint16_t* buf1, size_t len1, const uint16_t* buf2, size_t len2);
 
+uint8_t* data_to_base(size_t base, const uint8_t* buf, size_t count);
+char* data_to_alphabet(const uint8_t* data, size_t count, size_t base, char* (to_alphabet)(size_t));
+char* data_to_ints(const uint8_t* in, size_t count, size_t low, size_t high, const char* separator);
+
 #endif /* BC_SEEDTOOL_UTILS_H */

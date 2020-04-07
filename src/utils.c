@@ -10,6 +10,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <assert.h>
+#include <math.h>
+#include <stdio.h>
 
 #include <bc-crypto-base/bc-crypto-base.h>
 
@@ -116,4 +118,83 @@ bool equal_uint16_buffers(const uint16_t* buf1, size_t len1, const uint16_t* buf
   }
 
   return true;
+}
+
+uint8_t* data_to_base(size_t base, const uint8_t* buf, size_t count) {
+    assert(2 <= base && base <= 256);
+
+    uint8_t* out = malloc(count);
+    if (base < 256) {
+        for(int i = 0; i < count; i++) {
+            out[i] = roundf(buf[i] / 255.0 * (base - 1));
+        }
+    } else {
+        memcpy(out, buf, count);
+    }
+    return out;
+}
+
+char* data_to_alphabet(const uint8_t* in, size_t count, size_t base, char* (to_alphabet)(size_t)) {
+    uint8_t* data = data_to_base(base, in, count);
+
+    size_t len = 0;
+    for(int i = 0; i < count; i++) {
+        size_t d = data[i];
+        assert(d < base);
+        char* a = to_alphabet(d);
+        len += strlen(a);
+        free(a);
+    }
+
+    char* string = malloc(len + 1);
+    string[0] = '\0';
+    for(int i = 0; i < count; i++) {
+        char* a = to_alphabet(data[i]);
+        strcat(string, a);
+        free(a);
+    }
+
+    free(data);
+
+    return string;
+}
+
+static void int_to_string(int n, char* out) {
+    sprintf(out, "%d", n);
+}
+
+char* data_to_ints(const uint8_t* in, size_t count, size_t low, size_t high, const char* separator) {
+    if(!(0 <= low && low < high && high <= 255)) { return NULL; }
+
+    size_t base = high - low + 1;
+    uint8_t* data = data_to_base(base, in, count);
+
+    size_t separator_len = strlen(separator);
+
+    size_t len = 0;
+    char buf[10];
+    for(int i = 0; i < count; i++) {
+        data[i] += low;
+
+        if(i > 0) {
+            len += separator_len;
+        }
+        size_t d = data[i];
+        int_to_string(d, buf);
+        len += strlen(buf) + separator_len;
+    }
+
+    char* string = malloc(len + 1);
+    string[0] = '\0';
+    for(int i = 0; i < count; i++) {
+        if(i > 0) {
+            strcat(string, separator);
+        }
+        int_to_string(data[i], buf);
+        strcat(string, buf);
+    }
+
+    free(data);
+
+    return string;
 }

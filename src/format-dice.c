@@ -7,3 +7,21 @@
 
 #include "format-dice.h"
 #include "params.h"
+#include "utils.h"
+
+void format_dice_process_output(format* this, params* p) {
+    p->output = data_to_ints(p->seed, p->seed_len, 1, 6, "");
+}
+
+static void format_dice_dispose(format* this) {
+    free(this);
+}
+
+format* format_dice_new() {
+    format* f = calloc(sizeof(format), 1);
+    f->key = format_key_dice;
+    f->name = "dice";
+    f->process_output = format_dice_process_output;
+    f->dispose = format_dice_dispose;
+    return f;
+}

@@ -12,7 +12,6 @@
 #include <bc-slip39/bc-slip39.h>
 
 char* random_hex(size_t count);
-char* random_binary(size_t count);
 char* random_cards(size_t count);
 char* random_ints(size_t low, size_t high, size_t count, const char* separator);
 char* random_bip39(size_t count);

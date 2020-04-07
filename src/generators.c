@@ -51,46 +51,11 @@ char* random_hex(size_t count) {
     return string;
 }
 
-static char* data_to_alphabet(const uint8_t* data, size_t count, size_t base, char* (to_alphabet)(size_t)) {
-    size_t len = 0;
-    for(int i = 0; i < count; i++) {
-        size_t d = data[i];
-        if(d >= base) { return NULL; }
-        char* a = to_alphabet(d);
-        len += strlen(a);
-        free(a);
-    }
-
-    char* string = malloc(len + 1);
-    string[0] = '\0';
-    for(int i = 0; i < count; i++) {
-        char* a = to_alphabet(data[i]);
-        strcat(string, a);
-        free(a);
-    }
-
-    return string;
-}
-
 static char* random_base(size_t base, size_t count, char* (to_alphabet)(size_t)) {
     uint8_t* bytes = random_data_in_base(base, count);
     char* string = data_to_alphabet(bytes, count, base, to_alphabet);
     free(bytes);
     return string;
-}
-
-static char* to_binary(size_t n) {
-    if(n > 1) { return NULL; }
-    char* buf = malloc(2);
-    switch(n) {
-        case 0:
-            strcpy(buf, "0");
-            break;
-        case 1:
-            strcpy(buf, "1");
-            break;
-    }
-    return buf;
 }
 
 static const char* card_suits[] = { "c", "d", "h", "s" };
@@ -106,10 +71,6 @@ static char* to_card(size_t n) {
     strcpy(buf, rank_string);
     strcat(buf, suit_string);
     return buf;
-}
-
-char* random_binary(size_t count) {
-    return random_base(2, count, to_binary);
 }
 
 char* random_cards(size_t count) {

@@ -10,4 +10,6 @@
 
 #include "format.h"
 
+format* format_cards_new();
+
 #endif /* FORMAT_CARDS_H */

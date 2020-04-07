@@ -67,7 +67,7 @@ format-cards.o: format-cards.h format.h params.h
 format-dice.o: format-dice.h format.h params.h
 format-hex.o: format-hex.h format.h params.h
 format-ints.o: format-ints.h format.h params.h
-format-random.o: format-random.h random.h format.h params.h
+format-random.o: format-random.h format.h params.h
 format-slip39.o: format-slip39.h format.h params.h
 
 bindir = $(DESTDIR)/$(prefix)/bin

@@ -10,4 +10,6 @@
 
 #include "format.h"
 
+format* format_dice_new();
+
 #endif /* FORMAT_DICE_H */

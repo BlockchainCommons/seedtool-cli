@@ -17,7 +17,6 @@ void format_dispose(format* f) {
 }
 
 static const char* format_key_names[] = {
-    "unknown",
     "random",
     "hex",
     "bits",
@@ -39,7 +38,7 @@ static const char* string_for_format_key(format_key key) {
     return format_key_names[key];
 }
 
-static format_key format_key_for_string(const char* arg) {
+format_key format_key_for_string(const char* arg) {
     if(arg == NULL) { return format_key_unknown; }
 
     for(int i = 0; i < format_key_count; i++) {

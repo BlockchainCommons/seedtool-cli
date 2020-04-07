@@ -15,7 +15,7 @@ typedef void (*format_func)(format*);
 typedef void (*format_processor)(format*, params*);
 
 typedef enum format_key_t {
-    format_key_unknown,
+    format_key_unknown = -1,
     format_key_random,
     format_key_hex,
     format_key_bits,
@@ -33,11 +33,13 @@ typedef struct format_t {
     const char* name;
     format_processor process_input;
     format_processor process_output;
-    format_func set_defaults;
+    format_func validate;
     format_func dispose;
     void* format_options;
 } format;
 
 void format_dispose(format* f);
+
+format_key format_key_for_string(const char* arg);
 
 #endif /* FORMAT_H */
