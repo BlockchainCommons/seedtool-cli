@@ -58,6 +58,7 @@ $(distdir): FORCE
 	cp $(srcdir)/src/Makefile.in $(distdir)/src
 	cp $(srcdir)/.gitignore $(distdir)
 	cp $(srcdir)/src/*.c $(distdir)/src
+	cp $(srcdir)/src/*.cpp $(distdir)/src
 	cp $(srcdir)/src/*.h $(distdir)/src
 
 .PHONY: distcheck

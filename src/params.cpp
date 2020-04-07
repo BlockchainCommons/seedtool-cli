@@ -62,7 +62,7 @@ void params::validate_input_format(struct argp_state* state) {
     if(raw->input_format == NULL) {
         f = format_random_new();
     } else {
-        format_key k = format_key_for_string(raw->input_format);
+        auto k = format_key_for_string(raw->input_format);
         switch(k) {
             case format_key_random: f = format_random_new(); break;
             case format_key_hex: f = format_hex_new(); break;
@@ -87,7 +87,7 @@ void params::validate_output_format(struct argp_state* state) {
     if(raw->output_format == NULL) {
         f = format_hex_new();
     } else {
-        format_key k = format_key_for_string(raw->output_format);
+        auto k = format_key_for_string(raw->output_format);
         switch(k) {
             case format_key_hex: f = format_hex_new(); break;
             case format_key_bits: f = format_bits_new(); break;
@@ -162,7 +162,7 @@ void params::validate_bip39_specific(struct argp_state* state) {
 void parse_group_spec(const char* string, group_descriptor* group, struct argp_state* state) {
     size_t threshold;
     size_t count;
-    int items = sscanf(string, "%zd-of-%zd", &threshold, &count);
+    auto items = sscanf(string, "%zd-of-%zd", &threshold, &count);
     if(items != 2) {
         argp_error(state, "Could not parse group specifier: \"%s\"", string);
     }
@@ -175,7 +175,7 @@ void parse_group_spec(const char* string, group_descriptor* group, struct argp_s
 }
 
 void params::validate_slip39_specific(struct argp_state* state) {
-    int groups_count = raw->slip39_groups_count;
+    auto groups_count = raw->slip39_groups_count;
 
     if(output_format->key != format_key_slip39) {
         if(groups_count > 0) {
@@ -197,7 +197,7 @@ void params::validate_slip39_specific(struct argp_state* state) {
         groups[0] = (group_descriptor){1, 1};
         groups_count = 1;     
     } else {
-        for(int i = 0; i < groups_count; i++) {
+        for(auto i = 0; i < groups_count; i++) {
             parse_group_spec(raw->slip39_groups[i], &groups[i], state);
         }
     }
@@ -230,8 +230,8 @@ static void parse_input_opt(params* p, const char* arg, struct argp_state* state
 }
 
 static int parse_opt(int key, char* arg, struct argp_state* state) {
-    params* p = (params*)state->input;
-    raw_params* raw = p->raw;
+    auto p = static_cast<params*>(state->input);
+    auto raw = p->raw;
 
     switch (key) {
         case ARGP_KEY_INIT: break;
@@ -275,15 +275,14 @@ struct argp_option options[] = {
     { 0 }
 };
 
-const char* argp_program_version = "1.0";
+auto argp_program_version = "1.0";
 // const char* argp_program_bug_address = "who@dunnit.com";
 
-char doc[] = "Converts cryptographic seeds between various forms.";
+auto doc = "Converts cryptographic seeds between various forms.";
 struct argp argp = { options, parse_opt, "INPUT", doc };
 
 params* params_parse( int argc, char *argv[] ) {
-    printf("Hello, world!\n");
-    params* p = new params();
+    auto p = new params();
     argp_parse( &argp, argc, argv, 0, 0, p );
     return p;
 }

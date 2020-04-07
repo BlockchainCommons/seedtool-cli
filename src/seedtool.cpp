@@ -10,7 +10,7 @@
 #include "format.h"
 
 int main( int argc, char *argv[] ) {
-    params* p = params_parse(argc, argv);
+    auto p = params_parse(argc, argv);
     p->input_format->process_input(p->input_format, p);
     p->output_format->process_output(p->output_format, p);
     

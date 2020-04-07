@@ -17,10 +17,10 @@
 
 char* data_to_hex(uint8_t* in, size_t insz)
 {
-  char* out = (char*)malloc(insz * 2 + 1);
-  uint8_t* pin = in;
-  const char * hex = "0123456789abcdef";
-  char* pout = out;
+  auto out = (char*)malloc(insz * 2 + 1);
+  auto pin = in;
+  auto hex = "0123456789abcdef";
+  auto pout = out;
   for(; pin < in + insz; pout += 2, pin++){
     pout[0] = hex[(*pin>>4) & 0xF];
     pout[1] = hex[ *pin     & 0xF];
@@ -55,7 +55,7 @@ size_t hex_to_data(const char *hex, uint8_t **out) {
         return 0;
     }
 
-	size_t len = strlen(hex);
+	auto len = strlen(hex);
 	if (len % 2 != 0)
 		return 0;
 	len /= 2;
@@ -77,16 +77,16 @@ bool equal_strings(const char* a, const char* b) {
 }
 
 uint8_t* alloc_uint8_buffer(size_t len, uint8_t value) {
-  uint8_t* buf = (uint8_t*)malloc(len);
-  for(int i = 0; i < len; i++) {
+  auto buf = (uint8_t*)malloc(len);
+  for(auto i = 0; i < len; i++) {
     buf[i] = value;
   }
   return buf;
 }
 
 uint16_t* alloc_uint16_buffer(size_t len, uint16_t value) {
-  uint16_t* buf = (uint16_t*)malloc(len * sizeof(uint16_t));
-  for(int i = 0; i < len; i++) {
+  auto buf = (uint16_t*)malloc(len * sizeof(uint16_t));
+  for(auto i = 0; i < len; i++) {
     buf[i] = value;
   }
   return buf;
@@ -97,7 +97,7 @@ bool equal_uint8_buffers(const uint8_t* buf1, size_t len1, const uint8_t* buf2, 
     return false;
   }
 
-  for(int i = 0; i < len1; i++) {
+  for(auto i = 0; i < len1; i++) {
     if (buf1[i] != buf2[i]) {
       return false;
     }
@@ -111,7 +111,7 @@ bool equal_uint16_buffers(const uint16_t* buf1, size_t len1, const uint16_t* buf
     return false;
   }
 
-  for(int i = 0; i < len1; i++) {
+  for(auto i = 0; i < len1; i++) {
     if (buf1[i] != buf2[i]) {
       return false;
     }
@@ -123,9 +123,9 @@ bool equal_uint16_buffers(const uint16_t* buf1, size_t len1, const uint16_t* buf
 uint8_t* data_to_base(size_t base, const uint8_t* buf, size_t count) {
     assert(2 <= base && base <= 256);
 
-    uint8_t* out = (uint8_t*)malloc(count);
+    auto out = (uint8_t*)malloc(count);
     if (base < 256) {
-        for(int i = 0; i < count; i++) {
+        for(auto i = 0; i < count; i++) {
             out[i] = roundf(buf[i] / 255.0 * (base - 1));
         }
     } else {
@@ -135,21 +135,21 @@ uint8_t* data_to_base(size_t base, const uint8_t* buf, size_t count) {
 }
 
 char* data_to_alphabet(const uint8_t* in, size_t count, size_t base, char* (to_alphabet)(size_t)) {
-    uint8_t* data = data_to_base(base, in, count);
+    auto data = data_to_base(base, in, count);
 
     size_t len = 0;
     for(int i = 0; i < count; i++) {
         size_t d = data[i];
         assert(d < base);
-        char* a = to_alphabet(d);
+        auto a = to_alphabet(d);
         len += strlen(a);
         free(a);
     }
 
-    char* string = (char*)malloc(len + 1);
+    auto string = (char*)malloc(len + 1);
     string[0] = '\0';
-    for(int i = 0; i < count; i++) {
-        char* a = to_alphabet(data[i]);
+    for(auto i = 0; i < count; i++) {
+        auto a = to_alphabet(data[i]);
         strcat(string, a);
         free(a);
     }
@@ -167,13 +167,13 @@ char* data_to_ints(const uint8_t* in, size_t count, size_t low, size_t high, con
     if(!(0 <= low && low < high && high <= 255)) { return NULL; }
 
     size_t base = high - low + 1;
-    uint8_t* data = data_to_base(base, in, count);
+    auto data = data_to_base(base, in, count);
 
-    size_t separator_len = strlen(separator);
+    auto separator_len = strlen(separator);
 
     size_t len = 0;
     char buf[10];
-    for(int i = 0; i < count; i++) {
+    for(auto i = 0; i < count; i++) {
         data[i] += low;
 
         if(i > 0) {
@@ -184,9 +184,9 @@ char* data_to_ints(const uint8_t* in, size_t count, size_t low, size_t high, con
         len += strlen(buf) + separator_len;
     }
 
-    char* string = (char*)malloc(len + 1);
+    auto string = (char*)malloc(len + 1);
     string[0] = '\0';
-    for(int i = 0; i < count; i++) {
+    for(auto i = 0; i < count; i++) {
         if(i > 0) {
             strcat(string, separator);
         }
