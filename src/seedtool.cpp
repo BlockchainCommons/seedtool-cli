@@ -5,7 +5,7 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#include <stdio.h>
+#include <iostream>
 #include "params.hpp"
 #include "format.hpp"
 
@@ -18,7 +18,7 @@ int main( int argc, char *argv[] ) {
         printf("*** Invalid output.\n");
         exit(1);
     }
-    printf("%s\n", p->output.c_str());
+    std::cout << p->output << std::endl;
 
     delete p;
 

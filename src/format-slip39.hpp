@@ -16,8 +16,8 @@ class FormatSLIP39 : public Format {
    public:
     FormatSLIP39();
 
-    virtual void process_input(Params* p);
-    virtual void process_output(Params* p);
+    virtual void process_input(Params* p) override;
+    virtual void process_output(Params* p) override;
 
     static bool is_seed_length_valid(size_t seed_len);
 

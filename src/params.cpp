@@ -22,7 +22,7 @@ Params::~Params() {
 }
 
 void Params::validate_count(struct argp_state* state) {
-    if(raw.count != "") {
+    if(!raw.count.empty()) {
         count = std::stoi(raw.count);
     } else {
         count = 32;
@@ -34,7 +34,7 @@ void Params::validate_count(struct argp_state* state) {
 }
 
 void Params::validate_deterministic(struct argp_state* state) {
-    if(raw.random_deterministic != "") {
+    if(!raw.random_deterministic.empty()) {
         seed_deterministic_string(raw.random_deterministic);
         rng = deterministic_random;
     } else {
@@ -43,7 +43,7 @@ void Params::validate_deterministic(struct argp_state* state) {
 }
 
 void Params::validate_input_format(struct argp_state* state) {    
-    if(raw.input_format == "") {
+    if(raw.input_format.empty()) {
         input_format = new FormatRandom();
     } else {
         auto k = Format::key_for_string(raw.input_format);
@@ -66,7 +66,7 @@ void Params::validate_input_format(struct argp_state* state) {
 }
 
 void Params::validate_output_format(struct argp_state* state) {    
-    if(raw.output_format == "") {
+    if(raw.output_format.empty()) {
         output_format = new FormatHex();
     } else {
         auto k = Format::key_for_string(raw.output_format);
@@ -113,10 +113,10 @@ void Params::validate_ints_specific(struct argp_state* state) {
         auto fi = dynamic_cast<FormatInts*>(f);
         int low = fi->low;
         int high = fi->low;
-        if(raw.ints_low != "") {
+        if(!raw.ints_low.empty()) {
             low = std::stoi(raw.ints_low);
         }
-        if(raw.ints_high != "") {
+        if(!raw.ints_high.empty()) {
             high = std::stoi(raw.ints_high);
         }
         if(!(0 <= low && low < high && high <= 255)) {
@@ -125,10 +125,10 @@ void Params::validate_ints_specific(struct argp_state* state) {
         fi->low = low;
         fi->high = high;
     } else {
-        if(raw.ints_low != "") {
+        if(!raw.ints_low.empty()) {
             argp_error(state, "Option --low can only be used with the \"ints\" output format.");
         }
-        if(raw.ints_high != "") {
+        if(!raw.ints_high.empty()) {
             argp_error(state, "Option --high can only be used with the \"ints\" output format.");
         }
     }
@@ -163,7 +163,7 @@ void Params::validate_slip39_specific(struct argp_state* state) {
         if(groups_count > 0) {
             argp_error(state, "Option --group can only be used with the \"slip39\" output format.");
         }
-        if(raw.slip39_groups_threshold != "") {
+        if(!raw.slip39_groups_threshold.empty()) {
             argp_error(state, "Option --group-threshold can only be used with the \"slip39\" output format.");
         }
         return;
@@ -184,7 +184,7 @@ void Params::validate_slip39_specific(struct argp_state* state) {
     }
     
     int groups_threshold;
-    if(raw.slip39_groups_threshold == "") {
+    if(raw.slip39_groups_threshold.empty()) {
         groups_threshold = 1;
     } else {
         groups_threshold = std::stoi(raw.slip39_groups_threshold);

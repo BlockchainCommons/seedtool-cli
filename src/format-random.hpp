@@ -13,6 +13,6 @@ class FormatRandom : public Format {
    public:
     FormatRandom() : Format(Format::Key::random, "random") {}
 
-    virtual void process_input(Params* p);
-    virtual void process_output(Params* p);
+    virtual void process_input(Params* p) override;
+    virtual void process_output(Params* p) override;
 };

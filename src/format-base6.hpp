@@ -13,6 +13,6 @@ class FormatBase6 : public Format {
    public:
     FormatBase6() : Format(Format::Key::base6, "base6") {}
 
-    virtual void process_input(Params* p);
-    virtual void process_output(Params* p);
+    virtual void process_input(Params* p) override;
+    virtual void process_output(Params* p) override;
 };
