@@ -8,13 +8,13 @@
 #ifndef FORMAT_H
 #define FORMAT_H
 
-typedef struct params_t params;
-typedef struct format_t format;
+struct params;
+struct format;
 
 typedef void (*format_func)(format*);
 typedef void (*format_processor)(format*, params*);
 
-typedef enum format_key_t {
+enum format_key {
     format_key_unknown = -1,
     format_key_random,
     format_key_hex,
@@ -26,9 +26,9 @@ typedef enum format_key_t {
     format_key_ints,
     format_key_bip39,
     format_key_slip39
-} format_key;
+};
 
-typedef struct format_t {
+struct format {
     format_key key;
     const char* name;
     format_processor process_input;
@@ -36,7 +36,7 @@ typedef struct format_t {
     format_func validate;
     format_func dispose;
     void* format_options;
-} format;
+};
 
 void format_dispose(format* f);
 

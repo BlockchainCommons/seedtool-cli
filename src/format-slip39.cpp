@@ -19,11 +19,11 @@ bool format_slip39_is_seed_length_valid(size_t seed_len) {
     return true;
 }
 
-typedef struct format_slip39_options_t {
+struct format_slip39_options {
     group_descriptor groups[16];
     size_t groups_count;
     size_t groups_threshold;
-} format_slip39_options;
+};
 
 void format_slip39_process_output(format* f, params* p) {
     if(!format_slip39_is_seed_length_valid(p->seed_len)) { return; }

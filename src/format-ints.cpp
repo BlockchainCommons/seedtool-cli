@@ -9,10 +9,10 @@
 #include "params.h"
 #include "utils.h"
 
-typedef struct format_ints_options_t {
+struct format_ints_options {
     size_t low;
     size_t high;
-} format_ints_options;
+};
 
 void format_ints_process_output(format* f, params* p) {
     format_ints_options* opts = (format_ints_options*)f->format_options;

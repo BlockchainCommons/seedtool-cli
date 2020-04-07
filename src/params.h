@@ -17,7 +17,7 @@
 
 #define MAX_ARGS 256
 
-typedef struct raw_params_t {
+struct raw_params {
     const char* input_format;
     const char* output_format;
     const char* count;
@@ -33,15 +33,15 @@ typedef struct raw_params_t {
 
     const char* args[MAX_ARGS];
     size_t args_count;
-} raw_params;
+};
 
-typedef struct format_t format;
+struct format;
 
-typedef struct params_t {
-    format* input_format;
+struct params {
+    struct format* input_format;
     char* input;
 
-    format* output_format;
+    struct format* output_format;
     char* output;
 
     uint8_t* seed;
@@ -51,10 +51,10 @@ typedef struct params_t {
     char* deterministic_seed;
     random_generator rng;
 
-    raw_params* raw;
-} params;
+    struct raw_params* raw;
+};
 
-params* params_parse( int argc, char *argv[] );
-void params_dispose(params*);
+struct params* params_parse( int argc, char *argv[] );
+void params_dispose(struct params*);
 
 #endif /* PARAMS_H */
