@@ -20,41 +20,34 @@
 
 #define MAX_ARGS 256
 
-class raw_params {
+class RawParams {
 public:
-    const char* input_format = NULL;
-    const char* output_format = NULL;
-    const char* count = NULL;
+    std::string input_format;
+    std::string output_format;
+    std::string count;
 
-    const char* ints_low = NULL;
-    const char* ints_high = NULL;
+    std::string ints_low;
+    std::string ints_high;
 
-    const char* random_deterministic = NULL;
+    std::string random_deterministic;
 
-    const char* slip39_groups_threshold = 0;
-    const char* slip39_groups[MAX_RAW_GROUPS];
-    size_t slip39_groups_count = 0;
+    std::string slip39_groups_threshold;
+    std::vector<std::string> slip39_groups;
 
-    const char* args[MAX_ARGS];
-    size_t args_count = 0;
-
-    void add_group(const char* g);
-    void add_arg(const char* a);
+    std::vector<std::string> args;
 };
 
-struct format;
+class Format;
 
-class params {
+class Params {
 public:
-    params() { }
-    ~params();
+    Params() { }
+    ~Params();
 
-    raw_params* raw = new raw_params();
+    Format* input_format = NULL;
+    Format* output_format = NULL;
 
-    struct format* input_format = NULL;
-    struct format* output_format = NULL;
-
-    char* input = NULL;
+    std::string input;
     std::string output;
 
     std::vector<uint8_t> seed;
@@ -66,6 +59,10 @@ public:
 
     void validate(struct argp_state* state);
 
+    RawParams raw;
+
+    static Params* parse( int argc, char *argv[] );
+
 private:
     void validate_count(struct argp_state* state);
     void validate_deterministic(struct argp_state* state);
@@ -76,8 +73,5 @@ private:
     void validate_bip39_specific(struct argp_state* state);
     void validate_slip39_specific(struct argp_state* state);
 };
-
-params* params_parse( int argc, char *argv[] );
-// void params_dispose(struct params*);
 
 #endif /* PARAMS_HPP */

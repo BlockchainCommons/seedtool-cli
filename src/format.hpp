@@ -5,41 +5,36 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_HPP
-#define FORMAT_HPP
+#pragma once
 
-class params;
-struct format;
+#include <string>
 
-typedef void (*format_func)(format*);
-typedef void (*format_processor)(format*, params*);
+class Params;
 
-enum format_key {
-    format_key_unknown = -1,
-    format_key_random,
-    format_key_hex,
-    format_key_bits,
-    format_key_cards,
-    format_key_dice,
-    format_key_base6,
-    format_key_base10,
-    format_key_ints,
-    format_key_bip39,
-    format_key_slip39
+class Format {
+   public:
+    enum class Key {
+        unknown = -1,
+        random,
+        hex,
+        bits,
+        cards,
+        dice,
+        base6,
+        base10,
+        ints,
+        bip39,
+        slip39
+    };
+
+    Format(Key key, const std::string &name) : key(key), name(name) {}
+    virtual ~Format() {}
+
+    Key key;
+    std::string name;
+
+    virtual void process_input(Params *) = 0;
+    virtual void process_output(Params *) = 0;
+
+    static Key key_for_string(const std::string &arg);
 };
-
-struct format {
-    format_key key;
-    const char* name;
-    format_processor process_input;
-    format_processor process_output;
-    format_func validate;
-    format_func dispose;
-    void* format_options;
-};
-
-void format_dispose(format* f);
-
-format_key format_key_for_string(const char* arg);
-
-#endif /* FORMAT_HPP */

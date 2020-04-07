@@ -5,8 +5,7 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef BC_UTILS_HPP
-#define BC_UTILS_HPP
+#pragma once
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -28,5 +27,3 @@ std::string data_to_alphabet(const std::vector<uint8_t> &in,
 
 std::string data_to_ints(const std::vector<uint8_t> &in,
     size_t low, size_t high, const std::string &separator);
-
-#endif /* BC_UTILS_HPP */

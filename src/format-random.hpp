@@ -5,11 +5,14 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_RANDOM_HPP
-#define FORMAT_RANDOM_HPP
+#pragma once
 
 #include "format.hpp"
 
-format* format_random_new();
+class FormatRandom : public Format {
+   public:
+    FormatRandom() : Format(Format::Key::random, "random") {}
 
-#endif /* FORMAT_RANDOM_HPP */
+    virtual void process_input(Params* p);
+    virtual void process_output(Params* p);
+};

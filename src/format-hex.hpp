@@ -5,11 +5,14 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_HEX_HPP
-#define FORMAT_HEX_HPP
+#pragma once
 
 #include "format.hpp"
 
-format* format_hex_new();
+class FormatHex : public Format {
+   public:
+    FormatHex() : Format(Format::Key::hex, "hex") {}
 
-#endif /* FORMAT_HEX_HPP */
+    virtual void process_input(Params* p);
+    virtual void process_output(Params* p);
+};

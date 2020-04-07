@@ -6,9 +6,6 @@
 //
 
 #include "format-cards.hpp"
-
-#include <strings.h>
-
 #include "params.hpp"
 #include "utils.hpp"
 
@@ -25,19 +22,9 @@ static std::string to_card(size_t n) {
     return buf;
 }
 
-static void format_cards_process_output(format* f, params* p) {
+void FormatCards::process_input(Params* p) {
+}
+
+void FormatCards::process_output(Params* p) {
     p->output = data_to_alphabet(p->seed, 52, to_card);
-}
-
-static void format_cards_dispose(format* f) {
-    free(f);
-}
-
-format* format_cards_new() {
-    format* f = (format*)calloc(sizeof(format), 1);
-    f->key = format_key_cards;
-    f->name = "cards";
-    f->process_output = format_cards_process_output;
-    f->dispose = format_cards_dispose;
-    return f;
 }

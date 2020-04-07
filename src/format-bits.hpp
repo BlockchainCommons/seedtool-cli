@@ -5,11 +5,14 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_BITS_HPP
-#define FORMAT_BITS_HPP
+#pragma once
 
 #include "format.hpp"
 
-format* format_bits_new();
+class FormatBits : public Format {
+   public:
+    FormatBits() : Format(Format::Key::bits, "bits") {}
 
-#endif /* FORMAT_BITS_H */
+    virtual void process_input(Params* p);
+    virtual void process_output(Params* p);
+};

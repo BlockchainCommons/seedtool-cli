@@ -8,20 +8,10 @@
 #include "format-random.hpp"
 #include "params.hpp"
 
-static void format_random_process_input(format* f, params* p) {
+void FormatRandom::process_input(Params* p) {
     p->seed.resize(p->count);
     p->rng(&p->seed[0], p->count);
 }
 
-static void format_random_dispose(format* f) {
-    free(f);
-}
-
-format* format_random_new() {
-    format* f = (format*)calloc(sizeof(format), 1);
-    f->key = format_key_random;
-    f->name = "random";
-    f->process_input = format_random_process_input;
-    f->dispose = format_random_dispose;
-    return f;
+void FormatRandom::process_output(Params* p) {
 }

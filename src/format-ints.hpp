@@ -5,18 +5,17 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_INTS_HPP
-#define FORMAT_INTS_HPP
+#pragma once
 
 #include "format.hpp"
-#include <stdlib.h>
 
-format* format_ints_new();
+class FormatInts : public Format {
+   public:
+    FormatInts();
 
-size_t format_ints_get_low(const format* f);
-size_t format_ints_get_high(const format* f);
+    virtual void process_input(Params* p);
+    virtual void process_output(Params* p);
 
-void format_ints_set_low(format* f, size_t low);
-void format_ints_set_high(format* f, size_t high);
-
-#endif /* FORMAT_INTS_HPP */
+    size_t low;
+    size_t high;
+};

@@ -8,6 +8,7 @@
 #include <memory.h>
 #include <argp.h>
 #include <assert.h>
+#include <iostream>
 
 #include <bc-crypto-base/bc-crypto-base.h>
 
@@ -15,28 +16,14 @@
 #include "utils.hpp"
 #include "formats-all.hpp"
 
-void raw_params::add_group(const char* g) {
-    if(slip39_groups_count == MAX_RAW_GROUPS) { return; }
-    slip39_groups[slip39_groups_count] = g;
-    slip39_groups_count++;
+Params::~Params() {
+    delete input_format;
+    delete output_format;
 }
 
-void raw_params::add_arg(const char* a) {
-    if(args_count == MAX_ARGS) { return; }
-    args[args_count] = a;
-    args_count++;
-}
-
-params::~params() {
-    delete raw;
-    format_dispose(input_format);
-    format_dispose(output_format);
-    free(input);
-}
-
-void params::validate_count(struct argp_state* state) {
-    if(raw->count != NULL) {
-        count = atoi(raw->count);
+void Params::validate_count(struct argp_state* state) {
+    if(raw.count != "") {
+        count = std::stoi(raw.count);
     } else {
         count = 32;
     }
@@ -46,174 +33,171 @@ void params::validate_count(struct argp_state* state) {
     }
 }
 
-void params::validate_deterministic(struct argp_state* state) {
-    if(raw->random_deterministic != NULL) {
-        seed_deterministic_string(raw->random_deterministic);
+void Params::validate_deterministic(struct argp_state* state) {
+    if(raw.random_deterministic != "") {
+        seed_deterministic_string(raw.random_deterministic);
         rng = deterministic_random;
     } else {
         rng = crypto_random;
     }
 }
 
-void params::validate_input_format(struct argp_state* state) {    
-    format* f = NULL;
-    if(raw->input_format == NULL) {
-        f = format_random_new();
+void Params::validate_input_format(struct argp_state* state) {    
+    if(raw.input_format == "") {
+        input_format = new FormatRandom();
     } else {
-        auto k = format_key_for_string(raw->input_format);
+        auto k = Format::key_for_string(raw.input_format);
         switch(k) {
-            case format_key_random: f = format_random_new(); break;
-            case format_key_hex: f = format_hex_new(); break;
-            case format_key_bits: f = format_bits_new(); break;
-            case format_key_cards: f = format_cards_new(); break;
-            case format_key_dice: f = format_dice_new(); break;
-            case format_key_base6: f = format_base6_new(); break;
-            case format_key_base10: f = format_base10_new(); break;
-            case format_key_ints: f = format_ints_new(); break;
-            case format_key_bip39: f = format_bip39_new(); break;
-            case format_key_slip39: f = format_slip39_new(); break;
+            case Format::Key::random: input_format = new FormatRandom(); break;
+            case Format::Key::hex: input_format = new FormatHex(); break;
+            case Format::Key::bits: input_format = new FormatBits(); break;
+            case Format::Key::cards: input_format = new FormatCards(); break;
+            case Format::Key::dice: input_format = new FormatDice(); break;
+            case Format::Key::base6: input_format = new FormatBase6(); break;
+            case Format::Key::base10: input_format = new FormatBase10(); break;
+            case Format::Key::ints: input_format = new FormatInts(); break;
+            case Format::Key::bip39: input_format = new FormatBIP39(); break;
+            case Format::Key::slip39: input_format = new FormatSLIP39(); break;
             default:
-                argp_error(state, "Unknown input format: %s", raw->input_format);
+                argp_error(state, "Unknown input format: %s", raw.input_format.c_str());
                 break;
         }
     }
-    input_format = f;
 }
 
-void params::validate_output_format(struct argp_state* state) {    
-    format* f = NULL;
-    if(raw->output_format == NULL) {
-        f = format_hex_new();
+void Params::validate_output_format(struct argp_state* state) {    
+    if(raw.output_format == "") {
+        output_format = new FormatHex();
     } else {
-        auto k = format_key_for_string(raw->output_format);
+        auto k = Format::key_for_string(raw.output_format);
         switch(k) {
-            case format_key_hex: f = format_hex_new(); break;
-            case format_key_bits: f = format_bits_new(); break;
-            case format_key_cards: f = format_cards_new(); break;
-            case format_key_dice: f = format_dice_new(); break;
-            case format_key_base6: f = format_base6_new(); break;
-            case format_key_base10: f = format_base10_new(); break;
-            case format_key_ints: f = format_ints_new(); break;
-            case format_key_bip39: f = format_bip39_new(); break;
-            case format_key_slip39: f = format_slip39_new(); break;
+            case Format::Key::hex: output_format = new FormatHex(); break;
+            case Format::Key::bits: output_format = new FormatBits(); break;
+            case Format::Key::cards: output_format = new FormatCards(); break;
+            case Format::Key::dice: output_format = new FormatDice(); break;
+            case Format::Key::base6: output_format = new FormatBase6(); break;
+            case Format::Key::base10: output_format = new FormatBase10(); break;
+            case Format::Key::ints: output_format = new FormatInts(); break;
+            case Format::Key::bip39: output_format = new FormatBIP39(); break;
+            case Format::Key::slip39: output_format = new FormatSLIP39(); break;
             default:
-                argp_error(state, "Unknown output format: %s", raw->output_format);
+                argp_error(state, "Unknown output format: %s", raw.output_format.c_str());
                 break;
         }
     }
-    output_format = f;
 }
 
-void params::validate_output_for_input(struct argp_state* state) {
+void Params::validate_output_for_input(struct argp_state* state) {
     // Any input format works with hex output format.
-    if(output_format->key == format_key_hex) {
+    if(output_format->key == Format::Key::hex) {
         return;
     }
 
     // Random input works with any output format.
-    if(input_format->key == format_key_random) {
+    if(input_format->key == Format::Key::random) {
         return;
     }
 
     // Hex input works with any output format.
-    if(input_format->key == format_key_hex) {
+    if(input_format->key == Format::Key::hex) {
         return;
     }
 
     argp_error(state, "Input format %s cannot be used with output format %s", 
-        input_format->name, output_format->name);
+        input_format->name.c_str(), output_format->name.c_str());
 }
 
-void params::validate_ints_specific(struct argp_state* state) {
-    format* f = output_format;
-    if(f->key == format_key_ints) {
-        int low = format_ints_get_low(f);
-        int high = format_ints_get_high(f);
-        if(raw->ints_low != NULL) {
-            low = atoi(raw->ints_low);
+void Params::validate_ints_specific(struct argp_state* state) {
+    Format* f = output_format;
+    if(f->key == Format::Key::ints) {
+        auto fi = dynamic_cast<FormatInts*>(f);
+        int low = fi->low;
+        int high = fi->low;
+        if(raw.ints_low != "") {
+            low = std::stoi(raw.ints_low);
         }
-        if(raw->ints_high != NULL) {
-            high = atoi(raw->ints_high);
+        if(raw.ints_high != "") {
+            high = std::stoi(raw.ints_high);
         }
         if(!(0 <= low && low < high && high <= 255)) {
             argp_error(state, "--low and --high must specify a range in [0-255].");
         }
-        format_ints_set_low(f, low);
-        format_ints_set_high(f, high);
+        fi->low = low;
+        fi->high = high;
     } else {
-        if(raw->ints_low != NULL) {
+        if(raw.ints_low != "") {
             argp_error(state, "Option --low can only be used with the \"ints\" output format.");
         }
-        if(raw->ints_high != NULL) {
+        if(raw.ints_high != "") {
             argp_error(state, "Option --high can only be used with the \"ints\" output format.");
         }
     }
 }
 
-void params::validate_bip39_specific(struct argp_state* state) {
-    if(output_format->key != format_key_bip39) { return; }
-    if(!format_bip39_is_seed_length_valid(count)) {
+void Params::validate_bip39_specific(struct argp_state* state) {
+    if(output_format->key != Format::Key::bip39) { return; }
+    if(!FormatBIP39::is_seed_length_valid(count)) {
         argp_error(state, "For BIP39 COUNT must be in [12-32] and even.");
     }
 }
 
-void parse_group_spec(const char* string, group_descriptor* group, struct argp_state* state) {
+void parse_group_spec(const std::string &string, group_descriptor* group, struct argp_state* state) {
     size_t threshold;
     size_t count;
-    auto items = sscanf(string, "%zd-of-%zd", &threshold, &count);
+    auto items = sscanf(string.c_str(), "%zd-of-%zd", &threshold, &count);
     if(items != 2) {
-        argp_error(state, "Could not parse group specifier: \"%s\"", string);
+        argp_error(state, "Could not parse group specifier: \"%s\"", string.c_str());
     }
     if(!(0 < threshold && threshold <= count && count <= 16)) {
-        argp_error(state, "Invalid group specifier \"%s\": 1 <= N <= M <= 16", string);
+        argp_error(state, "Invalid group specifier \"%s\": 1 <= N <= M <= 16", string.c_str());
     }
     group->threshold = threshold;
     group->count = count;
     group->passwords = NULL;
 }
 
-void params::validate_slip39_specific(struct argp_state* state) {
-    auto groups_count = raw->slip39_groups_count;
+void Params::validate_slip39_specific(struct argp_state* state) {
+    auto groups_count = raw.slip39_groups.size();
 
-    if(output_format->key != format_key_slip39) {
+    if(output_format->key != Format::Key::slip39) {
         if(groups_count > 0) {
             argp_error(state, "Option --group can only be used with the \"slip39\" output format.");
         }
-        if(raw->slip39_groups_threshold != NULL) {
+        if(raw.slip39_groups_threshold != "") {
             argp_error(state, "Option --group-threshold can only be used with the \"slip39\" output format.");
         }
         return;
     }
-    if(!format_slip39_is_seed_length_valid(count)) {
+    if(!FormatSLIP39::is_seed_length_valid(count)) {
         argp_error(state, "For BIP39 COUNT must be in [16-32] and even.");
     }
 
-    group_descriptor groups[MAX_GROUPS];
+    std::vector<group_descriptor> groups;
     if(groups_count > MAX_GROUPS) {
         argp_error(state, "There must be no more than %d groups.", MAX_GROUPS);
     } else if(groups_count == 0) {
-        groups[0] = (group_descriptor){1, 1};
-        groups_count = 1;     
+        groups.push_back( (group_descriptor){1, 1} );
     } else {
         for(auto i = 0; i < groups_count; i++) {
-            parse_group_spec(raw->slip39_groups[i], &groups[i], state);
+            parse_group_spec(raw.slip39_groups[i], &groups[i], state);
         }
     }
     
     int groups_threshold;
-    if(raw->slip39_groups_threshold == NULL) {
+    if(raw.slip39_groups_threshold == "") {
         groups_threshold = 1;
     } else {
-        groups_threshold = atoi(raw->slip39_groups_threshold);
+        groups_threshold = std::stoi(raw.slip39_groups_threshold);
     }
     if(!(0 < groups_threshold && groups_threshold <= groups_count)) {
         argp_error(state, "Group threshold must be <= the number of groups.");
     }
-    format_slip39_set_groups_threshold(output_format, groups_threshold);
-    format_slip39_set_groups(output_format, groups, groups_count);
+    auto of = dynamic_cast<FormatSLIP39*>(output_format);
+    of->groups_threshold = groups_threshold;
+    of->groups = groups;
 }
 
-void params::validate(struct argp_state* state) {
+void Params::validate(struct argp_state* state) {
     validate_count(state);
     validate_deterministic(state);
     validate_input_format(state);
@@ -224,24 +208,24 @@ void params::validate(struct argp_state* state) {
     validate_slip39_specific(state);
 }
 
-static void parse_input_opt(params* p, const char* arg, struct argp_state* state) {
+static void parse_input_opt(Params* p, const char* arg, struct argp_state* state) {
 }
 
 static int parse_opt(int key, char* arg, struct argp_state* state) {
-    auto p = static_cast<params*>(state->input);
+    auto p = static_cast<Params*>(state->input);
     auto raw = p->raw;
 
     switch (key) {
         case ARGP_KEY_INIT: break;
-        case 'i': raw->input_format = arg; break;
-        case 'o': raw->output_format = arg; break;
-        case 'c': raw->count = arg; break;
-        case 'l': raw->ints_low = arg; break;
-        case 'h': raw->ints_high = arg; break;
-        case 'd': raw->random_deterministic = arg; break;
-        case 'g': raw->add_group(arg); break;
-        case 't': raw->slip39_groups_threshold = arg; break;
-        case ARGP_KEY_ARG: raw->add_arg(arg); break;
+        case 'i': raw.input_format = arg; break;
+        case 'o': raw.output_format = arg; break;
+        case 'c': raw.count = arg; break;
+        case 'l': raw.ints_low = arg; break;
+        case 'h': raw.ints_high = arg; break;
+        case 'd': raw.random_deterministic = arg; break;
+        case 'g': raw.slip39_groups.push_back(arg); break;
+        case 't': raw.slip39_groups_threshold = arg; break;
+        case ARGP_KEY_ARG: raw.args.push_back(arg); break;
         case ARGP_KEY_END: {
             p->validate(state);
         }
@@ -279,8 +263,8 @@ auto argp_program_version = "1.0";
 auto doc = "Converts cryptographic seeds between various forms.";
 struct argp argp = { options, parse_opt, "INPUT", doc };
 
-params* params_parse( int argc, char *argv[] ) {
-    auto p = new params();
+Params* Params::parse( int argc, char *argv[] ) {
+    auto p = new Params();
     argp_parse( &argp, argc, argv, 0, 0, p );
     return p;
 }

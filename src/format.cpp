@@ -13,14 +13,7 @@
 
 #include "utils.hpp"
 
-void format_dispose(format* f) {
-    if(f == NULL) { return; }
-    if(f->dispose != NULL) {
-        f->dispose(f);
-    }
-}
-
-static const std::string format_key_names[] = {
+static const std::vector<std::string> format_key_names = {
     "random",
     "hex",
     "bits",
@@ -33,24 +26,12 @@ static const std::string format_key_names[] = {
     "slip39"
 };
 
-static const size_t format_key_count = 10;
-
-static const std::string& string_for_format_key(format_key key) {
-    if(key < 0 || key > format_key_count) {
-        throw std::runtime_error("Unknown format key.");
-    }
-
-    return format_key_names[key];
-}
-
-format_key format_key_for_string(const char* arg) {
-    if(arg == NULL) { return format_key_unknown; }
-
-    for(int i = 0; i < format_key_count; i++) {
-        if(std::string(arg) == format_key_names[i]) {
-            return (format_key)i;
+Format::Key Format::key_for_string(const std::string &arg) {
+    for(auto i = 0; i < format_key_names.size(); i++) {
+        if(arg == format_key_names[i]) {
+            return (Format::Key)i;
         }
     }
 
-    return format_key_unknown;
+    return Format::Key::unknown;
 }

@@ -5,11 +5,14 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_BASE10_HPP
-#define FORMAT_BASE10_HPP
+#pragma once
 
 #include "format.hpp"
 
-format* format_base10_new();
+class FormatBase10 : public Format {
+   public:
+    FormatBase10() : Format(Format::Key::base10, "base10") {}
 
-#endif /* FORMAT_BASE10_HPP */
+    virtual void process_input(Params* p);
+    virtual void process_output(Params* p);
+};

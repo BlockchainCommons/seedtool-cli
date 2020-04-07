@@ -5,11 +5,14 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_CARDS_HPP
-#define FORMAT_CARDS_HPP
+#pragma once
 
 #include "format.hpp"
 
-format* format_cards_new();
+class FormatCards : public Format {
+   public:
+    FormatCards() : Format(Format::Key::cards, "cards") {}
 
-#endif /* FORMAT_CARDS_HPP */
+    virtual void process_input(Params* p);
+    virtual void process_output(Params* p);
+};

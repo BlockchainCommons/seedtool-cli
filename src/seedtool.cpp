@@ -10,9 +10,9 @@
 #include "format.hpp"
 
 int main( int argc, char *argv[] ) {
-    auto p = params_parse(argc, argv);
-    p->input_format->process_input(p->input_format, p);
-    p->output_format->process_output(p->output_format, p);
+    auto p = Params::parse(argc, argv);
+    p->input_format->process_input(p);
+    p->output_format->process_output(p);
     
     if(p->output.length() == 0) {
         printf("*** Invalid output.\n");

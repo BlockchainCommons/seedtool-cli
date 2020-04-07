@@ -13,22 +13,17 @@
 #include "params.hpp"
 #include "utils.hpp"
 
-bool format_slip39_is_seed_length_valid(size_t seed_len) {
+bool FormatSLIP39::is_seed_length_valid(size_t seed_len) {
     if(!(16 <= seed_len && seed_len <= 32)) { return false; }
     if(seed_len % 2 != 0) { return false; }
     return true;
 }
 
-struct format_slip39_options {
-    group_descriptor groups[16];
-    size_t groups_count;
-    size_t groups_threshold;
-};
+void FormatSLIP39::process_input(Params* p) {
+}
 
-void format_slip39_process_output(format* f, params* p) {
-    if(!format_slip39_is_seed_length_valid(p->seed.size())) { return; }
-
-    format_slip39_options* opts = (format_slip39_options*)f->format_options;
+void FormatSLIP39::process_output(Params* p) {
+    if(!is_seed_length_valid(p->seed.size())) { return; }
 
     const char* password = "";
 
@@ -39,7 +34,7 @@ void format_slip39_process_output(format* f, params* p) {
     uint16_t shares_buffer[shares_buffer_size];
 
     int share_count = slip39_generate(
-        opts->groups_threshold, opts->groups, opts->groups_count,
+        groups_threshold, &groups[0], groups.size(),
         &p->seed[0], p->seed.size(), password,
         iteration_exponent, &words_in_each_share, shares_buffer,
         shares_buffer_size, p->rng);
@@ -73,36 +68,7 @@ void format_slip39_process_output(format* f, params* p) {
     p->output = all_strings;
 }
 
-static void format_slip39_dispose(format* f) {
-    free(f->format_options);
-    free(f);
-}
-
-format* format_slip39_new() {
-    format* f = (format*)calloc(sizeof(format), 1);
-    f->key = format_key_slip39;
-    f->name = "slip39";
-
-    format_slip39_options* opts = (format_slip39_options*)calloc(sizeof(format_slip39_options), 1);
-    opts->groups_count = 1;
-    opts->groups_threshold = 1;
-    opts->groups[0] = (group_descriptor) {1, 1};
-
-    f->format_options = opts;
-    f->process_output = format_slip39_process_output;
-    f->dispose = format_slip39_dispose;
-    return f;
-}
-
-void format_slip39_set_groups_threshold(format* f, size_t groups_threshold) {
-    format_slip39_options* opts = (format_slip39_options*)f->format_options;
-    opts->groups_threshold = groups_threshold;
-}
-
-void format_slip39_set_groups(format* f, const group_descriptor* groups, size_t groups_count) {
-    format_slip39_options* opts = (format_slip39_options*)f->format_options;
-    opts->groups_count = groups_count;
-    for(int i = 0; i < groups_count; i++) {
-        opts->groups[i] = groups[i];
-    }
+FormatSLIP39::FormatSLIP39() : Format(Format::Key::slip39, "slip39") {
+    groups_threshold = 1;
+    groups = {{1, 1}};
 }

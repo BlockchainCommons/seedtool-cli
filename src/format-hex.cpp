@@ -9,19 +9,9 @@
 #include "params.hpp"
 #include "utils.hpp"
 
-void format_hex_process_output(format* f, params* p) {
+void FormatHex::process_input(Params* p) {
+}
+
+void FormatHex::process_output(Params* p) {
     p->output = data_to_hex(p->seed);
-}
-
-static void format_hex_dispose(format* f) {
-    free(f);
-}
-
-format* format_hex_new() {
-    format* f = (format*)calloc(sizeof(format), 1);
-    f->key = format_key_hex;
-    f->name = "hex";
-    f->process_output = format_hex_process_output;
-    f->dispose = format_hex_dispose;
-    return f;
 }

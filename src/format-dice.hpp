@@ -5,11 +5,14 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_DICE_HPP
-#define FORMAT_DICE_HPP
+#pragma once
 
 #include "format.hpp"
 
-format* format_dice_new();
+class FormatDice : public Format {
+   public:
+    FormatDice() : Format(Format::Key::dice, "dice") {}
 
-#endif /* FORMAT_DICE_HPP */
+    virtual void process_input(Params* p);
+    virtual void process_output(Params* p);
+};

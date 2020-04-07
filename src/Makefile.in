@@ -35,8 +35,6 @@ OBJS = \
 	utils.o \
 	params.o \
 	random.o \
-	randombytes.o \
-	hkdf.o \
 	format.o \
 	format-base6.o \
 	format-base10.o \
@@ -47,7 +45,9 @@ OBJS = \
 	format-hex.o \
 	format-ints.o \
 	format-random.o \
-	format-slip39.o
+	format-slip39.o \
+	randombytes.o \
+	hkdf.o
 
 LDFLAGS = -lstdc++ -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -largp
 

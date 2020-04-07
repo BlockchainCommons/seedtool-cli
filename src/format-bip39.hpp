@@ -5,15 +5,19 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef FORMAT_BIP39_HPP
-#define FORMAT_BIP39_HPP
-
-#include "format.hpp"
+#pragma once
 
 #include <stdbool.h>
 #include <stdlib.h>
 
-format* format_bip39_new();
-bool format_bip39_is_seed_length_valid(size_t seed_len);
+#include "format.hpp"
 
-#endif /* FORMAT_BIP39_HPP */
+class FormatBIP39 : public Format {
+   public:
+    FormatBIP39() : Format(Format::Key::bip39, "bip39") {}
+
+    virtual void process_input(Params* p);
+    virtual void process_output(Params* p);
+
+    static bool is_seed_length_valid(size_t seed_len);
+};
