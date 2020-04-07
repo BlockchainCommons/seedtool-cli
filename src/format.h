@@ -8,7 +8,7 @@
 #ifndef FORMAT_H
 #define FORMAT_H
 
-struct params;
+class params;
 struct format;
 
 typedef void (*format_func)(format*);

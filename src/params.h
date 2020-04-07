@@ -17,44 +17,65 @@
 
 #define MAX_ARGS 256
 
-struct raw_params {
-    const char* input_format;
-    const char* output_format;
-    const char* count;
+class raw_params {
+public:
+    const char* input_format = NULL;
+    const char* output_format = NULL;
+    const char* count = NULL;
 
-    const char* ints_low;
-    const char* ints_high;
+    const char* ints_low = NULL;
+    const char* ints_high = NULL;
 
-    const char* random_deterministic;
+    const char* random_deterministic = NULL;
 
-    const char* slip39_groups_threshold;
+    const char* slip39_groups_threshold = 0;
     const char* slip39_groups[MAX_RAW_GROUPS];
-    size_t slip39_groups_count;
+    size_t slip39_groups_count = 0;
 
     const char* args[MAX_ARGS];
-    size_t args_count;
+    size_t args_count = 0;
+
+    void add_group(const char* g);
+    void add_arg(const char* a);
 };
 
 struct format;
 
-struct params {
-    struct format* input_format;
-    char* input;
+class params {
+public:
+    params() { }
+    ~params();
 
-    struct format* output_format;
-    char* output;
+    raw_params* raw = new raw_params();
 
-    uint8_t* seed;
-    size_t seed_len;
-    size_t count;
+    struct format* input_format = NULL;
+    struct format* output_format = NULL;
 
-    char* deterministic_seed;
-    random_generator rng;
+    char* input = NULL;
+    char* output = NULL;
 
-    struct raw_params* raw;
+    uint8_t* seed = NULL;
+    size_t seed_len = 0;
+
+    size_t count = 0;
+
+    char* deterministic_seed = NULL;
+    random_generator rng = NULL;
+
+    void validate(struct argp_state* state);
+
+private:
+    void validate_count(struct argp_state* state);
+    void validate_deterministic(struct argp_state* state);
+    void validate_input_format(struct argp_state* state);
+    void validate_output_format(struct argp_state* state);
+    void validate_output_for_input(struct argp_state* state);
+    void validate_ints_specific(struct argp_state* state);
+    void validate_bip39_specific(struct argp_state* state);
+    void validate_slip39_specific(struct argp_state* state);
 };
 
-struct params* params_parse( int argc, char *argv[] );
-void params_dispose(struct params*);
+params* params_parse( int argc, char *argv[] );
+// void params_dispose(struct params*);
 
 #endif /* PARAMS_H */

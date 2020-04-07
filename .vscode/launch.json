@@ -7,7 +7,7 @@
             "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/src/seedtool",
-            "args": ["--out","slip39","--group","2-of-3"],
+            "args": [],
             "cwd": "${workspaceFolder}/src",
             "preLaunchTask": "Build"
         }

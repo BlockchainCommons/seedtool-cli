@@ -21,7 +21,9 @@ bindir = @bindir@
 srcdir = @srcdir@
 VPATH = @srcdir@
 
-CFLAGS = -g -O0
+COMPILER = g++
+CFLAGS = --debug -O0
+CXXFLAGS = -std=c++11 -stdlib=libc++ --debug -O0
 
 toolname = seedtool
 
@@ -47,7 +49,7 @@ OBJS = \
 	format-random.o \
 	format-slip39.o
 
-LDFLAGS = -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -largp
+LDFLAGS = -lstdc++ -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -largp
 
 $(toolname): $(OBJS)
 
