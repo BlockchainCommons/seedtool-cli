@@ -90,7 +90,7 @@ std::string data_to_ints(const std::vector<uint8_t> &in,
             result += separator;
         }
 
-        result += std::to_string(in[i]);
+        result += std::to_string(data[i] + low);
     }
 
     return result;

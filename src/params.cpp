@@ -25,7 +25,7 @@ void Params::validate_count(struct argp_state* state) {
     if(!raw.count.empty()) {
         count = std::stoi(raw.count);
     } else {
-        count = 32;
+        count = 16;
     }
 
     if(count < 1 || count > 64) {
@@ -89,17 +89,17 @@ void Params::validate_output_format(struct argp_state* state) {
 
 void Params::validate_output_for_input(struct argp_state* state) {
     // Any input format works with hex output format.
-    if(output_format->key == Format::Key::hex) {
+    if(dynamic_cast<FormatHex*>(output_format) != NULL) {
         return;
     }
 
     // Random input works with any output format.
-    if(input_format->key == Format::Key::random) {
+    if(dynamic_cast<FormatRandom*>(input_format) != NULL) {
         return;
     }
 
     // Hex input works with any output format.
-    if(input_format->key == Format::Key::hex) {
+    if(dynamic_cast<FormatHex*>(input_format) != NULL) {
         return;
     }
 
@@ -108,11 +108,10 @@ void Params::validate_output_for_input(struct argp_state* state) {
 }
 
 void Params::validate_ints_specific(struct argp_state* state) {
-    Format* f = output_format;
-    if(f->key == Format::Key::ints) {
-        auto fi = dynamic_cast<FormatInts*>(f);
-        int low = fi->low;
-        int high = fi->low;
+    auto f = dynamic_cast<FormatInts*>(output_format);
+    if(f != NULL) {
+        int low = f->low;
+        int high = f->high;
         if(!raw.ints_low.empty()) {
             low = std::stoi(raw.ints_low);
         }
@@ -122,8 +121,8 @@ void Params::validate_ints_specific(struct argp_state* state) {
         if(!(0 <= low && low < high && high <= 255)) {
             argp_error(state, "--low and --high must specify a range in [0-255].");
         }
-        fi->low = low;
-        fi->high = high;
+        f->low = low;
+        f->high = high;
     } else {
         if(!raw.ints_low.empty()) {
             argp_error(state, "Option --low can only be used with the \"ints\" output format.");
@@ -135,13 +134,13 @@ void Params::validate_ints_specific(struct argp_state* state) {
 }
 
 void Params::validate_bip39_specific(struct argp_state* state) {
-    if(output_format->key != Format::Key::bip39) { return; }
+    if(dynamic_cast<FormatBIP39*>(output_format) == NULL) { return; }
     if(!FormatBIP39::is_seed_length_valid(count)) {
         argp_error(state, "For BIP39 COUNT must be in [12-32] and even.");
     }
 }
 
-void parse_group_spec(const std::string &string, group_descriptor* group, struct argp_state* state) {
+group_descriptor parse_group_spec(const std::string &string, struct argp_state* state) {
     size_t threshold;
     size_t count;
     auto items = sscanf(string.c_str(), "%zd-of-%zd", &threshold, &count);
@@ -151,16 +150,19 @@ void parse_group_spec(const std::string &string, group_descriptor* group, struct
     if(!(0 < threshold && threshold <= count && count <= 16)) {
         argp_error(state, "Invalid group specifier \"%s\": 1 <= N <= M <= 16", string.c_str());
     }
-    group->threshold = threshold;
-    group->count = count;
-    group->passwords = NULL;
+    group_descriptor g;
+    g.threshold = threshold;
+    g.count = count;
+    g.passwords = NULL;
+    return g;
 }
 
 void Params::validate_slip39_specific(struct argp_state* state) {
-    auto groups_count = raw.slip39_groups.size();
+    auto raw_groups_count = raw.slip39_groups.size();
 
-    if(output_format->key != Format::Key::slip39) {
-        if(groups_count > 0) {
+    auto of = dynamic_cast<FormatSLIP39*>(output_format);
+    if(of == NULL) {
+        if(raw_groups_count > 0) {
             argp_error(state, "Option --group can only be used with the \"slip39\" output format.");
         }
         if(!raw.slip39_groups_threshold.empty()) {
@@ -168,18 +170,20 @@ void Params::validate_slip39_specific(struct argp_state* state) {
         }
         return;
     }
+
     if(!FormatSLIP39::is_seed_length_valid(count)) {
         argp_error(state, "For BIP39 COUNT must be in [16-32] and even.");
     }
 
     std::vector<group_descriptor> groups;
-    if(groups_count > MAX_GROUPS) {
+    if(raw_groups_count > MAX_GROUPS) {
         argp_error(state, "There must be no more than %d groups.", MAX_GROUPS);
-    } else if(groups_count == 0) {
-        groups.push_back( (group_descriptor){1, 1} );
+    } else if(raw_groups_count == 0) {
+        groups.push_back( {1, 1} );
     } else {
-        for(auto i = 0; i < groups_count; i++) {
-            parse_group_spec(raw.slip39_groups[i], &groups[i], state);
+        for(auto g: raw.slip39_groups) {
+            auto group = parse_group_spec(g, state);
+            groups.push_back(group);
         }
     }
     
@@ -189,10 +193,10 @@ void Params::validate_slip39_specific(struct argp_state* state) {
     } else {
         groups_threshold = std::stoi(raw.slip39_groups_threshold);
     }
-    if(!(0 < groups_threshold && groups_threshold <= groups_count)) {
+    if(!(0 < groups_threshold && groups_threshold <= groups.size())) {
         argp_error(state, "Group threshold must be <= the number of groups.");
     }
-    auto of = dynamic_cast<FormatSLIP39*>(output_format);
+
     of->groups_threshold = groups_threshold;
     of->groups = groups;
 }
@@ -213,7 +217,7 @@ static void parse_input_opt(Params* p, const char* arg, struct argp_state* state
 
 static int parse_opt(int key, char* arg, struct argp_state* state) {
     auto p = static_cast<Params*>(state->input);
-    auto raw = p->raw;
+    auto& raw = p->raw;
 
     switch (key) {
         case ARGP_KEY_INIT: break;
