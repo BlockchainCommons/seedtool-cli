@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <bc-slip39/bc-slip39.h>
 
 #include "random.hpp"
 
@@ -46,7 +47,7 @@ public:
     Format* input_format = NULL;
     Format* output_format = NULL;
 
-    std::string input;
+    std::vector<std::string> input;
     std::string output;
 
     std::vector<uint8_t> seed;
@@ -56,19 +57,29 @@ public:
     char* deterministic_seed = NULL;
     random_generator rng = NULL;
 
-    void validate(struct argp_state* state);
+    void validate();
 
     RawParams raw;
 
+    struct argp_state* state;
+
     static Params* parse( int argc, char *argv[] );
+    void read_args_from_stdin();
+
+    std::string get_one_argument();
+    std::string get_combined_arguments();
+    std::vector<std::string> get_multiple_arguments();
 
 private:
-    void validate_count(struct argp_state* state);
-    void validate_deterministic(struct argp_state* state);
-    void validate_input_format(struct argp_state* state);
-    void validate_output_format(struct argp_state* state);
-    void validate_output_for_input(struct argp_state* state);
-    void validate_ints_specific(struct argp_state* state);
-    void validate_bip39_specific(struct argp_state* state);
-    void validate_slip39_specific(struct argp_state* state);
+    group_descriptor parse_group_spec(const std::string &string);
+
+    void validate_count();
+    void validate_deterministic();
+    void validate_input_format();
+    void validate_output_format();
+    void validate_output_for_input();
+    void validate_ints_specific();
+    void validate_bip39_specific();
+    void validate_slip39_specific();
+    void validate_input();
 };

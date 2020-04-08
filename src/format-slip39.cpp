@@ -7,8 +7,13 @@
 
 #include "format-slip39.hpp"
 
+#include <stdexcept>
+#include <iostream>
+
 #include "params.hpp"
 #include "utils.hpp"
+
+using namespace std;
 
 bool FormatSLIP39::is_seed_length_valid(size_t seed_len) {
     if(!(16 <= seed_len && seed_len <= 32)) { return false; }
@@ -16,7 +21,55 @@ bool FormatSLIP39::is_seed_length_valid(size_t seed_len) {
     return true;
 }
 
+static vector<uint8_t> combine(vector<string> shares) {
+    vector<vector<uint16_t>*> shares_words;
+    size_t words_in_each_share = 0;
+    for(auto share: shares) {
+        auto words_buf = new vector<uint16_t>();
+        words_buf->resize(100);
+        int words_in_share = slip39_words_for_strings(share.c_str(), &(*words_buf)[0], words_buf->size());
+        if(words_in_share < 0) {
+            throw runtime_error("Invalid SLIP39 word in share.");
+        }
+        if(words_in_each_share == 0) {
+            words_in_each_share = words_in_share;
+        } else if(words_in_share != words_in_each_share) {
+            throw runtime_error("Shares do not all have equal numbers of words.");
+        }
+        words_buf->resize(words_in_each_share);
+        shares_words.push_back(words_buf);
+    }
+
+    vector<const uint16_t*> shares_words_pointers;
+    shares_words_pointers.reserve(shares.size());
+    for(const auto v: shares_words) {
+        auto p = &(*v)[0];
+        shares_words_pointers.push_back(p);
+    }
+
+    vector<uint8_t> result;
+    result.resize(1024);
+
+    auto combine_result = slip39_combine(
+        (const uint16_t **)&shares_words_pointers[0], words_in_each_share, shares.size(),
+        "TREZOR", NULL, &result[0], result.size());
+
+    for(auto v: shares_words) {
+        delete v;
+    }
+
+    if(combine_result > 0) {
+        result.resize(combine_result);
+    } else {
+        throw runtime_error("Invalid SLIP39 shares.");
+    }
+
+    return result;
+}
+
 void FormatSLIP39::process_input(Params* p) {
+    auto shares = p->get_multiple_arguments();
+    p->seed = combine(shares);
 }
 
 void FormatSLIP39::process_output(Params* p) {

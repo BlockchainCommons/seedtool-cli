@@ -9,6 +9,7 @@
 #include <argp.h>
 #include <assert.h>
 #include <iostream>
+#include <stdexcept>
 
 #include <bc-crypto-base/bc-crypto-base.h>
 
@@ -16,14 +17,16 @@
 #include "utils.hpp"
 #include "formats-all.hpp"
 
+using namespace std;
+
 Params::~Params() {
     delete input_format;
     delete output_format;
 }
 
-void Params::validate_count(struct argp_state* state) {
+void Params::validate_count() {
     if(!raw.count.empty()) {
-        count = std::stoi(raw.count);
+        count = stoi(raw.count);
     } else {
         count = 16;
     }
@@ -33,7 +36,7 @@ void Params::validate_count(struct argp_state* state) {
     }
 }
 
-void Params::validate_deterministic(struct argp_state* state) {
+void Params::validate_deterministic() {
     if(!raw.random_deterministic.empty()) {
         seed_deterministic_string(raw.random_deterministic);
         rng = deterministic_random;
@@ -42,7 +45,7 @@ void Params::validate_deterministic(struct argp_state* state) {
     }
 }
 
-void Params::validate_input_format(struct argp_state* state) {    
+void Params::validate_input_format() {    
     if(raw.input_format.empty()) {
         input_format = new FormatRandom();
     } else {
@@ -65,7 +68,7 @@ void Params::validate_input_format(struct argp_state* state) {
     }
 }
 
-void Params::validate_output_format(struct argp_state* state) {    
+void Params::validate_output_format() {    
     if(raw.output_format.empty()) {
         output_format = new FormatHex();
     } else {
@@ -87,7 +90,7 @@ void Params::validate_output_format(struct argp_state* state) {
     }
 }
 
-void Params::validate_output_for_input(struct argp_state* state) {
+void Params::validate_output_for_input() {
     // Any input format works with hex output format.
     if(dynamic_cast<FormatHex*>(output_format) != NULL) {
         return;
@@ -107,16 +110,16 @@ void Params::validate_output_for_input(struct argp_state* state) {
         input_format->name.c_str(), output_format->name.c_str());
 }
 
-void Params::validate_ints_specific(struct argp_state* state) {
+void Params::validate_ints_specific() {
     auto f = dynamic_cast<FormatInts*>(output_format);
     if(f != NULL) {
         int low = f->low;
         int high = f->high;
         if(!raw.ints_low.empty()) {
-            low = std::stoi(raw.ints_low);
+            low = stoi(raw.ints_low);
         }
         if(!raw.ints_high.empty()) {
-            high = std::stoi(raw.ints_high);
+            high = stoi(raw.ints_high);
         }
         if(!(0 <= low && low < high && high <= 255)) {
             argp_error(state, "--low and --high must specify a range in [0-255].");
@@ -133,14 +136,14 @@ void Params::validate_ints_specific(struct argp_state* state) {
     }
 }
 
-void Params::validate_bip39_specific(struct argp_state* state) {
+void Params::validate_bip39_specific() {
     if(dynamic_cast<FormatBIP39*>(output_format) == NULL) { return; }
     if(!FormatBIP39::is_seed_length_valid(count)) {
         argp_error(state, "For BIP39 COUNT must be in [12-32] and even.");
     }
 }
 
-group_descriptor parse_group_spec(const std::string &string, struct argp_state* state) {
+group_descriptor Params::parse_group_spec(const string &string) {
     size_t threshold;
     size_t count;
     auto items = sscanf(string.c_str(), "%zd-of-%zd", &threshold, &count);
@@ -157,7 +160,7 @@ group_descriptor parse_group_spec(const std::string &string, struct argp_state* 
     return g;
 }
 
-void Params::validate_slip39_specific(struct argp_state* state) {
+void Params::validate_slip39_specific() {
     auto raw_groups_count = raw.slip39_groups.size();
 
     auto of = dynamic_cast<FormatSLIP39*>(output_format);
@@ -175,14 +178,14 @@ void Params::validate_slip39_specific(struct argp_state* state) {
         argp_error(state, "For BIP39 COUNT must be in [16-32] and even.");
     }
 
-    std::vector<group_descriptor> groups;
+    vector<group_descriptor> groups;
     if(raw_groups_count > MAX_GROUPS) {
         argp_error(state, "There must be no more than %d groups.", MAX_GROUPS);
     } else if(raw_groups_count == 0) {
         groups.push_back( {1, 1} );
     } else {
         for(auto g: raw.slip39_groups) {
-            auto group = parse_group_spec(g, state);
+            auto group = parse_group_spec(g);
             groups.push_back(group);
         }
     }
@@ -191,7 +194,7 @@ void Params::validate_slip39_specific(struct argp_state* state) {
     if(raw.slip39_groups_threshold.empty()) {
         groups_threshold = 1;
     } else {
-        groups_threshold = std::stoi(raw.slip39_groups_threshold);
+        groups_threshold = stoi(raw.slip39_groups_threshold);
     }
     if(!(0 < groups_threshold && groups_threshold <= groups.size())) {
         argp_error(state, "Group threshold must be <= the number of groups.");
@@ -201,39 +204,66 @@ void Params::validate_slip39_specific(struct argp_state* state) {
     of->groups = groups;
 }
 
-void Params::validate(struct argp_state* state) {
-    validate_count(state);
-    validate_deterministic(state);
-    validate_input_format(state);
-    validate_output_format(state);
-    validate_output_for_input(state);
-    validate_ints_specific(state);
-    validate_bip39_specific(state);
-    validate_slip39_specific(state);
+void Params::validate_input() {
+    // Every input method takes arguments except random.
+    if (dynamic_cast<FormatRandom*>(input_format) != NULL) {
+        if (!raw.args.empty()) {
+            argp_error(state, "Do not provide arguments when using the random (default) input format.");
+        }
+    } else {
+        if (raw.args.empty()) {
+            read_args_from_stdin();
+        }
+        input = raw.args;
+        if(input.empty()) {
+            argp_error(state, "No input provided.");
+        }
+    }
 }
 
-static void parse_input_opt(Params* p, const char* arg, struct argp_state* state) {
+void Params::validate() {
+    validate_count();
+    validate_deterministic();
+    validate_input_format();
+    validate_output_format();
+    validate_output_for_input();
+    validate_ints_specific();
+    validate_bip39_specific();
+    validate_slip39_specific();
+    validate_input();
+}
+
+void Params::read_args_from_stdin() {
+    string line;
+    while(getline(cin, line)) {
+        raw.args.push_back(line);
+    }
 }
 
 static int parse_opt(int key, char* arg, struct argp_state* state) {
-    auto p = static_cast<Params*>(state->input);
-    auto& raw = p->raw;
+    try {
+        auto p = static_cast<Params*>(state->input);
+        p->state = state;
+        auto& raw = p->raw;
 
-    switch (key) {
-        case ARGP_KEY_INIT: break;
-        case 'i': raw.input_format = arg; break;
-        case 'o': raw.output_format = arg; break;
-        case 'c': raw.count = arg; break;
-        case 'l': raw.ints_low = arg; break;
-        case 'h': raw.ints_high = arg; break;
-        case 'd': raw.random_deterministic = arg; break;
-        case 'g': raw.slip39_groups.push_back(arg); break;
-        case 't': raw.slip39_groups_threshold = arg; break;
-        case ARGP_KEY_ARG: raw.args.push_back(arg); break;
-        case ARGP_KEY_END: {
-            p->validate(state);
+        switch (key) {
+            case ARGP_KEY_INIT: break;
+            case 'i': raw.input_format = arg; break;
+            case 'o': raw.output_format = arg; break;
+            case 'c': raw.count = arg; break;
+            case 'l': raw.ints_low = arg; break;
+            case 'h': raw.ints_high = arg; break;
+            case 'd': raw.random_deterministic = arg; break;
+            case 'g': raw.slip39_groups.push_back(arg); break;
+            case 't': raw.slip39_groups_threshold = arg; break;
+            case ARGP_KEY_ARG: raw.args.push_back(arg); break;
+            case ARGP_KEY_END: {
+                p->validate();
+            }
+            break;
         }
-        break;
+    } catch(exception &e) {
+        argp_error(state, "%s", e.what());
     }
     return 0;
 }
@@ -271,4 +301,19 @@ Params* Params::parse( int argc, char *argv[] ) {
     auto p = new Params();
     argp_parse( &argp, argc, argv, 0, 0, p );
     return p;
+}
+
+string Params::get_one_argument() {
+    if(input.size() != 1) {
+        throw runtime_error("Only one argument accepted.");
+    }
+    return input[0];
+}
+
+string Params::get_combined_arguments() {
+    return join(input, " ");
+}
+
+vector<string> Params::get_multiple_arguments() {
+    return input;
 }

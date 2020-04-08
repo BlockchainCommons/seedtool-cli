@@ -9,9 +9,12 @@
 
 #include <strings.h>
 #include <bc-bip39/bc-bip39.h>
+#include <stdexcept>
 
 #include "params.hpp"
 #include "utils.hpp"
+
+using namespace std;
 
 bool FormatBIP39::is_seed_length_valid(size_t seed_len) {
     if(!(12 <= seed_len && seed_len <= 32)) { return false; }
@@ -20,6 +23,15 @@ bool FormatBIP39::is_seed_length_valid(size_t seed_len) {
 }
 
 void FormatBIP39::process_input(Params* p) {
+    auto input = p->get_combined_arguments();
+    vector<uint8_t> buf;
+    buf.resize(300);
+    auto len = bip39_secret_from_mnemonics(input.c_str(), &buf[0], buf.size());
+    if(len == 0) {
+        throw runtime_error("Invalid BIP39 word sequence.");
+    }
+    buf.resize(len);
+    p->seed = buf;
 }
 
 void FormatBIP39::process_output(Params* p) {

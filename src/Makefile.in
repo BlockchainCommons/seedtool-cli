@@ -56,21 +56,21 @@ $(toolname): $(OBJS)
 seedtool.o: params.hpp format.hpp
 utils.o: utils.hpp
 params.o: params.hpp utils.hpp random.hpp formats-all.hpp
-random.o: random.hpp randombytes.h hkdf.h
+random.o: random.hpp randombytes.h hkdf.h utils.hpp
 randombytes.o: randombytes.h
 hkdf.o: hkdf.h
 format.o: format.hpp utils.hpp
 formats-all.hpp: format-base6.hpp format-base10.hpp format-bip39.hpp format-bits.hpp format-cards.hpp format-dice.hpp format-hex.hpp format-ints.hpp format-random.hpp format-slip39.hpp
-format-base6.o: format-base6.hpp format.hpp params.hpp
-format-base10.o: format-base10.hpp format.hpp params.hpp
-format-bip39.o: format-bip39.hpp format.hpp params.hpp
-format-bits.o: format-bits.hpp format.hpp params.hpp
-format-cards.o: format-cards.hpp format.hpp params.hpp
-format-dice.o: format-dice.hpp format.hpp params.hpp
-format-hex.o: format-hex.hpp format.hpp params.hpp
-format-ints.o: format-ints.hpp format.hpp params.hpp
-format-random.o: format-random.hpp format.hpp params.hpp
-format-slip39.o: format-slip39.hpp format.hpp params.hpp
+format-base6.o: format-base6.hpp format.hpp params.hpp random.hpp
+format-base10.o: format-base10.hpp format.hpp params.hpp random.hpp
+format-bip39.o: format-bip39.hpp format.hpp params.hpp random.hpp
+format-bits.o: format-bits.hpp format.hpp params.hpp random.hpp
+format-cards.o: format-cards.hpp format.hpp params.hpp random.hpp
+format-dice.o: format-dice.hpp format.hpp params.hpp random.hpp
+format-hex.o: format-hex.hpp format.hpp params.hpp random.hpp
+format-ints.o: format-ints.hpp format.hpp params.hpp random.hpp
+format-random.o: format-random.hpp format.hpp params.hpp random.hpp
+format-slip39.o: format-slip39.hpp format.hpp params.hpp random.hpp
 
 bindir = $(DESTDIR)/$(prefix)/bin
 

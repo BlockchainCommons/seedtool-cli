@@ -5,12 +5,12 @@
 //  Licensed under the "BSD-2-Clause Plus Patent License"
 //
 
-#ifndef RANDOM_HPP
-#define RANDOM_HPP
+#pragma once
 
 #include <stdint.h>
 #include <stdlib.h>
 #include <string>
+#include <vector>
 
 typedef void (*random_generator)(uint8_t*, size_t);
 
@@ -23,4 +23,4 @@ void seed_deterministic_string(const std::string &string);
 // Generates a buffer of random bytes using the cryptographically strong deterministic random number generator.
 void deterministic_random(uint8_t* buf, size_t n);
 
-#endif /* RANDOM_HPP */
+std::vector<uint8_t> deterministic_random(std::vector<uint8_t> entropy, size_t n);

@@ -13,6 +13,7 @@
 #include "random.hpp"
 #include "randombytes.h"
 #include "hkdf.h"
+#include "utils.hpp"
 
 void crypto_random(uint8_t* buf, size_t n) {
     assert(randombytes(buf, n) == 0);
@@ -34,4 +35,18 @@ void deterministic_random(uint8_t* buf, size_t n) {
     (uint8_t*)&deterministic_salt, sizeof(deterministic_salt),
     deterministic_seed, SHA256_DIGEST_LENGTH,
     NULL, 0);
+}
+
+std::vector<uint8_t> deterministic_random(std::vector<uint8_t> entropy, size_t n) {
+    std::vector<uint8_t> result;
+    result.resize(n);
+
+    auto seed = sha256(entropy);
+
+    hkdf_sha256(&result[0], n,
+    NULL, 0, // no salt
+    &seed[0], SHA256_DIGEST_LENGTH,
+    NULL, 0); // no info
+
+    return result;
 }

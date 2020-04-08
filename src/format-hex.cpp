@@ -6,10 +6,15 @@
 //
 
 #include "format-hex.hpp"
+
+#include <iostream>
+
 #include "params.hpp"
 #include "utils.hpp"
 
 void FormatHex::process_input(Params* p) {
+    auto input = p->get_one_argument();
+    p->seed = hex_to_data(input);
 }
 
 void FormatHex::process_output(Params* p) {

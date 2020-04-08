@@ -27,3 +27,17 @@ std::string data_to_alphabet(const std::vector<uint8_t> &in,
 
 std::string data_to_ints(const std::vector<uint8_t> &in,
     size_t low, size_t high, const std::string &separator);
+
+std::vector<uint8_t> digits_to_data(const std::string& in, size_t low, size_t high);
+
+std::string join(const std::vector<std::string> &strings, const std::string &separator);
+
+std::vector<uint8_t> sha256(const std::vector<uint8_t> &buf);
+
+template<typename T>
+std::vector<T> take(const std::vector<T> &buf, size_t count) {
+    auto first = buf.begin();
+    auto c = std::min(buf.size(), count);
+    auto last = first + c;
+    return std::vector(first, last);
+}

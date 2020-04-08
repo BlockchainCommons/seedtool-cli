@@ -14,4 +14,5 @@ void FormatRandom::process_input(Params* p) {
 }
 
 void FormatRandom::process_output(Params* p) {
+    assert(false); // never happens
 }
