@@ -1,4 +1,4 @@
-# Blockchain Commons bc-seedtool-cli
+# 🌱 Blockchain Commons bc-seedtool-cli
 
 A tool for creating and transforming cryptographic seeds.
 
@@ -22,7 +22,22 @@ $ sudo make install
 
 ## Use
 
-See [`MANUAL.md`](MANUAL.md).
+```
+$ seedtool
+8935a8068526d84da555cdb741a3b8a8
+
+$ seedtool --in hex --out bip39 8935a8068526d84da555cdb741a3b8a8
+matrix pull accuse apart horn chat next rifle resemble artist until eye
+
+$ seedtool --in bip39 matrix pull accuse apart horn chat next rifle resemble artist until eye
+8935a8068526d84da555cdb741a3b8a8
+```
+
+```
+$ seedtool --help
+```
+
+See [`MANUAL.md`](MANUAL.md) for detail, examples, and version history.
 
 ## Notes for Maintainers
 
@@ -44,6 +59,10 @@ This table below also establishes provenance (repository of origin, permalink, a
 
 | File      | From                                                         | Commit                                                       | Authors & Copyright (c)                                | License                                                     |
 | --------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------ | ----------------------------------------------------------- |
+| hkdf.c | [rustyrussell/ccan](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/hkdf_sha256.c) | [d07f742](https://github.com/rustyrussell/ccan/commit/d07f742c5925b97ed558eb07aae285616f5df823) | 2016 [Rusty Russell](https://github.com/rustyrussell)<br/>2020 Wolf McNally | [MIT](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/LICENSE)
+| hkdf.h | [rustyrussell/ccan](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/hkdf_sha256.h) | [d07f742](https://github.com/rustyrussell/ccan/commit/d07f742c5925b97ed558eb07aae285616f5df823) | 2016 [Rusty Russell](https://github.com/rustyrussell) | [MIT](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/LICENSE)
+| randombytes.c | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.c) | [6db39aa](https://github.com/dsprenkels/randombytes/commit/6db39aaae6bb9ab97beca00d81bcfe935c56c88d) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
+| randombytes.h | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.h) | [19fd002](https://github.com/dsprenkels/randombytes/commit/19fd002d9b7b001b333a671186a91231b60d821b) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
 
 ### Dependencies
 
@@ -70,7 +89,7 @@ We want to keep all our software safe for everyone. If you have discovered a sec
 
 We do ask that you offer us good faith and use best efforts not to leak information or harm any user, their data, or our developer community. Please give us a reasonable amount of time to fix the issue before you publish it. Do not defraud our users or us in the process of discovery. We promise not to bring legal action against researchers who point out a problem provided they do their best to follow the these guidelines.
 
-### Reporting a Vulnerability
+## Reporting a Vulnerability
 
 Please report suspected security vulnerabilities in private via email to ChristopherA@LifeWithAlacrity.com (do not use this email for support). Please do NOT create publicly viewable issues for suspected security vulnerabilities.
 

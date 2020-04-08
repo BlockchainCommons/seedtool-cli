@@ -1,260 +1,609 @@
-# Seedtool Manual
+# 🌱 Seedtool
 
-*Copyright © 2020 by Blockchain Commons, LLC*
+**Version 1.0.0b1**<br/>**April 8, 2020**
 
-*Licensed under the "BSD-2-Clause Plus Patent License"*
+*Copyright © 2020 by Blockchain Commons, LLC*<br/>*Licensed under the "BSD-2-Clause Plus Patent License"*
 
 ---
 
-The following is a draft design document. Comments requested.
+## Introduction
 
-There is no mention below of password functionality for BIP39 and SLIP39 production. The current design allows for later inclusion of this feature via a `--password` option.
+`seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications.
+
+**✅ NOTE:** There is no mention below of password functionality for BIP39 and SLIP39 production. The current design allows for later inclusion of this feature via a `--password` option.
+
+
+See [`README.md`](README.md) for installation and credits.
 
 ## General Functionality
 
-Supports help.
+Supports `--help`, `--usage`, and `--version`.
 
 ```
 $ seedtool --help
-<help text here>
-```
-
-Supports version number.
-
-```
-$ seedtool --version
-1.0
+<help summary>
 ```
 
 ## Generating Random Seeds
 
-When run by itself, seedtool generates 32 random bytes (256 bits) and displays them as hex. This is the same as running `seedtool --out hex`.
+When run by itself, seedtool generates 16 random bytes (128 bits) and displays them as hex. This is the same as running `seedtool --in random --out hex`.
 
 ```
+#
+# Generate a 16-byte random seed.
+#
+
 $ seedtool
-866b4a995209b20a87a4b32d7436363923cf99accd8f2a0b8b1dacf3f41113d9
+5b13fe9ac2778e728df31c7b1afd874f
+
+#
+# Same as above.
+#
+
+$ seedtool --in random --out hex
+06799f71d16fad08ec5407d32d670147
 ```
 
-An output format `--out` and count `--count` may be specified. The default count is 32.
-
-Playing cards may be duplicated; it is as if each card is drawn from a freshly shuffled deck.
+An output format `--out` and count `--count` may be specified. Count may be in [1-64] and the default `count` is 16. For the `hex` output format, the count is the number of bytes generated. For other output formats, `count` is the number of "output units" (e.g., bits, cards, die rolls, etc.)
 
 ```
+#
+# Generate 16 random bytes.
+#
+
 $ seedtool --out hex
-3d1d142cd016cf8a393a1b477891c5e594fb7c9479b175a0db653067d6de0b17
+66a12c8a8c719dd3b2f951053910f849
+
+#
+# Generate 16 random bits.
+#
 
 $ seedtool --out bits
-00100010011111110100010100010000
+0110101010011010
+
+#
+# Generate 16 random playing cards.
+#
 
 $ seedtool --out cards
-5s4hth3s6s4s4hjdtdtdjckc7d5std6d5d4hqhkh4cks4h4sas5c6c2d6h2s2h2c
+3d9sqcthkcad8c9hah5dqdtd5c8sjs7s
+
+#
+# Roll 16 random 6-sided dice.
+#
 
 $ seedtool --out dice
-23431546432642433535135232426424
+6565245451152635
+
+#
+# 6-sided dice, counting from zero.
+#
 
 $ seedtool --out base6
-14135001101503150040353141454122
+0534233032352210
+
+#
+# Generate 16 random digits in [0-9].
+#
 
 $ seedtool --out base10
-73127665663823895387159704567613
+9808565945186765
 
-$ seedtool --out cards --count 10
-8hqd9h4sksjc3c7h7c6s
+#
+# Generate 5 random playing cards.
+#
+
+$ seedtool --out cards --count 5
+9d6s2s9d8s
 ```
 
-Sequences of random integers may be generated. By default, `--count` is 32, `--low` is 0, and `--high` is 9.
+**✅ NOTE:** Playing cards may be duplicated; it is as if each card is drawn from a freshly shuffled deck.
+
+Sequences of random integers may be generated. By default, `--count` is 16, `--low` is 0, and `--high` is 9.
 
 `low` < `high` < `256`
 
 ```
+#
+# Generate 16 random integers in [0-9].
+#
+
 $ seedtool --out ints
-8 6 4 1 2 0 5 1 4 7 0 7 8 0 3 3 0 6 8 3 4 1 0 4 5 4 0 4 7 6 4 4
+9 8 2 2 8 3 4 7 2 1 7 5 9 5 2 1
 
-$ seedtool --out ints --count 10 --low 1 --high 100
-71 22 95 6 23 65 27 10 67 16
+#
+# Generate 8 random integers in [1-100].
+#
+
+$ seedtool --out ints --count 8 --low 1 --high 100
+76 15 25 57 99 41 4 95
 ```
 
-BIP39 can be used as an output format. The default `--count` is 32 bytes (256 bits, 24 words), but may be any multiple of 4 in [4,32].
+BIP39 can be used as an output format. The default `--count` is 16 bytes (128 bits, 12 words), but may be any multiple of 2 in [12,32].
 
 ```
+#
+# Generate a random 16-byte seed and display it as BIP39.
+#
+
 $ seedtool --out bip39
-stay puzzle motion ocean hotel drive market fiber voyage group swift fossil rebuild car favorite priority head slim capital digital loud body fetch document
+sorry pupil battle tortoise ceiling hurdle family market device primary language grit
 
-$ seedtool --out bip39 --count 16
-version tray choice heart door fabric sea buffalo chapter soda symbol garlic
+#
+# Generate a random 32-byte seed and display it as BIP39.
+#
+
+$ seedtool --out bip39 --count 32
+mind knock evoke recycle payment snack pear party mean rubber open work rug trophy federal connect indicate security release three buzz buddy motion game
 ```
 
-SLIP39 can be used as an output format. By default `--count` is 32 bytes (256 bits, 33 words), but may be any multiple of 2 in [16,32]. By default a single 1-of-1 share is generated. This is the same as running `seedtool --out slip39 --group-threshold 1 --group 1-of-1`.
+SLIP39 can be used as an output format. By default `--count` is 16 bytes (128 bits, 20 words), but may be any multiple of 2 in [16-32]. By default a single 1-of-1 share is generated. This is the same as running `seedtool --out slip39 --group-threshold 1 --group 1-of-1`.
 
 ```
+#
+# Generate a random 16-byte seed and display it as SLIP39.
+#
+
 $ seedtool --out slip39
-usher deal academic academic airline scene pickup makeup obesity eclipse ticket cinema therapy escape jury scroll credit easel failure costume manager theater branch swimming loan main losing move wolf snapshot frost decision acid
+activity away academic academic debut usher impact evidence worthy check vampire famous gums screw upstairs reunion practice welcome surface pink
 
-$ seedtool --out slip39 --count 16
-formal husband academic academic devote client fangs carve acid maximum shelter trouble cubic firefly adapt grin shrimp therapy wits mayor
+#
+# Generate a random 32-byte seed and display it as SLIP39.
+#
+
+$ seedtool --out slip39 --count 32
+maiden corner academic academic always salon pancake software numb mixed spider artist smith total activity snake grumpy discuss pancake step apart elephant moisture strike review racism orange emission society lecture mansion forbid estate
 ```
 
 n-of-m SLIP39 shares can be generated by specifing one or more groups.
 
 ```
-$ seedtool --out slip39 --count 16 --group 2-of-3
-bucket stay academic acid cover shaft lilac blue oral buyer prisoner ultimate material raisin deadline forecast very damage writing blimp
-bucket stay academic agency client traffic brother literary custody index piece sweater dragon fiber forbid pickup upstairs teaspoon fake cover
-bucket stay academic always deliver lying space decent reject salary sniff manual pile herd predator activity desktop declare vexed sweater
+#
+# Generate a 16 byte seed and display it as SLIP39, one group,
+# 2-of-3 shares required for seed recovery.
+#
+
+$ seedtool --out slip39 --group 2-of-3
+health guest academic acid browser process marvel acid unkind usher entrance hobo punish quarter lawsuit aquatic advance rebuild satisfy remind
+health guest academic agency capital salt leader video remember health nervous negative scroll spew survive patent expect capture should favorite
+health guest academic always bolt inmate window treat elevator swing trend loyalty brother knife drift vampire forward counter emphasis preach
 ```
 
 Multiple groups and a group threshold may be specified. If omitted, the default `--group-threshold` is 1.
 
-The first two words of a set of SLIP39 shares are the same across all the shares. Each group within a set of SLIP39 shares has the same third word.
+**✅ NOTE**: The first two words of a set of SLIP39 shares are the same across all the shares. Each group within a set of SLIP39 shares has the same third word.
 
 ```
-$ seedtool --out slip39 --count 16 --group-threshold 2 --group 2-of-3 --group 3-of-5 --group 3-of-5
-timely deal acrobat leaf artwork blessing subject mixture kitchen soldier depict practice hunting railroad enforce belong edge mansion lyrics surprise
-timely deal acrobat lily armed kidney gesture paid evoke crucial scene forecast magazine favorite omit username alpha axis trust rhyme
-timely deal acrobat lungs arena season pleasure nuclear observe duration stilt webcam tidy huge nuclear grin sled network mouse voting
-timely deal beard learn branch maximum desktop welcome sheriff gray pickup depart husband describe domain buyer trash mandate dress trust
-timely deal beard lips auction garden argue pacific bulge salt retailer forbid deny escape ecology harvest argue music process fumes
-timely deal beard luxury both album problem anxiety rich wolf industry industry thorn threaten enemy verify type aviation aspect weapon
-timely deal beard march acrobat training music hospital holiday forward hunting carbon phrase nylon dress lizard anatomy bike ordinary exact
-timely deal beard method again party shrimp sprinkle terminal faint legs romp fluff easel video cards alpha surprise style duckling
-timely deal ceramic learn brave rhythm family election headset genre ladle cards eclipse gray liberty public raisin warmth romp crisis
-timely deal ceramic lips amount walnut bumpy headset mobile eraser necklace yoga relate promise hour depict standard fatal purple debris
-timely deal ceramic luxury agree exceed grownup cards soul trouble seafood voice guitar safari royal skunk union railroad friendly eraser
-timely deal ceramic march blind answer cylinder dilemma crazy ruler chubby body midst amazing cubic explain march careful deadline failure
-timely deal ceramic method beyond penalty cards image testify detailed kitchen thank column merchant spark ecology garden genius gasoline pile
+#
+# Generate a 16 byte seed and display it as SLIP39, first group
+# requires 2-of-3, second and third groups require 3-of-5, at least
+# two groups must meet their threshold.
+#
+
+$ seedtool --out slip39 --group-threshold 2 --group 2-of-3 --group 3-of-5 --group 3-of-5
+crucial enlarge acrobat leaf actress scatter brother cricket declare trial glance adult dress excuse cleanup coding behavior ting submit teacher
+crucial enlarge acrobat lily aunt smirk strike plan oral terminal crunch mandate spark idle execute multiple exotic club learn rhythm
+crucial enlarge acrobat lungs careful space necklace curious crunch zero mustang quiet gray detailed video vintage preach lunar hesitate upstairs
+crucial enlarge beard learn desire pants display employer prayer square space shrimp warn expand buyer detailed likely safari therapy paces
+crucial enlarge beard lips cultural symbolic scholar divorce flea drift exact join satisfy cowboy install decision mule ancient ruin network
+crucial enlarge beard luxury blind mayor echo breathe froth chew payment payroll liberty excuse junction genius vitamins ordinary lift general
+crucial enlarge beard march aquatic venture response group prize shadow dress away remember crowd axle gravity that finger phrase gross
+crucial enlarge beard method dynamic legal shelter mineral switch sharp item scatter thumb frozen already slice family again pitch warmth
+crucial enlarge ceramic learn custody ranked become kind petition burden axis royal freshman gasoline acrobat identify desire olympic depict marvel
+crucial enlarge ceramic lips diminish necklace reject thunder increase aide senior wrist race papa depict national havoc grasp inform extra
+crucial enlarge ceramic luxury anxiety platform marvel expect browser unfold shadow withdraw software trend river license guitar true beard identify
+crucial enlarge ceramic march beaver lilac cleanup stadium smirk valid away salon dismiss corner material grief dictate bike firm pregnant
+crucial enlarge ceramic method custody maximum campus earth ordinary twice adequate twin prayer cowboy relate window ruin raspy dominant equation
 ```
 
 ## Generating Seeds from Provided Entropy
 
-When the `--in` option is used, seedtool takes input from stdin and uses it to construct the seed. In the examples below, the end of input to stdin is marked by `^D` on its own line.
+When the `--in` option is used, seedtool takes one or more arguments and uses them to construct the seed. If no arguments are given on the command line, it reads input from stdin and uses what it reads to construct the seed. In the examples below, the end of input to stdin is marked by `^D` on its own line.
 
 When the input format is `hex`, the construction is the identity function (passthrough.)
 
 ```
+#
+# Input a hex seed via stdin, receive the same seed back.
+#
+
 $ seedtool --in hex
 3d1d142cd016cf8a393a1b477891c5e594fb7c9479b175a0db653067d6de0b17
 ^D
 3d1d142cd016cf8a393a1b477891c5e594fb7c9479b175a0db653067d6de0b17
 ```
 
-For the other input formats, each "unit" of the input (bit, digit, card, etc.) is converted to a byte and placed in an array. The SHA256 is then taken of the resulting array, yielding a deterministic seed.
+For the other input formats, each "unit" of the input (bit, digit, card, etc.) is converted to a byte and placed in an array. The SHA256 is then taken of the resulting array, yielding a deterministic seed. This seed is then used to generate a cryptographic seed of `count` bytes.
 
 ```
+#
+# Start by generating 16 random bits. You could do this by flipping
+# a coin 16 times.
+#
+
+$ seedtool --out bits
+1110110001110111
+
+#
+# Construct a 16-byte seed from those bits, providing them on
+# the command line.
+#
+
+$ seedtool --in bits 1110110001110111
+ed8f723f8216781a047886244f6f75c0
+
+#
+# Construct the same seed from those bits, providing them via stdin.
+#
+
 $ seedtool --in bits
-00100010011111110100010100010000
+1110110001110111
 ^D
-f5ed0d7a8731424f5a5596dae07c4ced7b7ea9430f2ab1d407b3c5c8fe789fb8
-
-$ seedtool --in cards
-5s4hth3s6s4s4hjdtdtdjckc7d5std6d5d4hqhkh4cks4h4sas5c6c2d6h2s2h2c
-^D
-1046e7b5a12a8c662599d094c939351c18e20ccde8dedd2b72d0494db8c2d4dd
-
-$ seedtool --in dice
-23431546432642433535135232426424
-^D
-aea2cd642bbe2f950eb77f9c508408028e20473a9fe3b11db003ca55f5ef1358
-
-$ seedtool --in base6
-14135001101503150040353141454122
-^D
-063aadc267da52aeeda80d77feded8a11885641a56a4312db9e106c57b875de2
-
-$ seedtool --in base10
-73127665663823895387159704567613
-^D
-ae6c78b68370757230102ce26d7dd40740886a4ff6dc9bd122c914695ecbdc5f
-
-$ seedtool --in ints
-71 22 95 6 23 65 27 10 67 16
-^D
-e98f4b80aa0eac6aac1a2086eb931f1404d8f2d193a5d6bb6cfae68161fd3da4
+ed8f723f8216781a047886244f6f75c0
 ```
 
-If a smaller seed is desired, the `--count` option can specify that the SHA256 be truncated to a fewer number of bytes.
-
 ```
-$ seedtool --in bits --count 16
-00100010011111110100010100010000
-^D
-f5ed0d7a8731424f5a5596dae07c4ced
+#
+# Start by generating 16 random playing cards. You could do this
+# by drawing cards from an actual deck, shuffling between each draw.
+#
 
-$ seedtool --in cards --count 16
-5s4hth3s6s4s4hjdtdtdjckc7d5std6d5d4hqhkh4cks4h4sas5c6c2d6h2s2h2c
-^D
-1046e7b5a12a8c662599d094c939351c
-```
+$ seedtool --out cards
+6c9s8c7c9c4cah6c2sjs7d5c2s4c4dqs
 
-BIP39 and SLIP39 output formats can be combined with various other input formats. If the `--count N` option is used with the `hex` input format, it results in only the first `N` bytes of the input being used. If the `--count N` option is used with other input formats, it results in only the first `N` bytes of the SHA256 (computed as described above) to be used.
+#
+# Construct a 16-byte seed from those playing cards, providing
+# them on the command line.
+#
 
-```
-$ seedtool --in hex --out bip39
-65d68e2855c2dd7b246de65997b016c3209b78782c8305cc30d75af681dc48bd
-^D
-clay notable jeans deliver mass nut claim rib double trick will awful ability lonely toss cloth myth heart box just fat disease prefer stool
+$ seedtool --in cards 6c9s8c7c9c4cah6c2sjs7d5c2s4c4dqs
+2bcd58e32a6fa0f55b6a2e24d77e706f
 
-$ seedtool --in dice --count 16 --out slip39 --group 2-of-3
-54242562454251545633432454422543
-^D
-traffic branch academic acid adapt zero erode similar review platform curly knit trend usher distance escape pants machine nylon imply
-traffic branch academic agency best downtown very keyboard story brave famous spelling diminish observe remove corner ticket laden justice capture
-traffic branch academic always climate heat dismiss pencil deny snapshot research legend moment clothes filter memory crucial worthy argue mountain
+#
+# Construct a longer 32-byte seed from those same playing cards.
+#
+
+$ seedtool --count 32 --in cards 6c9s8c7c9c4cah6c2sjs7d5c2s4c4dqs
+2bcd58e32a6fa0f55b6a2e24d77e706fdd165482b36dcab10d271a262097bca4
 ```
 
-BIP39 and SLIP39 can be used as input formats, in which case the original seed is output. Note that the seed returned is *not* the original entropy that was used to create the seed (like dice rolls) but the SHA256 (or part thereof) that was originally used to create the BIP39 words or SLIP39 shares.
+```
+#
+# Construct a 16-byte seed from any number of die rolls. You could
+# do this by rolling actual dice.
+#
+
+$ seedtool --in dice 3343462611234633
+d28e978aba2967adb66d4fec42ea6086
+
+#
+# Construct a 16-byte seed from any number of digits in [0-5].
+#
+
+$ seedtool --in base6 3242235101442242
+e57ff8f262fbeb623a2a86baa52935f0
+
+#
+# Construct a 16-byte seed from any number of digits in [0-9].
+#
+
+$ seedtool --in base10 3190125
+61cfda662ecb32294f508fdac513ed9d
+
+#
+# Construct a 16-byte seed from any number of integers in [0-255].
+#
+$ seedtool --in ints 71 22 95 6 23 65 27 10 67 16
+a38385ba7a67b7f5882b37f75b43c2df
+```
+
+Output of one call to seedtool can be piped into another.
 
 ```
+#
+# Roll 16 dice and create a 32-byte seed from them.
+#
+
+$ seedtool --out dice | seedtool --in dice --count 32
+838e8c1f73d06282d852733e564430afd0ce2162a734c506167e4cce0d54a3f6
+
+#
+# Roll 16 dice saving them to a file, and create a 16-byte seed
+# from them.
+#
+
+$ seedtool --out dice | tee dice.asc | seedtool --in dice
+b67a2f937179e532821cfd9836aa56d4
+$ cat dice.asc 
+4265544111216531
+```
+
+If a smaller or larger seed is desired, the `--count` option specifies how many bytes it contains.
+
+```
+#
+# Create an 8-byte seed from any number of bits.
+#
+
+$ seedtool --in bits --count 8 0111100011000011
+1e4914918ce8f4dc
+
+#
+# Create a 32-byte seed from any number of bits.
+#
+
+$ seedtool --in bits --count 32 0111100011000011
+1e4914918ce8f4dc08755e0b4f97fb6d4715ce9692a91ef600526543543f1af1
+
+#
+# Create a 20-byte seed from any number of playing cards.
+#
+
+$ seedtool --in cards --count 20 6c2c3hthacts6d4hkhtd2d7c6c3sqs6h
+f44c7708363d99857e60cb313a803902a5363336
+```
+
+`bip39` and `slip39` output formats can be combined with the `random` (default) input format. If the `--count N` option is used with the `hex` input format, it results in a seed of `N` bytes being generated and used.
+
+```
+#
+# Create a random 16-byte seed and display it as BIP39.
+#
+
+$ seedtool --out bip39
+monitor place true skirt uncover scissors tower alley fame grunt sun outer
+
+#
+# Create a random 32-byte seed and display it as a single
+# SLIP39 share.
+#
+
+$ seedtool --in random --out slip39 --count 32
+pumps guest academic academic analysis election admit harvest very webcam acquire answer primary viral venture declare have short bucket pickup pistol squeeze script racism western alarm depend depart lilac zero capacity capture warn
+```
+
+`bip39` and `slip39` output formats can be combined with the `hex` input format. The `--count` option is not allowed and the whole hex seed is used. For `bip39` the seed must be 12-32 bytes and even. For `slip39` the seed must be 16-32 bytes and even.
+
+```
+#
+# Start by generating a random 16-byte seed.
+#
+
+$ seedtool --out hex
+8a3796240f6a9606a577c887f2e5c83a
+
+#
+# Input the seed above and display it as BIP39.
+#
+
+$ seedtool --in hex --out bip39 8a3796240f6a9606a577c887f2e5c83a
+mechanic royal math burst practice addict noise weekend margin now improve invest
+
+#
+# The --count option is not available when providing the
+# seed yourself.
+#
+
+$ seedtool --count 12 --in hex --out bip39 8a3796240f6a9606a577c887f2e5c83a
+seedtool: The --count option is not available for hex input.
+
+#
+# The seed you provide must conform to the output format constraints.
+#
+
+$ seedtool --in hex --out bip39 8a3796240f6a
+seedtool: Invalid seed length for BIP39. Must be in [12-32] and even.
+```
+
+`bip39` can be used as an input format, in which case the original seed is recovered. The BIP39 mnemonic sequence may be passed as one or more arguments on the command line, or entered via stdin.
+
+```
+#
+# Recover a seed from a BIP39 mnemonic sequence, providing each
+# word as a separate argument on the command line.
+#
+
+$ seedtool --in bip39 mechanic royal math burst practice addict noise weekend margin now improve invest
+8a3796240f6a9606a577c887f2e5c83a
+
+#
+# Recover from the same BIP39 mnemonic sequence, providing all
+# words as a single (quoted) argument on the command line.
+#
+
+$ seedtool --in bip39 "mechanic royal math burst practice addict noise weekend margin now improve invest"
+8a3796240f6a9606a577c887f2e5c83a
+
+#
+# Recover from the same BIP39 mnemonic sequence, providing all
+# the words via stdin.
+#
+
 $ seedtool --in bip39
-clay notable jeans deliver mass nut claim rib double trick will awful ability lonely toss cloth myth heart box just fat disease prefer stool
+mechanic royal math burst practice addict noise weekend margin now improve invest
 ^D
-65d68e2855c2dd7b246de65997b016c3209b78782c8305cc30d75af681dc48bd
+8a3796240f6a9606a577c887f2e5c83a
+```
+
+`slip39` can be used as an input format, in which case the original seed is recovered. The SLIP39 shares may be passed on the command line or entered via stdin. If passed on the command line, the shares must each be a single argument (i.e., quoted). If passed via stdin, each share must appear by itself on one line.
+
+```
+#
+# Recover a seed from a SLIP39 share, providing the entire share
+# as a single (quoted) argument on the command line.
+#
+
+$ seedtool --in slip39 "activity away academic academic debut usher impact evidence worthy check vampire famous gums screw upstairs reunion practice welcome surface pink"
+6c641757596dfefb95863b13f5f8a247
+
+#
+# Recover from the same SLIP39 share, providing the share via stdin.
+#
 
 $ seedtool --in slip39
-traffic branch academic acid adapt zero erode similar review platform curly knit trend usher distance escape pants machine nylon imply
-traffic branch academic always climate heat dismiss pencil deny snapshot research legend moment clothes filter memory crucial worthy argue mountain
+activity away academic academic debut usher impact evidence worthy check vampire famous gums screw upstairs reunion practice welcome surface pink
 ^D
-ae752acc827ea8c02c6cc2f57370a50f
+6c641757596dfefb95863b13f5f8a247
+
+#
+# The same SLIP39 share is used as above, but since it is not
+# quoted, seedtool tries to use each word as a single share and
+# fails to recover the seed.
+#
+
+$ seedtool --in slip39 activity away academic academic debut usher impact evidence worthy check vampire famous gums screw upstairs reunion practice welcome surface pink
+seedtool: Invalid SLIP39 shares.
+
+```
+ 
+In this example, 2 shares of a 2-of-3 split are entered on the command line (each separately quoted) and via stdin (each on its own separate line.)
+
+```
+#
+# Generate a random 16-byte seed and display it as SLIP39 in a
+# single group requiring 2-of-3 shares.
+#
+
+$ seedtool --out slip39 --group 2-of-3
+cowboy leader academic acid critical employer aspect stick result much camera favorite smirk domestic staff phantom fake result slush loud
+cowboy leader academic agency biology imply grasp buyer strategy founder alive hybrid cultural forget maiden playoff analysis home moment snapshot
+cowboy leader academic always benefit crisis quick tendency decision being curious priority evoke welfare hour burning champion tracks maiden salary
+
+#
+# Recover from the first and third shares above, providing each
+# separately quoted on the command line.
+#
+
+$ seedtool --in slip39 "cowboy leader academic acid critical employer aspect stick result much camera favorite smirk domestic staff phantom fake result slush loud" "cowboy leader academic always benefit crisis quick tendency decision being curious priority evoke welfare hour burning champion tracks maiden salary"
+747008a3b462468c5c3e62bf692349d0
+
+#
+# Recover from the first and third shares above, providing each
+# on its own separate line via stdin.
+#
+
+$ seedtool --in slip39
+cowboy leader academic acid critical employer aspect stick result much camera favorite smirk domestic staff phantom fake result slush loud
+cowboy leader academic always benefit crisis quick tendency decision being curious priority evoke welfare hour burning champion tracks maiden salary
+^D
+747008a3b462468c5c3e62bf692349d0
 ```
 
 ## Deterministic Randomness
-Normally seedtool uses a cryptographically-strong random number generator provided by the operating system. This is also used when constructing SLIP39 shares, so the same entropy input will yield the different shares each time.
+
+When using the `--in random` (default input format) option, seedtool uses a cryptographically-strong random number generator provided by the operating system. The same random number generator is also used when constructing SLIP39 shares, so the same entropy input will yield different shares each time.
+
+```
+#
+# Generate entropy. You could do this by rolling real dice.
+#
+
+$ seedtool --out dice
+5343553122555345
+
+#
+# Construct seed from entropy.
+#
+
+$ seedtool --in dice 5343553122555345
+122540402a49e1abb75c9d2754db1ce1
+
+#
+# Construct SLIP39 share from seed.
+#
+
+$ seedtool --in hex --out slip39 122540402a49e1abb75c9d2754db1ce1
+device aluminum academic academic crush engage exercise acquire genuine necklace radar twice tension photo float walnut remove lecture maximum biology
+
+#
+# Recover the seed from the SLIP39 share.
+#
+
+$ seedtool --in slip39 "device aluminum academic academic crush engage exercise acquire genuine necklace radar twice tension photo float walnut remove lecture maximum biology"
+122540402a49e1abb75c9d2754db1ce1
+
+#
+# Again construct SLIP39 share from the same seed. Notice the
+# share is different than last time.
+#
+
+$ seedtool --in hex --out slip39 122540402a49e1abb75c9d2754db1ce1
+aunt branch academic academic declare pajamas firefly costume wrote advocate payroll ting answer graduate helpful column dilemma realize cylinder stilt
+
+#
+# Recover the second share and notice that the seed is the same.
+#
+
+$ seedtool --in slip39 "aunt branch academic academic declare pajamas firefly costume wrote advocate payroll ting answer graduate helpful column dilemma realize cylinder stilt"
+122540402a49e1abb75c9d2754db1ce1
+```
+
 
 Seedtool also provides the `--deterministic S` option, which takes a string `S`, produces the SHA256 hash of that string, and then uses that to seed it's own cryptography-quality random number generator it uses for the rest of its run. This means that seeds generated by seedtool with the same `--deterministic` input will yield the same results.
 
-In the example below, seedtool is run with a  `--deterministic test` twice, producing the same results. In the third run the string is `test2`, producing different, yet still deterministic results.
-
 ```
-$ seedtool --deterministic test
-3b1e91644fd5475251f55d3ba98d3956bd7c73ce478afb5ce047682a4417e292
+#
+# Generate a 16-byte seed using deterministic randomness.
+#
 
 $ seedtool --deterministic test
-3b1e91644fd5475251f55d3ba98d3956bd7c73ce478afb5ce047682a4417e292
+d551108c3e7831532beded6b29438683
+
+#
+# Notice that using the same value for --deterministic results
+# in the same output.
+#
+
+$ seedtool --deterministic test
+d551108c3e7831532beded6b29438683
+
+#
+# Using a different value for --deterministic results in
+# different output.
+#
 
 $ seedtool --deterministic test2
 68b275e740cb5f89bb5444694aaa2dbc82ab6aa4d9869b3995cb6aa3c622e6d1
 ```
 
-In this example, the same entropy is used twice in producing a SLIP39 share, which would normally result in two different shares being produced. But by providing `--deterministic test`, the same results are produced. In the third run, there is no `--deterministic` option, so different, truly randomized shares are produced even though the input entropy is the same.
+In this example, the same entropy is used twice in producing a SLIP39 share, which would normally result in two different shares being produced. But by providing `--deterministic FOOBAR`, the same results are produced.
 
 ```
-$ seedtool --deterministic test --in dice --count 16 --out slip39 --group 2-of-3
-5253423623323232
-^D
-peaceful traffic academic acid artwork else mixed twice standard fishing railroad safari herald ceramic training famous axle mandate lyrics aunt
-peaceful traffic academic agency carbon sprinkle echo secret slow market idea intend counter home pajamas silver flash edge slow upgrade
-peaceful traffic academic always critical jury depend beyond clock weapon dynamic practice threaten river isolate husky funding welcome have priority
+#
+# Generate 16 die rolls using deterministic randomness.
+#
 
-$ seedtool --deterministic test --in dice --count 16 --out slip39 --group 2-of-3
-5253423623323232
-^D
-peaceful traffic academic acid artwork else mixed twice standard fishing railroad safari herald ceramic training famous axle mandate lyrics aunt
-peaceful traffic academic agency carbon sprinkle echo secret slow market idea intend counter home pajamas silver flash edge slow upgrade
-peaceful traffic academic always critical jury depend beyond clock weapon dynamic practice threaten river isolate husky funding welcome have priority
+$ seedtool --deterministic FOOBAR --out dice
+1533324122434244
 
-$ seedtool --in dice --count 16 --out slip39 --group 2-of-3
-5253423623323232
-^D
-distance isolate academic acid campus upgrade much luck grin material voting forward pencil union worthy demand decent armed switch equation
-distance isolate academic agency alto payment tension river script prevent lair solution agree remind destroy learn earth industry oral bishop
-distance isolate academic always costume fiber behavior flame pancake slice luxury flea gesture ecology herd flavor daisy voting wavy cradle
+#
+# Use our die rolls to generate a 16-byte seed.
+#
+
+$ seedtool --in dice 1533324122434244
+b00248aedff06ea356a6f0e362ed8a07
+
+#
+# Display our seed as a SLIP39 2-of-3 shares, using
+# deterministic randomness.
+#
+
+$ seedtool --deterministic FOOBAR --in hex --out slip39 --group 2-of-3 b00248aedff06ea356a6f0e362ed8a07
+response lunch academic acid counter angel bucket trust guitar increase divorce stilt gasoline junk hearing crunch sprinkle sheriff pile salon
+response lunch academic agency buyer wisdom salary mason superior tracks glasses picture adult capacity ultimate pistol biology enjoy snake satisfy
+response lunch academic always alto wrap scroll music entrance easy lunch describe champion receiver artwork mouse false morning thunder video
+
+#
+# Do all of the above on a single line, and note that because
+# of deterministic randomness, the same final output is produced.
+#
+
+$ seedtool --deterministic FOOBAR --out dice | seedtool --in dice | seedtool --deterministic FOOBAR --in hex --out slip39 --group 2-of-3
+response lunch academic acid counter angel bucket trust guitar increase divorce stilt gasoline junk hearing crunch sprinkle sheriff pile salon
+response lunch academic agency buyer wisdom salary mason superior tracks glasses picture adult capacity ultimate pistol biology enjoy snake satisfy
+response lunch academic always alto wrap scroll music entrance easy lunch describe champion receiver artwork mouse false morning thunder video
 ```
+
+## Version History
+
+**1.0.0b1, 4/8/2020:** First test release.

@@ -52,14 +52,15 @@ $(distdir): FORCE
 	cp $(srcdir)/bootstrap.sh $(distdir)
 	cp $(srcdir)/configure.ac $(distdir)
 	cp $(srcdir)/configure $(distdir)
-	cp $(srcdir)/config.h.in $(distdir)
 	cp $(srcdir)/install-sh $(distdir)
 	cp $(srcdir)/Makefile.in $(distdir)
-	cp $(srcdir)/src/Makefile.in $(distdir)/src
 	cp $(srcdir)/.gitignore $(distdir)
+	cp $(srcdir)/src/Makefile.in $(distdir)/src
+	cp $(srcdir)/src/config.h.in $(distdir)/src
 	cp $(srcdir)/src/*.c $(distdir)/src
 	cp $(srcdir)/src/*.cpp $(distdir)/src
 	cp $(srcdir)/src/*.h $(distdir)/src
+	cp $(srcdir)/src/*.hpp $(distdir)/src
 
 .PHONY: distcheck
 distcheck: $(tarball)

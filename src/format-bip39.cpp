@@ -35,7 +35,9 @@ void FormatBIP39::process_input(Params* p) {
 }
 
 void FormatBIP39::process_output(Params* p) {
-    if(!is_seed_length_valid(p->seed.size())) { return; }
+    if(!is_seed_length_valid(p->seed.size())) {
+        throw runtime_error("Invalid seed length for BIP39. Must be in [12-32] and even.");
+    }
 
     size_t max_mnemonics_len = 300;
     char mnemonics[max_mnemonics_len];

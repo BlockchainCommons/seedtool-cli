@@ -52,7 +52,7 @@ static vector<uint8_t> combine(vector<string> shares) {
 
     auto combine_result = slip39_combine(
         (const uint16_t **)&shares_words_pointers[0], words_in_each_share, shares.size(),
-        "TREZOR", NULL, &result[0], result.size());
+        "", NULL, &result[0], result.size());
 
     for(auto v: shares_words) {
         delete v;
@@ -73,7 +73,9 @@ void FormatSLIP39::process_input(Params* p) {
 }
 
 void FormatSLIP39::process_output(Params* p) {
-    if(!is_seed_length_valid(p->seed.size())) { return; }
+    if(!is_seed_length_valid(p->seed.size())) {
+        throw runtime_error("Invalid seed length for SLIP39. Must be in [16-32] and even.");
+    }
 
     const char* password = "";
 

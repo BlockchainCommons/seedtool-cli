@@ -16,6 +16,7 @@
 #include "params.hpp"
 #include "utils.hpp"
 #include "formats-all.hpp"
+#include "config.h"
 
 using namespace std;
 
@@ -153,6 +154,9 @@ group_descriptor Params::parse_group_spec(const string &string) {
     if(!(0 < threshold && threshold <= count && count <= 16)) {
         argp_error(state, "Invalid group specifier \"%s\": 1 <= N <= M <= 16", string.c_str());
     }
+    if(count > 1 && threshold == 1) {
+        argp_error(state, "Invalid group specifier. 1-of-M groups where M > 1 are not supported.");
+    }
     group_descriptor g;
     g.threshold = threshold;
     g.count = count;
@@ -221,10 +225,19 @@ void Params::validate_input() {
     }
 }
 
+void Params::validate_count_for_input_format() {
+    if (dynamic_cast<FormatHex*>(input_format) != NULL) {
+        if (!raw.count.empty()) {
+            argp_error(state, "The --count option is not available for hex input.");
+        }
+    }
+}
+
 void Params::validate() {
     validate_count();
     validate_deterministic();
     validate_input_format();
+    validate_count_for_input_format();
     validate_output_format();
     validate_output_for_input();
     validate_ints_specific();
@@ -279,20 +292,20 @@ struct argp_option options[] = {
     {"low < high", 0, 0, OPTION_DOC, 0},
 
     {0, 0, 0, 0, "SLIP39 Output Options:", 2},
-    {"group-threshold", 't', "1-16", 0, "The number of groups that must contribute (default: 1)"},
+    {"group-threshold", 't', "1-16", 0, "The number of groups that must meet their threshold (default: 1)"},
     {"group", 'g', "M-of-N", 0, "The group specification (default: 1-of-1)"},
     {"The --group option may appear more than once.", 0, 0, OPTION_DOC, 0},
     {"M < N", 0, 0, OPTION_DOC, 0},
     {"The group threshold must be <= the number of group specifications.", 0, 0, OPTION_DOC, 0},
 
     {0, 0, 0, 0, "Deterministic Random Numbers:", 3},
-    {"deterministic", 'd', "SEED", 0, "Use a deterministic random number generator with SEED"},
+    {"deterministic", 'd', "SEED", 0, "Use a deterministic random number generator with the given seed."},
 
     { 0 }
 };
 
-auto argp_program_version = "1.0";
-// const char* argp_program_bug_address = "who@dunnit.com";
+auto argp_program_version = PACKAGE_VERSION;
+const char* argp_program_bug_address = "ChristopherA@LifeWithAlacrity.com";
 
 auto doc = "Converts cryptographic seeds between various forms.";
 struct argp argp = { options, parse_opt, "INPUT", doc };

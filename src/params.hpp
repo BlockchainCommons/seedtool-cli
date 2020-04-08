@@ -76,6 +76,7 @@ private:
     void validate_count();
     void validate_deterministic();
     void validate_input_format();
+    void validate_count_for_input_format();
     void validate_output_format();
     void validate_output_for_input();
     void validate_ints_specific();
