@@ -7,6 +7,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdexcept>
 
 #include <bc-crypto-base/bc-crypto-base.h>
 
@@ -37,7 +38,7 @@ void deterministic_random(uint8_t* buf, size_t n) {
     NULL, 0);
 }
 
-std::vector<uint8_t> deterministic_random(std::vector<uint8_t> entropy, size_t n) {
+std::vector<uint8_t> deterministic_random(const std::vector<uint8_t> &entropy, size_t n) {
     std::vector<uint8_t> result;
     result.resize(n);
 
@@ -49,4 +50,21 @@ std::vector<uint8_t> deterministic_random(std::vector<uint8_t> entropy, size_t n
     NULL, 0); // no info
 
     return result;
+}
+
+std::vector<uint8_t> sha256_deterministic_random(const std::vector<uint8_t> &entropy, size_t n) {
+    auto seed = sha256(entropy);
+    if(n <= seed.size()) {
+        return take(seed, n);
+    } else {
+        throw std::runtime_error("Random number generator limits reached.");
+    }
+}
+
+std::vector<uint8_t> sha256_deterministic_random(const std::string &string, size_t n) {
+    std::vector<uint8_t> entropy;
+    for(auto c: string) {
+        entropy.push_back(c);
+    }
+    return sha256_deterministic_random(entropy, n);
 }
