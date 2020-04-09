@@ -1,6 +1,6 @@
 # 🌱 Seedtool
 
-**Version 1.0.0b1**<br/>**April 8, 2020**
+**Version 0.1.1**<br/>**April 8, 2020**
 
 *Copyright © 2020 by Blockchain Commons, LLC*<br/>*Licensed under the "BSD-2-Clause Plus Patent License"*
 
@@ -230,7 +230,7 @@ $ seedtool --out bits
 #
 
 $ seedtool --in bits 1110110001110111
-ed8f723f8216781a047886244f6f75c0
+8d933e43b1bc8f2e3fc27adc98ad4534
 
 #
 # Construct the same seed from those bits, providing them via stdin.
@@ -239,7 +239,7 @@ ed8f723f8216781a047886244f6f75c0
 $ seedtool --in bits
 1110110001110111
 ^D
-ed8f723f8216781a047886244f6f75c0
+8d933e43b1bc8f2e3fc27adc98ad4534
 ```
 
 ```
@@ -257,14 +257,14 @@ $ seedtool --out cards
 #
 
 $ seedtool --in cards 6c9s8c7c9c4cah6c2sjs7d5c2s4c4dqs
-2bcd58e32a6fa0f55b6a2e24d77e706f
+7df301924511326d7350be14c9e7176d
 
 #
 # Construct a longer 32-byte seed from those same playing cards.
 #
 
 $ seedtool --count 32 --in cards 6c9s8c7c9c4cah6c2sjs7d5c2s4c4dqs
-2bcd58e32a6fa0f55b6a2e24d77e706fdd165482b36dcab10d271a262097bca4
+7df301924511326d7350be14c9e7176d98e945f9ad0ed034726ad4ee0de59c25
 ```
 
 ```
@@ -274,21 +274,21 @@ $ seedtool --count 32 --in cards 6c9s8c7c9c4cah6c2sjs7d5c2s4c4dqs
 #
 
 $ seedtool --in dice 3343462611234633
-d28e978aba2967adb66d4fec42ea6086
+77ae0de807d60367311eb040c70690d2
 
 #
 # Construct a 16-byte seed from any number of digits in [0-5].
 #
 
 $ seedtool --in base6 3242235101442242
-e57ff8f262fbeb623a2a86baa52935f0
+51621269b3a91fe6482ceb7779f0d1d1
 
 #
 # Construct a 16-byte seed from any number of digits in [0-9].
 #
 
 $ seedtool --in base10 3190125
-61cfda662ecb32294f508fdac513ed9d
+a0ca21e20db54b4df7479737c145f6db
 
 #
 # Construct a 16-byte seed from any number of integers in [0-255].
@@ -305,7 +305,7 @@ Output of one call to seedtool can be piped into another.
 #
 
 $ seedtool --out dice | seedtool --in dice --count 32
-838e8c1f73d06282d852733e564430afd0ce2162a734c506167e4cce0d54a3f6
+7bdf68608e30da4b9ec48af0cb48f2601b41d1bcc8859b4f625d6c0470f3a6dd
 
 #
 # Roll 16 dice saving them to a file, and create a 16-byte seed
@@ -313,9 +313,9 @@ $ seedtool --out dice | seedtool --in dice --count 32
 #
 
 $ seedtool --out dice | tee dice.asc | seedtool --in dice
-b67a2f937179e532821cfd9836aa56d4
+c13be193c8e3451a20b75e8dc0f69284
 $ cat dice.asc 
-4265544111216531
+4435442555226432
 ```
 
 If a smaller or larger seed is desired, the `--count` option specifies how many bytes it contains.
@@ -326,21 +326,21 @@ If a smaller or larger seed is desired, the `--count` option specifies how many 
 #
 
 $ seedtool --in bits --count 8 0111100011000011
-1e4914918ce8f4dc
+1a4783f9e4e8eb68
 
 #
 # Create a 32-byte seed from any number of bits.
 #
 
 $ seedtool --in bits --count 32 0111100011000011
-1e4914918ce8f4dc08755e0b4f97fb6d4715ce9692a91ef600526543543f1af1
+1a4783f9e4e8eb6862cbd34acfe4f79ee8ee4e0e6f5726e589a36c7e8bf8a547
 
 #
 # Create a 20-byte seed from any number of playing cards.
 #
 
 $ seedtool --in cards --count 20 6c2c3hthacts6d4hkhtd2d7c6c3sqs6h
-f44c7708363d99857e60cb313a803902a5363336
+731e0a4c76189b2b55f4c705ccbb0105d3ee72c0
 ```
 
 `bip39` and `slip39` output formats can be combined with the `random` (default) input format. If the `--count N` option is used with the `hex` input format, it results in a seed of `N` bytes being generated and used.
@@ -506,36 +506,36 @@ $ seedtool --out dice
 #
 
 $ seedtool --in dice 5343553122555345
-122540402a49e1abb75c9d2754db1ce1
+5d1c30bbc6f3cfd070067b63c851ffe7
 
 #
 # Construct SLIP39 share from seed.
 #
 
-$ seedtool --in hex --out slip39 122540402a49e1abb75c9d2754db1ce1
-device aluminum academic academic crush engage exercise acquire genuine necklace radar twice tension photo float walnut remove lecture maximum biology
+$ seedtool --in hex --out slip39 5d1c30bbc6f3cfd070067b63c851ffe7
+edge enlarge academic academic body necklace surprise resident burden taxi painting slim research teammate peasant ivory weapon gesture voice flexible
 
 #
 # Recover the seed from the SLIP39 share.
 #
 
-$ seedtool --in slip39 "device aluminum academic academic crush engage exercise acquire genuine necklace radar twice tension photo float walnut remove lecture maximum biology"
-122540402a49e1abb75c9d2754db1ce1
+$ seedtool --in slip39 "edge enlarge academic academic body necklace surprise resident burden taxi painting slim research teammate peasant ivory weapon gesture voice flexible"
+5d1c30bbc6f3cfd070067b63c851ffe7
 
 #
 # Again construct SLIP39 share from the same seed. Notice the
 # share is different than last time.
 #
 
-$ seedtool --in hex --out slip39 122540402a49e1abb75c9d2754db1ce1
-aunt branch academic academic declare pajamas firefly costume wrote advocate payroll ting answer graduate helpful column dilemma realize cylinder stilt
+$ seedtool --in hex --out slip39 5d1c30bbc6f3cfd070067b63c851ffe7
+result leader academic academic apart length alcohol adult patrol military counter enjoy animal standard club facility belong rumor problem answer
 
 #
 # Recover the second share and notice that the seed is the same.
 #
 
-$ seedtool --in slip39 "aunt branch academic academic declare pajamas firefly costume wrote advocate payroll ting answer graduate helpful column dilemma realize cylinder stilt"
-122540402a49e1abb75c9d2754db1ce1
+$ seedtool --in slip39 "result leader academic academic apart length alcohol adult patrol military counter enjoy animal standard club facility belong rumor problem answer"
+5d1c30bbc6f3cfd070067b63c851ffe7
 ```
 
 
@@ -563,7 +563,7 @@ d551108c3e7831532beded6b29438683
 #
 
 $ seedtool --deterministic test2
-68b275e740cb5f89bb5444694aaa2dbc82ab6aa4d9869b3995cb6aa3c622e6d1
+a97770028023ece0f9307bf867b4c740
 ```
 
 In this example, the same entropy is used twice in producing a SLIP39 share, which would normally result in two different shares being produced. But by providing `--deterministic FOOBAR`, the same results are produced.
@@ -581,17 +581,17 @@ $ seedtool --deterministic FOOBAR --out dice
 #
 
 $ seedtool --in dice 1533324122434244
-b00248aedff06ea356a6f0e362ed8a07
+5cd271b50b98a869da1c26a526e1d3a8
 
 #
 # Display our seed as a SLIP39 2-of-3 shares, using
 # deterministic randomness.
 #
 
-$ seedtool --deterministic FOOBAR --in hex --out slip39 --group 2-of-3 b00248aedff06ea356a6f0e362ed8a07
-response lunch academic acid counter angel bucket trust guitar increase divorce stilt gasoline junk hearing crunch sprinkle sheriff pile salon
-response lunch academic agency buyer wisdom salary mason superior tracks glasses picture adult capacity ultimate pistol biology enjoy snake satisfy
-response lunch academic always alto wrap scroll music entrance easy lunch describe champion receiver artwork mouse false morning thunder video
+$ seedtool --deterministic FOOBAR --in hex --out slip39 --group 2-of-3 5cd271b50b98a869da1c26a526e1d3a8
+response lunch academic acid breathe ocean mixture traffic object sheriff rapids victim froth testify retreat patent prize human usual hobo
+response lunch academic agency activity fiber escape research earth pipeline prevent prepare activity erode grumpy problem justice vampire tension custody
+response lunch academic always crisis cards chemical expect muscle anxiety training thunder climate plan geology bulb scatter teacher gravity guilt
 
 #
 # Do all of the above on a single line, and note that because
@@ -599,11 +599,40 @@ response lunch academic always alto wrap scroll music entrance easy lunch descri
 #
 
 $ seedtool --deterministic FOOBAR --out dice | seedtool --in dice | seedtool --deterministic FOOBAR --in hex --out slip39 --group 2-of-3
-response lunch academic acid counter angel bucket trust guitar increase divorce stilt gasoline junk hearing crunch sprinkle sheriff pile salon
-response lunch academic agency buyer wisdom salary mason superior tracks glasses picture adult capacity ultimate pistol biology enjoy snake satisfy
-response lunch academic always alto wrap scroll music entrance easy lunch describe champion receiver artwork mouse false morning thunder video
+response lunch academic acid breathe ocean mixture traffic object sheriff rapids victim froth testify retreat patent prize human usual hobo
+response lunch academic agency activity fiber escape research earth pipeline prevent prepare activity erode grumpy problem justice vampire tension custody
+response lunch academic always crisis cards chemical expect muscle anxiety training thunder climate plan geology bulb scatter teacher gravity guilt
+```
+
+## Compatibility
+
+* seedtool has been tested to give the same results as [Ian Coleman's BIP39 tool](https://iancoleman.io/bip39/) for the following input methods: `base6`, `base10`, `bits`, and `dice`.
+* `hex` as an input method is already compatible if used with his tool in "raw entropy" mode.
+* `cards` is not currently compatible.
+
+The example below can be replicated using Coleman's tool and selecting the following options:
+
+* Show entropy
+* Base: 10
+* Entropy: 123456
+* Mnemonic length: 12 words
+
+```
+$ seedtool --in base10 123456 | seedtool --in hex --out bip39
+mirror reject rookie talk pudding throw happy era myth already payment owner
 ```
 
 ## Version History
 
-**1.0.0b1, 4/8/2020:** First test release.
+### 0.1.1, 4/8/2020
+
+* Added compatibility with Ian Coleman's BIP39 tool for several input formats:
+    * `base6`, `base10`, `bits`, and `dice` are now compatible.
+    * `hex` as an input method is already compatible if used with his tool in "raw entropy" mode.
+    * `cards` is not compatible as his algorithm is complex and possibly not worth spending the time on.
+* Updated MANUAL.md examples to remain accurate.
+* Added a section on Compatibility with other tools to MANUAL.md.
+
+### 0.1.0, 4/8/2020
+
+* First test release.

@@ -91,7 +91,7 @@ We do ask that you offer us good faith and use best efforts not to leak informat
 
 ## Reporting a Vulnerability
 
-Please report suspected security vulnerabilities in private via email to ChristopherA@LifeWithAlacrity.com (do not use this email for support). Please do NOT create publicly viewable issues for suspected security vulnerabilities.
+Please report suspected security vulnerabilities in private via email to ChristopherA@BlockchainCommons.com (do not use this email for support). Please do NOT create publicly viewable issues for suspected security vulnerabilities.
 
 The following keys may be used to communicate sensitive information to developers:
 

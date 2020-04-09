@@ -305,7 +305,7 @@ struct argp_option options[] = {
 };
 
 auto argp_program_version = PACKAGE_VERSION;
-const char* argp_program_bug_address = "ChristopherA@LifeWithAlacrity.com";
+const char* argp_program_bug_address = "ChristopherA@BlockchainCommons.com. © 2020 Blockchain Commons";
 
 auto doc = "Converts cryptographic seeds between various forms.";
 struct argp argp = { options, parse_opt, "INPUT", doc };

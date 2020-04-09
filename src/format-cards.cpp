@@ -16,9 +16,10 @@
 
 using namespace std;
 
-// https://en.wikipedia.org/wiki/High_card_by_suit
-static const vector<char> card_suits = { 'd', 'c', 'h', 's' };
-static const vector<char> card_ranks = { 'a', '2', '3', '4', '5', '6', '7', '8', '9', 't', 'j', 'q', 'k'};
+// Arrangement of cards per:
+// https://github.com/iancoleman/bip39/blob/master/src/js/entropy.js
+static const string card_suits = "cdhs";
+static const string card_ranks = "a23456789tjqk";
 
 static size_t parse_rank(char c) {
     c = tolower(c);
@@ -61,6 +62,10 @@ vector<uint8_t> cards_to_data(const string& cards) {
 
 void FormatCards::process_input(Params* p) {
     auto input = p->get_one_argument();
+
+    // NOT currently compatible with with https://iancoleman.io/bip39/
+    // https://github.com/iancoleman/bip39/blob/54600393af3293dc9e0f222b24ebd07b63824330/src/js/entropy.js#L245
+
     auto entropy = cards_to_data(input);
     p->seed = deterministic_random(entropy, p->count);
 }
