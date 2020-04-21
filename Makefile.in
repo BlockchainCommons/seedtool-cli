@@ -23,6 +23,11 @@ bindir = @bindir@
 srcdir = @srcdir@
 VPATH = @srcdir@
 
+# Terminal colors
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+RESET=`tput sgr0`
+
 .PHONY: all clean seedtool check
 all clean seedtool check:
 	cd src && $(MAKE) $@
@@ -72,12 +77,12 @@ distcheck: $(tarball)
 	cd $(distdir) && $(MAKE) DESTDIR=$${PWD}/_inst uninstall
 	@remaining="`find $(distdir)/_inst -type f | wc -l`"; \
 		if test "$${remaining}" -ne 0; then \
-			echo "*** $${remaining} file(s) remaining in stage directory!"; \
+			echo "$(RED)*** $${remaining} file(s) remaining in stage directory!$(RESET)"; \
 			exit 1; \
 		fi
 	cd $(distdir) && $(MAKE) clean
 	rm -rf $(distdir)
-	@echo "*** Package $(tarball) is ready for distribution."
+	@echo "$(GREEN)*** Package $(tarball) is ready for distribution.$(RESET)"
 
 .PHONY: FORCE
 FORCE:

@@ -21,6 +21,11 @@ bindir = @bindir@
 srcdir = @srcdir@
 VPATH = @srcdir@
 
+# Terminal colors
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+RESET=`tput sgr0`
+
 COMPILER = g++
 CFLAGS = --debug -O0
 CXXFLAGS = -std=c++17 -stdlib=libc++ --debug -O0
