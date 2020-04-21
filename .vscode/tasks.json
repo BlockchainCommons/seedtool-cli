@@ -1,0 +1,68 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Configure",
+            "type": "shell",
+            "command": "./configure",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "make all && dsymutil src/seedtool",
+            "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Test",
+            "type": "shell",
+            "command": "make check",
+            "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Distribution Test",
+            "type": "shell",
+            "command": "make distcheck",
+            "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] },
+            "group": "test"
+        },
+        {
+            "label": "Distribution",
+            "type": "shell",
+            "command": "make dist",
+            "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] }
+        },
+        {
+            "label": "Distribution Clean",
+            "type": "shell",
+            "command": "make distclean",
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "make clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "Install",
+            "type": "shell",
+            "command": "sudo make install",
+            "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] }
+        },
+        {
+            "label": "Uninstall",
+            "type": "shell",
+            "command": "sudo make uninstall",
+            "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] }
+        }
+    ]
+}

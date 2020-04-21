@@ -1,0 +1,99 @@
+# @configure_input@
+
+#
+#  Makefile.in
+#
+#  Copyright © 2020 by Blockchain Commons, LLC
+#  Licensed under the "BSD-2-Clause Plus Patent License"
+#
+
+# Package-specific substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+tarname = @PACKAGE_TARNAME@
+distdir = $(tarname)-$(version)
+tarball = $(distdir).tar.gz
+
+# Prefix-specific substitution variables
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+
+# VPATH-specific substitution variables
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+.PHONY: all clean seedtool check
+all clean seedtool check:
+	cd src && $(MAKE) $@
+
+.PHONY: install uninstall
+install uninstall:
+	cd src && $(MAKE) $@
+
+.PHONY: dist
+dist: $(tarball)
+
+$(tarball): distdir
+	tar chof - $(distdir) | gzip -9 -c > $@
+	rm -rf $(distdir)
+
+distdir: $(distdir)
+
+$(distdir): FORCE
+	mkdir -p $(distdir)/src
+	cp $(srcdir)/CLA.md $(distdir)
+	cp $(srcdir)/CODEOWNERS $(distdir)
+	cp $(srcdir)/CONTRIBUTING.md $(distdir)
+	cp $(srcdir)/LICENSE $(distdir)
+	cp $(srcdir)/README.md $(distdir)
+	cp $(srcdir)/MANUAL.md $(distdir)
+	cp -r $(srcdir)/CLA-signed $(distdir)
+	cp $(srcdir)/bootstrap.sh $(distdir)
+	cp $(srcdir)/configure.ac $(distdir)
+	cp $(srcdir)/configure $(distdir)
+	cp $(srcdir)/install-sh $(distdir)
+	cp $(srcdir)/Makefile.in $(distdir)
+	cp $(srcdir)/.gitignore $(distdir)
+	cp $(srcdir)/src/Makefile.in $(distdir)/src
+	cp $(srcdir)/src/config.h.in $(distdir)/src
+	cp $(srcdir)/src/*.c $(distdir)/src
+	cp $(srcdir)/src/*.cpp $(distdir)/src
+	cp $(srcdir)/src/*.h $(distdir)/src
+	cp $(srcdir)/src/*.hpp $(distdir)/src
+
+.PHONY: distcheck
+distcheck: $(tarball)
+	gzip -cd $(tarball) | tar xvf -
+	cd $(distdir) && ./configure
+	cd $(distdir) && $(MAKE) all
+	cd $(distdir) && $(MAKE) check
+	cd $(distdir) && $(MAKE) DESTDIR=$${PWD}/_inst install
+	cd $(distdir) && $(MAKE) DESTDIR=$${PWD}/_inst uninstall
+	@remaining="`find $(distdir)/_inst -type f | wc -l`"; \
+		if test "$${remaining}" -ne 0; then \
+			echo "*** $${remaining} file(s) remaining in stage directory!"; \
+			exit 1; \
+		fi
+	cd $(distdir) && $(MAKE) clean
+	rm -rf $(distdir)
+	@echo "*** Package $(tarball) is ready for distribution."
+
+.PHONY: FORCE
+FORCE:
+	rm -f $(tarball)
+	rm -rf $(distdir)
+
+config.status: configure
+	./config.status --recheck
+
+.PHONY: distclean
+distclean:
+	cd src && $(MAKE) $@
+	rm -f Makefile
+	rm -rf autom4te.cache
+	rm -f $(tarball)
+	rm -rf $(distdir)
+	rm -f autoscan.log
+	rm -f configure.scan configure.status config.log
+	rm -f config.log config.status config.h

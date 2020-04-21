@@ -1,0 +1,99 @@
+# @configure_input@
+
+#
+#  Makefile.in
+#
+#  Copyright © 2020 by Blockchain Commons, LLC
+#  Licensed under the "BSD-2-Clause Plus Patent License"
+#
+
+# Package-specific substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+tarname = @PACKAGE_TARNAME@
+
+# Prefix-specific substitution variables
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+
+# VPATH-specific substitution variables
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+COMPILER = g++
+CFLAGS = --debug -O0
+CXXFLAGS = -std=c++17 -stdlib=libc++ --debug -O0
+
+toolname = seedtool
+
+.PHONY: all
+all: $(toolname)
+
+OBJS = \
+	seedtool.o \
+	utils.o \
+	params.o \
+	random.o \
+	format.o \
+	format-base6.o \
+	format-base10.o \
+	format-bip39.o \
+	format-bits.o \
+	format-cards.o \
+	format-dice.o \
+	format-hex.o \
+	format-ints.o \
+	format-random.o \
+	format-slip39.o \
+	randombytes.o \
+	hkdf.o
+
+LDFLAGS = -lstdc++ -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -largp
+
+$(toolname): $(OBJS)
+
+seedtool.o: params.hpp format.hpp
+utils.o: utils.hpp
+params.o: params.hpp utils.hpp random.hpp formats-all.hpp
+random.o: random.hpp randombytes.h hkdf.h utils.hpp
+randombytes.o: randombytes.h
+hkdf.o: hkdf.h
+format.o: format.hpp utils.hpp
+formats-all.hpp: format-base6.hpp format-base10.hpp format-bip39.hpp format-bits.hpp format-cards.hpp format-dice.hpp format-hex.hpp format-ints.hpp format-random.hpp format-slip39.hpp
+format-base6.o: format-base6.hpp format.hpp params.hpp random.hpp
+format-base10.o: format-base10.hpp format.hpp params.hpp random.hpp
+format-bip39.o: format-bip39.hpp format.hpp params.hpp random.hpp
+format-bits.o: format-bits.hpp format.hpp params.hpp random.hpp
+format-cards.o: format-cards.hpp format.hpp params.hpp random.hpp
+format-dice.o: format-dice.hpp format.hpp params.hpp random.hpp
+format-hex.o: format-hex.hpp format.hpp params.hpp random.hpp
+format-ints.o: format-ints.hpp format.hpp params.hpp random.hpp
+format-random.o: format-random.hpp format.hpp params.hpp random.hpp
+format-slip39.o: format-slip39.hpp format.hpp params.hpp random.hpp
+
+bindir = $(DESTDIR)/$(prefix)/bin
+
+.PHONY: install
+install: $(toolname)
+	install -d $(bindir)
+	install $(toolname) $(bindir)
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(bindir)/$(toolname)
+	-rmdir $(bindir) >/dev/null 2>&1
+
+.PHONY: check
+check: $(toolname)
+	./$(toolname)
+
+.PHONY: clean
+clean:
+	rm -f $(toolname) *.o
+	rm -rf *.dSYM
+
+.PHONY: distclean
+distclean: clean
+	rm -f Makefile
+	rm -f config.h

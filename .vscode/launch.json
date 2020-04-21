@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // You may need to install the extension "CodeLLDB" for debugging to work on Macs with Catalina.
+            "name": "Build and Debug",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/seedtool",
+            "args": [],
+            "cwd": "${workspaceFolder}/src",
+            "preLaunchTask": "Build"
+        }
+    ]
+}
