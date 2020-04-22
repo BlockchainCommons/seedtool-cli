@@ -9,6 +9,9 @@
 /* Define to 1 if you have the `argp' library (-largp). */
 #undef HAVE_LIBARGP
 
+/* Define to 1 if you have the `bc-bech32' library (-lbc-bech32). */
+#undef HAVE_LIBBC_BECH32
+
 /* Define to 1 if you have the `bc-bip39' library (-lbc-bip39). */
 #undef HAVE_LIBBC_BIP39
 

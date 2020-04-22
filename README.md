@@ -10,6 +10,7 @@ If any of the following prerequisites are not installed, the `configure` step be
 * [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
 * [`bc-slip39`](https://github.com/blockchaincommons/bc-slip39)
 * [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
+* [`bc-bech32`](https://github.com/blockchaincommons/bc-bech32)
 * [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html) This may be installed via `brew install argp-standalone`.
 
 ## Installation
