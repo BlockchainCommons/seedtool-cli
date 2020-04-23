@@ -17,3 +17,4 @@
 #include "format-ints.hpp"
 #include "format-random.hpp"
 #include "format-slip39.hpp"
+#include "format-bech32.hpp"

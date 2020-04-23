@@ -62,6 +62,7 @@ void Params::validate_input_format() {
             case Format::Key::ints: input_format = new FormatInts(); break;
             case Format::Key::bip39: input_format = new FormatBIP39(); break;
             case Format::Key::slip39: input_format = new FormatSLIP39(); break;
+            case Format::Key::bech32: input_format = new FormatBech32(); break;
             default:
                 argp_error(state, "Unknown input format: %s", raw.input_format.c_str());
                 break;
@@ -84,6 +85,7 @@ void Params::validate_output_format() {
             case Format::Key::ints: output_format = new FormatInts(); break;
             case Format::Key::bip39: output_format = new FormatBIP39(); break;
             case Format::Key::slip39: output_format = new FormatSLIP39(); break;
+            case Format::Key::bech32: output_format = new FormatBech32(); break;
             default:
                 argp_error(state, "Unknown output format: %s", raw.output_format.c_str());
                 break;
@@ -97,6 +99,11 @@ void Params::validate_output_for_input() {
         return;
     }
 
+    // Any input format works with bech32 output format.
+    if(dynamic_cast<FormatBech32*>(output_format) != NULL) {
+        return;
+    }
+
     // Random input works with any output format.
     if(dynamic_cast<FormatRandom*>(input_format) != NULL) {
         return;
@@ -104,6 +111,11 @@ void Params::validate_output_for_input() {
 
     // Hex input works with any output format.
     if(dynamic_cast<FormatHex*>(input_format) != NULL) {
+        return;
+    }
+
+    // Bech32 input works with any output format.
+    if(dynamic_cast<FormatBech32*>(input_format) != NULL) {
         return;
     }
 
@@ -230,6 +242,10 @@ void Params::validate_count_for_input_format() {
         if (!raw.count.empty()) {
             argp_error(state, "The --count option is not available for hex input.");
         }
+    } else if (dynamic_cast<FormatBech32*>(input_format) != NULL) {
+        if (!raw.count.empty()) {
+            argp_error(state, "The --count option is not available for bech32 input.");
+        }
     }
 }
 
@@ -282,8 +298,8 @@ static int parse_opt(int key, char* arg, struct argp_state* state) {
 }
 
 struct argp_option options[] = {
-    {"in", 'i', "random|hex|bits|cards|dice|base6|base10|ints|bip39|slip39", 0, "The input format (default: random)"},
-    {"out", 'o', "hex|bits|cards|dice|base6|base10|ints|bip39|slip39", 0, "The output format (default: hex)"},
+    {"in", 'i', "random|hex|bech32|bits|cards|dice|base6|base10|ints|bip39|slip39", 0, "The input format (default: random)"},
+    {"out", 'o', "hex|bech32|bits|cards|dice|base6|base10|ints|bip39|slip39", 0, "The output format (default: hex)"},
     {"count", 'c', "1-64", 0, "The number of output units (default: 32)"},
 
     {0, 0, 0, 0, "ints Input and Output Options:", 1},
