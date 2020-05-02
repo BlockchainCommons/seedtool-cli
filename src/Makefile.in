@@ -51,7 +51,7 @@ OBJS = \
 	format-ints.o \
 	format-random.o \
 	format-slip39.o \
-	format-bech32.o \
+	format-bc32.o \
 	randombytes.o \
 	hkdf.o
 
@@ -66,7 +66,7 @@ random.o: random.hpp randombytes.h hkdf.h utils.hpp
 randombytes.o: randombytes.h
 hkdf.o: hkdf.h
 format.o: format.hpp utils.hpp
-formats-all.hpp: format-base6.hpp format-base10.hpp format-bip39.hpp format-bits.hpp format-cards.hpp format-dice.hpp format-hex.hpp format-ints.hpp format-random.hpp format-slip39.hpp format-bech32.hpp
+formats-all.hpp: format-base6.hpp format-base10.hpp format-bip39.hpp format-bits.hpp format-cards.hpp format-dice.hpp format-hex.hpp format-ints.hpp format-random.hpp format-slip39.hpp format-bc32.hpp
 format-base6.o: format-base6.hpp format.hpp params.hpp random.hpp
 format-base10.o: format-base10.hpp format.hpp params.hpp random.hpp
 format-bip39.o: format-bip39.hpp format.hpp params.hpp random.hpp
@@ -77,7 +77,7 @@ format-hex.o: format-hex.hpp format.hpp params.hpp random.hpp
 format-ints.o: format-ints.hpp format.hpp params.hpp random.hpp
 format-random.o: format-random.hpp format.hpp params.hpp random.hpp
 format-slip39.o: format-slip39.hpp format.hpp params.hpp random.hpp
-format-bech32.o: format-bech32.hpp format.hpp params.hpp random.hpp
+format-bc32.o: format-bc32.hpp format.hpp params.hpp random.hpp
 
 bindir = $(DESTDIR)/$(prefix)/bin
 
