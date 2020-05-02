@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([bc-seedtool-cli], [0.2.0])
+AC_INIT([bc-seedtool-cli], [0.3.0])
 AC_CONFIG_SRCDIR([src/seedtool.cpp])
 AC_CONFIG_HEADERS([src/config.h])
 
@@ -28,7 +28,7 @@ AC_CHECK_LIB([bc-bip39], [bip39_mnemonic_from_word], [], [
   echo "### Error! libbc-bip39 must be installed first."
   exit -1
   ])
-AC_CHECK_LIB([bc-bech32], [bech32_seed_encode], [], [
+AC_CHECK_LIB([bc-bech32], [bc32_seed_encode], [], [
   echo "### Error! libbc-bech32 must be installed first."
   exit -1
   ])

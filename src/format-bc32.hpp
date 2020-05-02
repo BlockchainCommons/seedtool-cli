@@ -1,5 +1,5 @@
 //
-//  format-bech32.hpp
+//  format-bch32.hpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
@@ -9,9 +9,9 @@
 
 #include "format.hpp"
 
-class FormatBech32 : public Format {
+class FormatBC32 : public Format {
    public:
-    FormatBech32() : Format(Format::Key::bech32, "bech32") {}
+    FormatBC32() : Format(Format::Key::bc32, "bc32") {}
 
     virtual void process_input(Params* p) override;
     virtual void process_output(Params* p) override;

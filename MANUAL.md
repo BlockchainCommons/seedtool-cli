@@ -44,25 +44,25 @@ $ seedtool --in random --out hex
 06799f71d16fad08ec5407d32d670147
 ```
 
-The `bech32` format can be used in place of `hex`. Bech32 is recognizable by the first 5 characters being `seed1`. Unlike hex, where every possible input is a seed, Bech32 includes error detection.
+The `bc32` format can be used in place of `hex`. Unlike hex, where every possible input is a seed, BC32 includes error detection.
 
 ```
 #
-# Generate a 16-byte random seed and display it as Bech32.
+# Generate a 16-byte random seed and display it as BC32.
 #
 
-$ seedtool --out bech32
-seed1ee2mukxh95k4tyjv875aka5xwqc59ge0
+$ seedtool --out bc32
+dvxe0kpsvzxg4cqtnv7xexnafspdgrn6
 
 #
-# Convert the Bech32-encoded seed to hex.
+# Convert the BC32-encoded seed to hex.
 #
 
-$ seedtool --in bech32 seed1ee2mukxh95k4tyjv875aka5xwqc59ge0
-ce55be58d72d2d55924c3fa9db768670
+$ seedtool --in bc32 dvxe0kpsvzxg4cqtnv7xexnafspdgrn6
+6b0d97d830608c8ae00b9b3c6c9a7d4c
 ```
 
-An output format `--out` and count `--count` may be specified. Count may be in [1-64] and the default `count` is 16. For the `hex` and `bech32` output formats, the count is the number of bytes generated. For other output formats, `count` is the number of "output units" (e.g., bits, cards, die rolls, etc.)
+An output format `--out` and count `--count` may be specified. Count may be in [1-64] and the default `count` is 16. For the `hex` and `bc32` output formats, the count is the number of bytes generated. For other output formats, `count` is the number of "output units" (e.g., bits, cards, die rolls, etc.)
 
 ```
 #
@@ -218,7 +218,7 @@ crucial enlarge ceramic method custody maximum campus earth ordinary twice adequ
 
 When the `--in` option is used, seedtool takes one or more arguments and uses them to construct the seed. If no arguments are given on the command line, it reads input from stdin and uses what it reads to construct the seed. In the examples below, the end of input to stdin is marked by `^D` on its own line.
 
-When the input format is `hex` or `bech32`, the construction is the identity function (passthrough.)
+When the input format is `hex` or `bc32`, the construction is the identity function (passthrough.)
 
 ```
 #
@@ -231,13 +231,13 @@ $ seedtool --in hex
 3d1d142cd016cf8a393a1b477891c5e594fb7c9479b175a0db653067d6de0b17
 
 #
-# Input a Bech32 seed via stdin, receive the same seed back in hex.
+# Input a BC32 seed via stdin, receive the same seed back in hex.
 #
 
-$ seedtool --in bech32
-seed1gv0pq3wv5733vyzs6de2tjn7vc677gcm
+$ seedtool --in bc32
+xl4mgzzlhfxs2j0vc0q28e4xzqxx9sdf
 ^D
-431e1045cca7a3161050d372a5ca7e66
+37ebb4085fba4d0549ecc3c0a3e6a610
 ```
 
 For the other input formats, each "unit" of the input (bit, digit, card, etc.) is converted to a byte and placed in an array. The SHA256 is then taken of the resulting array, yielding a deterministic seed. This seed is then used to generate a cryptographic seed of `count` bytes.
@@ -370,7 +370,7 @@ $ seedtool --in cards --count 20 6c2c3hthacts6d4hkhtd2d7c6c3sqs6h
 731e0a4c76189b2b55f4c705ccbb0105d3ee72c0
 ```
 
-`bip39` and `slip39` output formats can be combined with the `random` (default) input format. If the `--count N` option is used with the `hex` or `bech32` input formats, it results in a seed of `N` bytes being generated and used.
+`bip39` and `slip39` output formats can be combined with the `random` (default) input format. If the `--count N` option is used with the `hex` or `bc32` input formats, it results in a seed of `N` bytes being generated and used.
 
 ```
 #
@@ -389,7 +389,7 @@ $ seedtool --in random --out slip39 --count 32
 pumps guest academic academic analysis election admit harvest very webcam acquire answer primary viral venture declare have short bucket pickup pistol squeeze script racism western alarm depend depart lilac zero capacity capture warn
 ```
 
-`bip39` and `slip39` output formats can be combined with the `hex` or `bech32` input formats. The `--count` option is not allowed and the whole hex seed is used. For `bip39` the seed must be 12-32 bytes and even. For `slip39` the seed must be 16-32 bytes and even.
+`bip39` and `slip39` output formats can be combined with the `hex` or `bc32` input formats. The `--count` option is not allowed and the whole hex seed is used. For `bip39` the seed must be 12-32 bytes and even. For `slip39` the seed must be 16-32 bytes and even.
 
 ```
 #
@@ -407,17 +407,17 @@ $ seedtool --in hex --out bip39 8a3796240f6a9606a577c887f2e5c83a
 mechanic royal math burst practice addict noise weekend margin now improve invest
 
 #
-# Convert the seed above to Bech32.
+# Convert the seed above to BC32.
 #
 
-$ seedtool --in hex --out bech32 8a3796240f6a9606a577c887f2e5c83a
-seed13gmevfq0d2tqdfthezrl9ewg8g4fq0wc
+$ seedtool --in hex --out bc32 8a3796240f6a9606a577c887f2e5c83a
+3gmevfq0d2tqdfthezrl9ewg8gk9vsp3
 
 #
-# Display the Bech32-encoded seed as BIP39.
+# Display the BC32-encoded seed as BIP39.
 #
 
-$ seedtool --in bech32 --out bip39 seed13gmevfq0d2tqdfthezrl9ewg8g4fq0wc
+$ seedtool --in bc32 --out bip39 3gmevfq0d2tqdfthezrl9ewg8gk9vsp3
 mechanic royal math burst practice addict noise weekend margin now improve invest
 
 #
@@ -428,8 +428,8 @@ mechanic royal math burst practice addict noise weekend margin now improve inves
 $ seedtool --count 12 --in hex --out bip39 8a3796240f6a9606a577c887f2e5c83a
 seedtool: The --count option is not available for hex input.
 
-$ seedtool --count 5 --in bech32 seed1gv0pq3wv5733vyzs6de2tjn7vc677gcm
-seedtool: The --count option is not available for bech32 input.
+$ seedtool --count 5 --in bc32 6qla75j339vluqwzrhnvr6knngsd37tq
+seedtool: The --count option is not available for bc32 input.
 
 #
 # The seed you provide must conform to the output format constraints.
@@ -470,13 +470,13 @@ mechanic royal math burst practice addict noise weekend margin now improve inves
 
 #
 # Recover from the same BIP39 mnemonic sequence, providing all
-# the words via stdin, and displaying the result as Bech32.
+# the words via stdin, and displaying the result as BC32.
 #
 
-$ seedtool --in bip39 --out bech32
+$ seedtool --in bip39 --out bc32
 mechanic royal math burst practice addict noise weekend margin now improve invest
 ^D
-seed13gmevfq0d2tqdfthezrl9ewg8g4fq0wc
+3gmevfq0d2tqdfthezrl9ewg8gk9vsp3
 ```
 
 `slip39` can be used as an input format, in which case the original seed is recovered. The SLIP39 shares may be passed on the command line or entered via stdin. If passed on the command line, the shares must each be a single argument (i.e., quoted). If passed via stdin, each share must appear by itself on one line.
@@ -677,6 +677,10 @@ mirror reject rookie talk pudding throw happy era myth already payment owner
 ```
 
 ## Version History
+
+### 0.3.0, 5/1/2020
+
+* Modified "Bech32" format to be "BC32", including dropping "seed" HRP and '1' divider.
 
 ### 0.2.0, 4/22/2020
 
