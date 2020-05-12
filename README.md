@@ -2,24 +2,25 @@
 
 A tool for creating and transforming cryptographic seeds.
 
-## Prerequisites
+## Dependencies
 
-If any of the following prerequisites are not installed, the `configure` step below will fail.
+These dependencies are automatically installed as submodules when you run the build script.
 
 * [`bc-crypto-base`](https://github.com/blockchaincommons/bc-crypto-base)
 * [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
 * [`bc-slip39`](https://github.com/blockchaincommons/bc-slip39)
 * [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
 * [`bc-bech32`](https://github.com/blockchaincommons/bc-bech32)
-* [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html) This may be installed via `brew install argp-standalone`.
+* [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
 
 ## Installation
 
 ```bash
-$ ./configure
-$ make check
+$ ./build.sh
 $ sudo make install
 ```
+
+If you do not run the build script, opting instead for `./configure && make` the dependencies above will need to already be installed on your system.
 
 ## Use
 
@@ -65,7 +66,7 @@ This table below also establishes provenance (repository of origin, permalink, a
 | randombytes.c | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.c) | [6db39aa](https://github.com/dsprenkels/randombytes/commit/6db39aaae6bb9ab97beca00d81bcfe935c56c88d) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
 | randombytes.h | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.h) | [19fd002](https://github.com/dsprenkels/randombytes/commit/19fd002d9b7b001b333a671186a91231b60d821b) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
 
-### Dependencies
+### Tool Dependencies
 
 To build `seedtool` you'll need to use the following tools:
 

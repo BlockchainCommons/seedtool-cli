@@ -27,8 +27,8 @@ GREEN=`tput setaf 2`
 RESET=`tput sgr0`
 
 COMPILER = g++
-CFLAGS = --debug -O0
-CXXFLAGS = -std=c++17 -stdlib=libc++ --debug -O0
+CFLAGS += --debug -O0
+CXXFLAGS += -std=c++17 -stdlib=libc++ --debug -O0
 
 toolname = seedtool
 
@@ -55,7 +55,7 @@ OBJS = \
 	randombytes.o \
 	hkdf.o
 
-LDFLAGS = -lstdc++ -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -lbc-bech32 -largp
+LDFLAGS += -lstdc++ -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -lbc-bech32 -largp
 
 $(toolname): $(OBJS)
 
