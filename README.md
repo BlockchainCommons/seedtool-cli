@@ -30,6 +30,17 @@ $ make
 $ sudo make install
 ```
 
+## Incremental Builds
+
+If you wish to make changes to the source code and rebuild:
+
+```bash
+# Make source changes
+$ source set_build_paths.sh # sets shell variables used by make
+$ make clean # If you want a clean build
+$ make
+```
+
 ## Use
 
 ```
