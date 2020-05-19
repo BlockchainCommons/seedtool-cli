@@ -4,8 +4,6 @@ A tool for creating and transforming cryptographic seeds.
 
 ## Dependencies
 
-These dependencies are automatically installed as submodules when you run the build script.
-
 * [`bc-crypto-base`](https://github.com/blockchaincommons/bc-crypto-base)
 * [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
 * [`bc-slip39`](https://github.com/blockchaincommons/bc-slip39)
@@ -15,12 +13,33 @@ These dependencies are automatically installed as submodules when you run the bu
 
 ## Installation
 
+These dependencies are automatically installed as submodules when you run the build script. This is the recommended way to install.
+
 ```bash
 $ ./build.sh
 $ sudo make install
 ```
 
-If you do not run the build script, opting instead for `./configure && make` the dependencies above will need to already be installed on your system.
+## Alternative Installation
+
+This sequence does *not* install the dependencies from submodules; instead they must be installed in the usual places on the build system, otherwise the `./configure` step below will fail.
+
+```bash
+$ ./configure
+$ make
+$ sudo make install
+```
+
+## Incremental Builds
+
+If you wish to make changes to the source code and rebuild:
+
+```bash
+# Make source changes
+$ source set_build_paths.sh # sets shell variables used by make
+$ make clean # If you want a clean build
+$ make
+```
 
 ## Use
 
@@ -46,8 +65,8 @@ See [`MANUAL.md`](MANUAL.md) for detail, examples, and version history.
 Before accepting a PR that can affect build or unit tests, make sure the following sequence of commands succeeds:
 
 ```bash
-$ ./configure
-$ make distcheck
+$ ./build.sh
+$ make check
 $ make distclean
 ```
 

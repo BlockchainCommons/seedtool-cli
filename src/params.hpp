@@ -14,6 +14,8 @@
 #include <bc-slip39/bc-slip39.h>
 
 #include "random.hpp"
+#include "ur.hpp"
+#include "utils.hpp"
 
 #define MAX_GROUPS 16
 #define MAX_RAW_GROUPS (MAX_GROUPS + 1)
@@ -30,11 +32,13 @@ public:
     std::string ints_high;
 
     std::string random_deterministic;
+    bool is_ur;
+    std::string max_part_length;
 
     std::string slip39_groups_threshold;
-    std::vector<std::string> slip39_groups;
+    string_vector slip39_groups;
 
-    std::vector<std::string> args;
+    string_vector args;
 };
 
 class Format;
@@ -47,10 +51,17 @@ public:
     Format* input_format = NULL;
     Format* output_format = NULL;
 
-    std::vector<std::string> input;
+    bool is_ur_out = false;
+    bool is_ur_in = false;
+    UR* ur = NULL;
+    size_t max_part_length = 0;
+
+    string_vector shares;
+
+    string_vector input;
     std::string output;
 
-    std::vector<uint8_t> seed;
+    byte_vector seed;
 
     size_t count = 0;
 
@@ -68,8 +79,10 @@ public:
 
     std::string get_one_argument();
     std::string get_combined_arguments();
-    std::vector<std::string> get_multiple_arguments();
+    string_vector get_multiple_arguments();
 
+    void set_ur_output(const byte_vector& cbor, const std::string& type);
+    
 private:
     group_descriptor parse_group_spec(const std::string &string);
 
@@ -83,4 +96,5 @@ private:
     void validate_bip39_specific();
     void validate_slip39_specific();
     void validate_input();
+    void validate_ur();
 };

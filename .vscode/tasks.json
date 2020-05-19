@@ -4,13 +4,13 @@
         {
             "label": "Configure",
             "type": "shell",
-            "command": "./configure",
+            "command": "source set_build_paths.sh && ./configure",
             "problemMatcher": []
         },
         {
             "label": "Build",
             "type": "shell",
-            "command": "make all && dsymutil src/seedtool",
+            "command": "source set_build_paths.sh && make all && dsymutil src/seedtool",
             "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] },
             "group": {
                 "kind": "build",
@@ -20,7 +20,7 @@
         {
             "label": "Test",
             "type": "shell",
-            "command": "make check",
+            "command": "source set_build_paths.sh && make check",
             "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] },
             "group": {
                 "kind": "test",
@@ -30,26 +30,26 @@
         {
             "label": "Distribution Test",
             "type": "shell",
-            "command": "make distcheck",
+            "command": "source set_build_paths.sh && make distcheck",
             "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] },
             "group": "test"
         },
         {
             "label": "Distribution",
             "type": "shell",
-            "command": "make dist",
+            "command": "source set_build_paths.sh && make dist",
             "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] }
         },
         {
             "label": "Distribution Clean",
             "type": "shell",
-            "command": "make distclean",
+            "command": "source set_build_paths.sh && make distclean",
             "problemMatcher": []
         },
         {
             "label": "Clean",
             "type": "shell",
-            "command": "make clean",
+            "command": "source set_build_paths.sh && make clean",
             "problemMatcher": []
         },
         {

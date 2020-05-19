@@ -11,7 +11,8 @@
 #include <iostream>
 
 #include "params.hpp"
-#include "utils.hpp"
+#include "cbor-lite/codec.h"
+#include "cbor.hpp"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ bool FormatSLIP39::is_seed_length_valid(size_t seed_len) {
     return true;
 }
 
-static vector<uint8_t> combine(vector<string> shares) {
+static byte_vector combine(string_vector shares) {
     vector<vector<uint16_t>*> shares_words;
     size_t words_in_each_share = 0;
     for(auto share: shares) {
@@ -47,7 +48,7 @@ static vector<uint8_t> combine(vector<string> shares) {
         shares_words_pointers.push_back(p);
     }
 
-    vector<uint8_t> result;
+    byte_vector result;
     result.resize(1024);
 
     auto combine_result = slip39_combine(
@@ -68,11 +69,35 @@ static vector<uint8_t> combine(vector<string> shares) {
 }
 
 void FormatSLIP39::process_input(Params* p) {
-    auto shares = p->get_multiple_arguments();
-    p->seed = combine(shares);
+    if(p->is_ur_in) {
+        const UR& ur = *p->ur;
+        auto pos = ur.cbor.begin();
+        const auto end = ur.cbor.end();
+
+        vector<string_vector> array_of_string_arrays;
+        typedef decltype(ur.cbor)::const_iterator Iter;
+        auto f = [&array_of_string_arrays](Iter& pos, Iter end) {
+            decode_array_of_string_arrays(pos, end, array_of_string_arrays);
+        };
+        decode_dict_with_birthdate(pos, end, f);
+        for(auto a: array_of_string_arrays) {
+            p->shares.push_back(join(a, " "));
+        }
+    } else {
+        p->shares = p->get_multiple_arguments();
+    }
+    p->seed = combine(p->shares);
 }
 
 void FormatSLIP39::process_output(Params* p) {
+    // If we received a UR in and the input method was also SLIP39, the actual
+    // contained shares have been extracted in process_input() above, so we simply
+    // output them.
+    if(p->is_ur_in && !p->shares.empty()) {
+        p->output = join(p->shares, "\n");
+        return;
+    }
+
     if(!is_seed_length_valid(p->seed.size())) {
         throw runtime_error("Invalid seed length for SLIP39. Must be in [16-32] and even.");
     }
@@ -117,7 +142,20 @@ void FormatSLIP39::process_output(Params* p) {
         free(strings[i]);
     }
 
-    p->output = all_strings;
+    if(p->is_ur_out) {
+        auto lines = split(all_strings, '\n');
+        vector<string_vector> result;
+        for(auto line: lines) {
+            result.push_back(split(line, ' '));
+        }
+        byte_vector encoded;
+        encode_array_of_string_arrays(encoded, result);
+        byte_vector dict;
+        encode_dict_with_birthdate(dict, encoded);
+        p->set_ur_output(dict, "crypto-slip39");
+    } else {
+        p->output = all_strings;
+    }
 }
 
 FormatSLIP39::FormatSLIP39() : Format(Format::Key::slip39, "slip39") {

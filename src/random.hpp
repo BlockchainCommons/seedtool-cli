@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string>
 #include <vector>
+#include "utils.hpp"
 
 typedef void (*random_generator)(uint8_t*, size_t);
 
@@ -23,7 +24,7 @@ void seed_deterministic_string(const std::string &string);
 // Generates a buffer of random bytes using the cryptographically strong deterministic random number generator.
 void deterministic_random(uint8_t* buf, size_t n);
 
-std::vector<uint8_t> deterministic_random(const std::vector<uint8_t> &entropy, size_t n);
+byte_vector deterministic_random(const byte_vector &entropy, size_t n);
 
-std::vector<uint8_t> sha256_deterministic_random(const std::vector<uint8_t> &entropy, size_t n);
-std::vector<uint8_t> sha256_deterministic_random(const std::string &string, size_t n);
+byte_vector sha256_deterministic_random(const byte_vector &entropy, size_t n);
+byte_vector sha256_deterministic_random(const std::string &string, size_t n);
