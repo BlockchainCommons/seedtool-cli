@@ -26,9 +26,11 @@ RED=`tput setaf 1`
 GREEN=`tput setaf 2`
 RESET=`tput sgr0`
 
+CBOR_DIR = ../deps/cbor-lite
+
 COMPILER = g++
 CFLAGS += --debug -O0
-CXXFLAGS += -std=c++17 -stdlib=libc++ --debug -O0
+CXXFLAGS += -std=c++17 -stdlib=libc++ --debug -O0 -I"$(CBOR_DIR)/include"
 
 toolname = seedtool
 
@@ -52,8 +54,10 @@ OBJS = \
 	format-random.o \
 	format-slip39.o \
 	format-bc32.o \
+	ur.o \
 	randombytes.o \
-	hkdf.o
+	hkdf.o \
+	cbor.o
 
 LDFLAGS += -lstdc++ -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -lbc-bech32 -largp
 
@@ -61,22 +65,24 @@ $(toolname): $(OBJS)
 
 seedtool.o: params.hpp format.hpp
 utils.o: utils.hpp
-params.o: params.hpp utils.hpp random.hpp formats-all.hpp
+params.o: params.hpp utils.hpp random.hpp formats-all.hpp ur.hpp config.h
+ur.o: ur.hpp utils.hpp
 random.o: random.hpp randombytes.h hkdf.h utils.hpp
 randombytes.o: randombytes.h
 hkdf.o: hkdf.h
+cbor.o: utils.hpp
 format.o: format.hpp utils.hpp
 formats-all.hpp: format-base6.hpp format-base10.hpp format-bip39.hpp format-bits.hpp format-cards.hpp format-dice.hpp format-hex.hpp format-ints.hpp format-random.hpp format-slip39.hpp format-bc32.hpp
 format-base6.o: format-base6.hpp format.hpp params.hpp random.hpp
 format-base10.o: format-base10.hpp format.hpp params.hpp random.hpp
-format-bip39.o: format-bip39.hpp format.hpp params.hpp random.hpp
+format-bip39.o: format-bip39.hpp format.hpp params.hpp random.hpp utils.hpp cbor.hpp
 format-bits.o: format-bits.hpp format.hpp params.hpp random.hpp
 format-cards.o: format-cards.hpp format.hpp params.hpp random.hpp
 format-dice.o: format-dice.hpp format.hpp params.hpp random.hpp
-format-hex.o: format-hex.hpp format.hpp params.hpp random.hpp
+format-hex.o: format-hex.hpp format.hpp params.hpp random.hpp utils.hpp cbor.hpp
 format-ints.o: format-ints.hpp format.hpp params.hpp random.hpp
 format-random.o: format-random.hpp format.hpp params.hpp random.hpp
-format-slip39.o: format-slip39.hpp format.hpp params.hpp random.hpp
+format-slip39.o: format-slip39.hpp format.hpp params.hpp random.hpp utils.hpp cbor.hpp
 format-bc32.o: format-bc32.hpp format.hpp params.hpp random.hpp
 
 bindir = $(DESTDIR)/$(prefix)/bin

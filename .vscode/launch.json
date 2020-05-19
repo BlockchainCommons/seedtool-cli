@@ -7,7 +7,21 @@
             "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/src/seedtool",
-            "args": [],
+            "args": [
+                "--in", "ur", 
+                "--out", "slip39",
+                "ur:crypto-slip39/1of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/5gqc89r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxerpvd5kgetrv9exgumxv",
+                "ur:crypto-slip39/2of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/f5hx6r0wpjxkmnfw3j8qctfv35xsatdd9jxjarevah82cmvv4shyetrw43xjcmxdf",
+                "ur:crypto-slip39/3of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/6ku6t0wf5xvmmjv43kzum5v4jk6ur509nkc6trv4h8xetxv9ehqetrw3jkjmtpvaj",
+                "ur:crypto-slip39/4of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ksempwdhkc6twv45x2ut4v96xjmmwvach2ctjw3jh99r8wajkzmr5dpukvum9de5k",
+                "ur:crypto-slip39/5of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/7ungv93kzer9d45kxenpvajkucmev4j8yetpd4jxcctdwpnxxmrfde5kxetkv4ux2",
+                "ur:crypto-slip39/6of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ergv4kx2anpw3hhy6rnw4hxc6t8dp6xvctnwpjkxar8wdhkx6t9w3uk27tfv4kxge",
+                "ur:crypto-slip39/7of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/n8v4hxjatnvejkjargv4exgurpwpsksmmjvasku6t6v4jxvcttv45xvmr90p5kymr",
+                "ur:crypto-slip39/8of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/9va6x2ctrdpjh99r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxenpd3mkz7tn",
+                "ur:crypto-slip39/9of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ve3kzmt9wfsk2un0w4hxgetnd35kxet9vek82enxv4c82mtswdnxxctdwp6hxergd",
+                "ur:crypto-slip39/10of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/a3x7endv9h82ctvvekh2umrd3jkvctjw35hxar8dphhymt0dejkwanpd4cxjun9dp",
+                "ur:crypto-slip39/11of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/jxzuntdejhxum8wpex2urpwfjkvun9vaex2ar9wpe82mn9qtvxgx28uyxkd09j"
+            ],
             "cwd": "${workspaceFolder}/src",
             "preLaunchTask": "Build"
         }

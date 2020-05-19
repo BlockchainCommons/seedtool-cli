@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "format.hpp"
+#include "utils.hpp"
 
 class FormatSLIP39 : public Format {
    public:

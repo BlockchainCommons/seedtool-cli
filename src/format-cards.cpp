@@ -41,8 +41,8 @@ static size_t parse_suit(char c) {
     throw runtime_error("Invalid card rank. Allowed: [D,C,H,S]");
 }
 
-vector<uint8_t> cards_to_data(const string& cards) {
-    vector<uint8_t> result;
+byte_vector cards_to_data(const string& cards) {
+    byte_vector result;
 
     auto len = cards.length();
     if(len % 2 != 0) {

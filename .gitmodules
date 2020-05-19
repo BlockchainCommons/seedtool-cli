@@ -16,3 +16,7 @@
 [submodule "deps/argp-standalone"]
 	path = deps/argp-standalone
 	url = https://github.com/BlockchainCommons/argp-standalone.git
+	ignore = dirty
+[submodule "deps/cbor-lite"]
+	path = deps/cbor-lite
+	url = https://github.com/wolfmcnally/cbor-lite.git
