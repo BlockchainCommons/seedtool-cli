@@ -11,6 +11,8 @@
 #include "params.hpp"
 #include "format.hpp"
 
+#include "cbor-lite/codec.h"
+
 using namespace std;
 
 int main( int argc, char *argv[] ) {

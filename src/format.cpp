@@ -23,7 +23,8 @@ static const std::vector<std::string> format_key_names = {
     "base10",
     "ints",
     "bip39",
-    "slip39"
+    "slip39",
+    "bc32"
 };
 
 Format::Key Format::key_for_string(const std::string &arg) {

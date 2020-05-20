@@ -2,22 +2,43 @@
 
 A tool for creating and transforming cryptographic seeds.
 
-## Prerequisites
-
-If any of the following prerequisites are not installed, the `configure` step below will fail.
+## Dependencies
 
 * [`bc-crypto-base`](https://github.com/blockchaincommons/bc-crypto-base)
 * [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
 * [`bc-slip39`](https://github.com/blockchaincommons/bc-slip39)
 * [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
-* [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html) This may be installed via `brew install argp-standalone`.
+* [`bc-bech32`](https://github.com/blockchaincommons/bc-bech32)
+* [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
 
 ## Installation
 
+These dependencies are automatically installed as submodules when you run the build script. This is the recommended way to install.
+
+```bash
+$ ./build.sh
+$ sudo make install
+```
+
+## Alternative Installation
+
+This sequence does *not* install the dependencies from submodules; instead they must be installed in the usual places on the build system, otherwise the `./configure` step below will fail.
+
 ```bash
 $ ./configure
-$ make check
+$ make
 $ sudo make install
+```
+
+## Incremental Builds
+
+If you wish to make changes to the source code and rebuild:
+
+```bash
+# Make source changes
+$ source set_build_paths.sh # sets shell variables used by make
+$ make clean # If you want a clean build
+$ make
 ```
 
 ## Use
@@ -44,8 +65,8 @@ See [`MANUAL.md`](MANUAL.md) for detail, examples, and version history.
 Before accepting a PR that can affect build or unit tests, make sure the following sequence of commands succeeds:
 
 ```bash
-$ ./configure
-$ make distcheck
+$ ./build.sh
+$ make check
 $ make distclean
 ```
 
@@ -64,7 +85,7 @@ This table below also establishes provenance (repository of origin, permalink, a
 | randombytes.c | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.c) | [6db39aa](https://github.com/dsprenkels/randombytes/commit/6db39aaae6bb9ab97beca00d81bcfe935c56c88d) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
 | randombytes.h | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.h) | [19fd002](https://github.com/dsprenkels/randombytes/commit/19fd002d9b7b001b333a671186a91231b60d821b) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
 
-### Dependencies
+### Tool Dependencies
 
 To build `seedtool` you'll need to use the following tools:
 

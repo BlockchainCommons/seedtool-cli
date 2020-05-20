@@ -24,7 +24,8 @@ class Format {
         base10,
         ints,
         bip39,
-        slip39
+        slip39,
+        bc32
     };
 
     Format(Key key, const std::string &name) : key(key), name(name) {}

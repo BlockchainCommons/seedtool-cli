@@ -6,6 +6,17 @@
 
 ---
 
+## Contents
+
+* [Introduction](#introduction)
+* [General Functionality](#general-functionality)
+* [Generate Random Seeds](#generate-random-seeds)
+* [Generating Seeds from Provided Entropy](#generating-seeds-from-provided-entropy)
+* [Deterministic Randomness](#deterministic-randomness)
+* [Compatibility](#compatibility)
+* [Uniform Resources (URs)](#uniform-resources-urs)
+* [Version History](#version-history)
+
 ## Introduction
 
 `seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications.
@@ -44,7 +55,25 @@ $ seedtool --in random --out hex
 06799f71d16fad08ec5407d32d670147
 ```
 
-An output format `--out` and count `--count` may be specified. Count may be in [1-64] and the default `count` is 16. For the `hex` output format, the count is the number of bytes generated. For other output formats, `count` is the number of "output units" (e.g., bits, cards, die rolls, etc.)
+The `bc32` format can be used in place of `hex`. Unlike hex, where every possible input is a seed, BC32 includes error detection.
+
+```
+#
+# Generate a 16-byte random seed and display it as BC32.
+#
+
+$ seedtool --out bc32
+dvxe0kpsvzxg4cqtnv7xexnafspdgrn6
+
+#
+# Convert the BC32-encoded seed to hex.
+#
+
+$ seedtool --in bc32 dvxe0kpsvzxg4cqtnv7xexnafspdgrn6
+6b0d97d830608c8ae00b9b3c6c9a7d4c
+```
+
+An output format `--out` and count `--count` may be specified. Count may be in [1-64] and the default `count` is 16. For the `hex` and `bc32` output formats, the count is the number of bytes generated. For other output formats, `count` is the number of "output units" (e.g., bits, cards, die rolls, etc.)
 
 ```
 #
@@ -200,7 +229,7 @@ crucial enlarge ceramic method custody maximum campus earth ordinary twice adequ
 
 When the `--in` option is used, seedtool takes one or more arguments and uses them to construct the seed. If no arguments are given on the command line, it reads input from stdin and uses what it reads to construct the seed. In the examples below, the end of input to stdin is marked by `^D` on its own line.
 
-When the input format is `hex`, the construction is the identity function (passthrough.)
+When the input format is `hex` or `bc32`, the construction is the identity function (passthrough.)
 
 ```
 #
@@ -211,6 +240,15 @@ $ seedtool --in hex
 3d1d142cd016cf8a393a1b477891c5e594fb7c9479b175a0db653067d6de0b17
 ^D
 3d1d142cd016cf8a393a1b477891c5e594fb7c9479b175a0db653067d6de0b17
+
+#
+# Input a BC32 seed via stdin, receive the same seed back in hex.
+#
+
+$ seedtool --in bc32
+xl4mgzzlhfxs2j0vc0q28e4xzqxx9sdf
+^D
+37ebb4085fba4d0549ecc3c0a3e6a610
 ```
 
 For the other input formats, each "unit" of the input (bit, digit, card, etc.) is converted to a byte and placed in an array. The SHA256 is then taken of the resulting array, yielding a deterministic seed. This seed is then used to generate a cryptographic seed of `count` bytes.
@@ -343,7 +381,7 @@ $ seedtool --in cards --count 20 6c2c3hthacts6d4hkhtd2d7c6c3sqs6h
 731e0a4c76189b2b55f4c705ccbb0105d3ee72c0
 ```
 
-`bip39` and `slip39` output formats can be combined with the `random` (default) input format. If the `--count N` option is used with the `hex` input format, it results in a seed of `N` bytes being generated and used.
+`bip39` and `slip39` output formats can be combined with the `random` (default) input format. If the `--count N` option is used with the `hex` or `bc32` input formats, it results in a seed of `N` bytes being generated and used.
 
 ```
 #
@@ -362,7 +400,7 @@ $ seedtool --in random --out slip39 --count 32
 pumps guest academic academic analysis election admit harvest very webcam acquire answer primary viral venture declare have short bucket pickup pistol squeeze script racism western alarm depend depart lilac zero capacity capture warn
 ```
 
-`bip39` and `slip39` output formats can be combined with the `hex` input format. The `--count` option is not allowed and the whole hex seed is used. For `bip39` the seed must be 12-32 bytes and even. For `slip39` the seed must be 16-32 bytes and even.
+`bip39` and `slip39` output formats can be combined with the `hex` or `bc32` input formats. The `--count` option is not allowed and the whole hex seed is used. For `bip39` the seed must be 12-32 bytes and even. For `slip39` the seed must be 16-32 bytes and even.
 
 ```
 #
@@ -380,12 +418,29 @@ $ seedtool --in hex --out bip39 8a3796240f6a9606a577c887f2e5c83a
 mechanic royal math burst practice addict noise weekend margin now improve invest
 
 #
+# Convert the seed above to BC32.
+#
+
+$ seedtool --in hex --out bc32 8a3796240f6a9606a577c887f2e5c83a
+3gmevfq0d2tqdfthezrl9ewg8gk9vsp3
+
+#
+# Display the BC32-encoded seed as BIP39.
+#
+
+$ seedtool --in bc32 --out bip39 3gmevfq0d2tqdfthezrl9ewg8gk9vsp3
+mechanic royal math burst practice addict noise weekend margin now improve invest
+
+#
 # The --count option is not available when providing the
 # seed yourself.
 #
 
 $ seedtool --count 12 --in hex --out bip39 8a3796240f6a9606a577c887f2e5c83a
 seedtool: The --count option is not available for hex input.
+
+$ seedtool --count 5 --in bc32 6qla75j339vluqwzrhnvr6knngsd37tq
+seedtool: The --count option is not available for bc32 input.
 
 #
 # The seed you provide must conform to the output format constraints.
@@ -423,6 +478,16 @@ $ seedtool --in bip39
 mechanic royal math burst practice addict noise weekend margin now improve invest
 ^D
 8a3796240f6a9606a577c887f2e5c83a
+
+#
+# Recover from the same BIP39 mnemonic sequence, providing all
+# the words via stdin, and displaying the result as BC32.
+#
+
+$ seedtool --in bip39 --out bc32
+mechanic royal math burst practice addict noise weekend margin now improve invest
+^D
+3gmevfq0d2tqdfthezrl9ewg8gk9vsp3
 ```
 
 `slip39` can be used as an input format, in which case the original seed is recovered. The SLIP39 shares may be passed on the command line or entered via stdin. If passed on the command line, the shares must each be a single argument (i.e., quoted). If passed via stdin, each share must appear by itself on one line.
@@ -622,7 +687,197 @@ $ seedtool --in base10 123456 | seedtool --in hex --out bip39
 mirror reject rookie talk pudding throw happy era myth already payment owner
 ```
 
+## Uniform Resources (URs)
+
+Seedtool can encode and decode binary (hex) seeds, BIP39-encoded seeds, or SLIP39-encoded shares in the Uniform Resource (UR) format. This format is defined in [BCR-0005: Uniform Resources (UR): Encoding Structured Binary Data for Transport in URIs and QR Codes](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-0005-ur.md). The UR types supported for encoding and decoding are `crypto-seed`, `crypto-bip39` and `crypto-slip39`. These types are defined in [BCR-0006: Registry of Uniform Resource (UR) Types](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-0006-urtypes.md).
+
+To encode the result of `seedtool` as a UR, supply the `--ur[=MAX_PART_LENGTH]` command line option. `MAX_PART_LENGTH` is a positive integer that sets the maximum number of characters allowed in a UR part. If a UR cannot be completely encoded in `MAX_PART_LENGTH` or fewer characters, it will be split into a number of roughly equal parts small enough to fall below the `MAX_PART_LENGTH` limit. The default for `MAX_PART_LENGTH` is 2500, and can be set higher or lower. Since `MAX_PART_LENGTH` is optional, it *must* be supplied after an equal sign:
+
+```
+# OK:
+
+$ seedtool --ur
+ur:crypto-seed/5gq4pjvz0lzqme7r36sfm44v43jhu3gzmpjpj3lp2k483n
+
+# OK, UR is still small enough to be encoded in one part
+
+$ seedtool --ur=500
+ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30
+
+# Illegal: Optional values must be defined using equal sign.
+
+$ seedtool --ur 500
+seedtool: Do not provide arguments when using the random (default) input format.
+
+# Invalid: MAX_PART_LENGTH too small:
+
+$ seedtool --ur=50
+seedtool: Maximum part length too small.
+```
+
+To decode a UR in one of the supported formats, use the UR input method `--in ur`.
+
+```
+$ seedtool --in ur ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30
+081afccdb9b58066c50f1733d63ebba8
+```
+
+As in other cases, input may be supplied on separate lines and terminated by `^D`.
+
+```
+$ seedtool --in ur
+ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30
+^D
+081afccdb9b58066c50f1733d63ebba8
+```
+
+As with other input and output methods, seedtool operates in either encoding mode or decoding mode. Thus it is illegal to combine the `--ur` option with the `--in ur` input method.
+
+```
+$ seedtool --ur --in ur ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30
+seedtool: The --ur option may not be combined with the --in ur input method.
+```
+
+The following example pipes the output of one invocation of seedtool to another, first decoding a binary seed UR to hex, and then re-encoding that hex seed as BIP39.
+
+```
+$ seedtool --in ur ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30 | seedtool --out bip39 --ur
+ur:crypto-bip39/5gqccemvda38xar9wfjxxmr4vf5xvetnw35hvctvv3jkzumev3kk2ctwvashgarjv93hgetnd9nksar9v4shyargv4cxj7n6v9jxymmy09nkket5vd582urxwfjkvatnv5pdseqeglssz4y9pq
+
+#
+# Decode the previous result
+#
+
+$ seedtool --in ur
+ur:crypto-bip39/5gqccemvda38xar9wfjxxmr4vf5xvetnw35hvctvv3jkzumev3kk2ctwvashgarjv93hgetnd9nksar9v4shyargv4cxj7n6v9jxymmy09nkket5vd582urxwfjkvatnv5pdseqeglssz4y9pq
+^D
+83258554a2e89c1db20a2ba5a31de7da
+
+#
+# Re-encode the previous result to BIP39 words
+#
+
+$ seedtool --out bip39 --in hex 83258554a2e89c1db20a2ba5a31de7da
+lobster club festival easy mean attract sight earth pizza body ketchup refuse
+```
+
+The UR format is designed to be efficiently transmitted in QR codes, because it uses only characters in the QR Code "alphanumeric" character set. This set uses only upper case letters. The Unix `tr` tool can be used to transform the QR to upper case:
+
+```
+$ seedtool --ur | tr [:lower:] [:upper:]
+UR:CRYPTO-SEED/5GQ4QELHNPJYLFAE07APH603YHVLSVSZMPJPJ3LP5VE66K
+```
+
+```
+#
+# Generate a seed, encode it as UR, transform it to upper case,
+# display it on the console, and encode it to a QR Code in
+# the file "seedqrcode.png".
+#
+
+$ seedtool --ur | tr [:lower:] [:upper:] | tee /dev/tty | qrencode -o seedqrcode.png -l L
+UR:CRYPTO-SEED/5GQ4QZQZ0Z7CT2QWEULWT50LXF8YPXGZMPJPJ3LP3RLQFT
+```
+
+`seedqrcode.png`:
+
+![](manual-images/seedqrcode.png)
+
+The payload of a UR is [CBOR](https://tools.ietf.org/html/rfc7049) encoded as [BC32](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-0004-bc32.md). If you wish to examine the CBOR encoding, you can use seedtool to decode the BC32 payload of a UR. In this example we use the seed above, but only decode the part after the slash as BC32.
+
+```
+$ seedtool --in bc32 5GQ4QZQZ0Z7CT2QWEULWT50LXF8YPXGZMPJPJ3LP3RLQFT
+a20150080278bd85a80ecf3ee5d1ff324e409902d8641947e1
+```
+
+Inputting this byte sequence into the [CBOR Playground](http://cbor.me/), we see the CBOR diagnostic notation output:
+
+```
+{1: h'080278BD85A80ECF3EE5D1FF324E4099', 2: 100(18401)}
+```
+
+This is a map with two fields, labeled `1` (the seed itself) and `2` (the date the seed was encoded as number of days since the Unix epoch, tagged with `100` as per the [IETF specification for such dates](https://datatracker.ietf.org/doc/draft-ietf-cbor-date-tag/?include_text=1). The map labels and their meanings are defined in the [Registry of Uniform Resource (UR) Types](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-0006-urtypes.md).
+
+**✳️ NOTE:** Currently seedtool encodes the current date as the seed birthdate when encoding output in UR format. Currently seedtool ignores this field when decoding UR format.
+
+When a UR encoding must be broken up into parts, seedtool prints each part on a separate line.
+
+```
+$ seedtool --ur=150 --out slip39 --group 2-of-3
+ur:crypto-slip39/1of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/5gqc89r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxerpvd5kgetrv9exgumxv
+ur:crypto-slip39/2of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/f5hx6r0wpjxkmnfw3j8qctfv35xsatdd9jxjarevah82cmvv4shyetrw43xjcmxdf
+ur:crypto-slip39/3of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/6ku6t0wf5xvmmjv43kzum5v4jk6ur509nkc6trv4h8xetxv9ehqetrw3jkjmtpvaj
+ur:crypto-slip39/4of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ksempwdhkc6twv45x2ut4v96xjmmwvach2ctjw3jh99r8wajkzmr5dpukvum9de5k
+ur:crypto-slip39/5of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/7ungv93kzer9d45kxenpvajkucmev4j8yetpd4jxcctdwpnxxmrfde5kxetkv4ux2
+ur:crypto-slip39/6of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ergv4kx2anpw3hhy6rnw4hxc6t8dp6xvctnwpjkxar8wdhkx6t9w3uk27tfv4kxge
+ur:crypto-slip39/7of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/n8v4hxjatnvejkjargv4exgurpwpsksmmjvasku6t6v4jxvcttv45xvmr90p5kymr
+ur:crypto-slip39/8of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/9va6x2ctrdpjh99r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxenpd3mkz7tn
+ur:crypto-slip39/9of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ve3kzmt9wfsk2un0w4hxgetnd35kxet9vek82enxv4c82mtswdnxxctdwp6hxergd
+ur:crypto-slip39/10of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/a3x7endv9h82ctvvekh2umrd3jkvctjw35hxar8dphhymt0dejkwanpd4cxjun9dp
+ur:crypto-slip39/11of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/jxzuntdejhxum8wpex2urpwfjkvun9vaex2ar9wpe82mn9qtvxgx28uyxkd09j
+```
+
+The original seed can be recovered from the above:
+
+```
+$ seedtool --in ur
+ur:crypto-slip39/1of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/5gqc89r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxerpvd5kgetrv9exgumxv
+ur:crypto-slip39/2of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/f5hx6r0wpjxkmnfw3j8qctfv35xsatdd9jxjarevah82cmvv4shyetrw43xjcmxdf
+ur:crypto-slip39/3of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/6ku6t0wf5xvmmjv43kzum5v4jk6ur509nkc6trv4h8xetxv9ehqetrw3jkjmtpvaj
+ur:crypto-slip39/4of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ksempwdhkc6twv45x2ut4v96xjmmwvach2ctjw3jh99r8wajkzmr5dpukvum9de5k
+ur:crypto-slip39/5of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/7ungv93kzer9d45kxenpvajkucmev4j8yetpd4jxcctdwpnxxmrfde5kxetkv4ux2
+ur:crypto-slip39/6of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ergv4kx2anpw3hhy6rnw4hxc6t8dp6xvctnwpjkxar8wdhkx6t9w3uk27tfv4kxge
+ur:crypto-slip39/7of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/n8v4hxjatnvejkjargv4exgurpwpsksmmjvasku6t6v4jxvcttv45xvmr90p5kymr
+ur:crypto-slip39/8of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/9va6x2ctrdpjh99r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxenpd3mkz7tn
+ur:crypto-slip39/9of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ve3kzmt9wfsk2un0w4hxgetnd35kxet9vek82enxv4c82mtswdnxxctdwp6hxergd
+ur:crypto-slip39/10of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/a3x7endv9h82ctvvekh2umrd3jkvctjw35hxar8dphhymt0dejkwanpd4cxjun9dp
+ur:crypto-slip39/11of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/jxzuntdejhxum8wpex2urpwfjkvun9vaex2ar9wpe82mn9qtvxgx28uyxkd09j
+^D
+edf2ffaf0e38678306c22d860d4db87a
+```
+
+The encoded SLIP-39 shares can also be recovered:
+
+```
+$ seedtool --in ur --out slip39
+ur:crypto-slip39/1of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/5gqc89r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxerpvd5kgetrv9exgumxv
+ur:crypto-slip39/2of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/f5hx6r0wpjxkmnfw3j8qctfv35xsatdd9jxjarevah82cmvv4shyetrw43xjcmxdf
+ur:crypto-slip39/3of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/6ku6t0wf5xvmmjv43kzum5v4jk6ur509nkc6trv4h8xetxv9ehqetrw3jkjmtpvaj
+ur:crypto-slip39/4of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ksempwdhkc6twv45x2ut4v96xjmmwvach2ctjw3jh99r8wajkzmr5dpukvum9de5k
+ur:crypto-slip39/5of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/7ungv93kzer9d45kxenpvajkucmev4j8yetpd4jxcctdwpnxxmrfde5kxetkv4ux2
+ur:crypto-slip39/6of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ergv4kx2anpw3hhy6rnw4hxc6t8dp6xvctnwpjkxar8wdhkx6t9w3uk27tfv4kxge
+ur:crypto-slip39/7of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/n8v4hxjatnvejkjargv4exgurpwpsksmmjvasku6t6v4jxvcttv45xvmr90p5kymr
+ur:crypto-slip39/8of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/9va6x2ctrdpjh99r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxenpd3mkz7tn
+ur:crypto-slip39/9of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ve3kzmt9wfsk2un0w4hxgetnd35kxet9vek82enxv4c82mtswdnxxctdwp6hxergd
+ur:crypto-slip39/10of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/a3x7endv9h82ctvvekh2umrd3jkvctjw35hxar8dphhymt0dejkwanpd4cxjun9dp
+ur:crypto-slip39/11of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/jxzuntdejhxum8wpex2urpwfjkvun9vaex2ar9wpe82mn9qtvxgx28uyxkd09j
+^D
+wealthy senior academic acid cards bishop knit paid humidity nuclear cubic junior forecast empty license aspect image gasoline equation quarter
+wealthy senior academic agency dream lamp clinic vexed elevator sunlight aspect society yield genius either papa organize fake flexible teacher
+wealthy senior academic always camera round slice fluff pumps campus hobo manual muscle artist hormone vampire darkness prepare regret prune
+```
+
+```
+$ seedtool --in slip39
+wealthy senior academic acid cards bishop knit paid humidity nuclear cubic junior forecast empty license aspect image gasoline equation quarter
+wealthy senior academic always camera round slice fluff pumps campus hobo manual muscle artist hormone vampire darkness prepare regret prune
+^d
+edf2ffaf0e38678306c22d860d4db87a
+```
+
 ## Version History
+
+### 0.4.0, 5/19/2020
+
+* Added support for encoding to and decoding from UR format.
+
+### 0.3.0, 5/1/2020
+
+* Modified "Bech32" format to be "BC32", including dropping "seed" HRP and '1' divider.
+
+### 0.2.0, 4/22/2020
+
+* Added "bech32" input and output formats.
 
 ### 0.1.1, 4/8/2020
 

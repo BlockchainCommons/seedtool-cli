@@ -14,7 +14,8 @@
 #include "random.hpp"
 #include "randombytes.h"
 #include "hkdf.h"
-#include "utils.hpp"
+
+using namespace std;
 
 void crypto_random(uint8_t* buf, size_t n) {
     assert(randombytes(buf, n) == 0);
@@ -23,7 +24,7 @@ void crypto_random(uint8_t* buf, size_t n) {
 static uint8_t deterministic_seed[SHA256_DIGEST_LENGTH];
 static uint64_t deterministic_salt = 0;
 
-void seed_deterministic_string(const std::string &string) {
+void seed_deterministic_string(const string &string) {
     uint8_t digest[SHA256_DIGEST_LENGTH];
     sha256_Raw((uint8_t*)string.c_str(), string.length(), deterministic_seed);
     deterministic_salt = 0;
@@ -38,8 +39,8 @@ void deterministic_random(uint8_t* buf, size_t n) {
     NULL, 0);
 }
 
-std::vector<uint8_t> deterministic_random(const std::vector<uint8_t> &entropy, size_t n) {
-    std::vector<uint8_t> result;
+byte_vector deterministic_random(const byte_vector &entropy, size_t n) {
+    byte_vector result;
     result.resize(n);
 
     auto seed = sha256(entropy);
@@ -52,17 +53,17 @@ std::vector<uint8_t> deterministic_random(const std::vector<uint8_t> &entropy, s
     return result;
 }
 
-std::vector<uint8_t> sha256_deterministic_random(const std::vector<uint8_t> &entropy, size_t n) {
+byte_vector sha256_deterministic_random(const byte_vector &entropy, size_t n) {
     auto seed = sha256(entropy);
     if(n <= seed.size()) {
         return take(seed, n);
     } else {
-        throw std::runtime_error("Random number generator limits reached.");
+        throw runtime_error("Random number generator limits reached.");
     }
 }
 
-std::vector<uint8_t> sha256_deterministic_random(const std::string &string, size_t n) {
-    std::vector<uint8_t> entropy;
+byte_vector sha256_deterministic_random(const string &string, size_t n) {
+    byte_vector entropy;
     for(auto c: string) {
         entropy.push_back(c);
     }

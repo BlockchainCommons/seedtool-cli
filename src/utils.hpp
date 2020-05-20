@@ -14,30 +14,61 @@
 #include <string>
 #include <vector>
 
-std::string data_to_hex(const std::vector<uint8_t>& in);
+typedef std::vector<uint8_t> byte_vector;
+typedef std::vector<std::string> string_vector;
+
+const std::string data_to_hex(const byte_vector& in);
 uint8_t hex_digit_to_bin(char hex);
 
-std::vector<uint8_t> hex_to_data(const std::string& hex);
+const byte_vector hex_to_data(const std::string& hex);
 
-std::vector<uint8_t> data_to_base(const std::vector<uint8_t>& buf, size_t base);
+const byte_vector data_to_base(const byte_vector& buf, size_t base);
 
-std::string data_to_alphabet(const std::vector<uint8_t> &in, 
+const std::string data_to_alphabet(const byte_vector &in, 
     size_t base, 
     std::string (to_alphabet)(size_t));
 
-std::string data_to_ints(const std::vector<uint8_t> &in,
+const std::string data_to_ints(const byte_vector &in,
     size_t low, size_t high, const std::string &separator);
 
-std::vector<uint8_t> digits_to_data(const std::string& in, size_t low, size_t high);
+const byte_vector digits_to_data(const std::string& in, size_t low, size_t high);
 
-std::string join(const std::vector<std::string> &strings, const std::string &separator);
+const std::string join(const string_vector &strings, const std::string &separator);
+const string_vector split(const std::string& s, const char& separator);
 
-std::vector<uint8_t> sha256(const std::vector<uint8_t> &buf);
+const byte_vector sha256(const byte_vector &buf);
+
+const std::string data_to_bc32(const byte_vector& in);
+const byte_vector bc32_to_data(const std::string& in);
+
+const std::string to_lower(const std::string& s);
+const bool has_prefix(const std::string& s, const std::string& prefix);
 
 template<typename T>
-std::vector<T> take(const std::vector<T> &buf, size_t count) {
+const std::vector<T> take(const std::vector<T> &buf, size_t count) {
     auto first = buf.begin();
     auto c = std::min(buf.size(), count);
     auto last = first + c;
     return std::vector(first, last);
+}
+
+const std::string take(const std::string &s, size_t count);
+const std::string drop(const std::string &s, size_t count);
+
+template<typename T>
+void append(std::vector<T>& target, const std::vector<T>& source) {
+    target.insert(target.end(), source.begin(), source.end());
+}
+
+const string_vector partition(const std::string& string, size_t size);
+
+int days_since_epoch();
+
+template<typename T>
+const std::vector<T> flatten(const std::vector<std::vector<T>>& source) {
+    std::vector<T> result;
+    for(auto item: source) {
+        append(result, item);
+    }
+    return result;
 }
