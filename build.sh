@@ -11,35 +11,30 @@ GREEN=`tput setaf 2`
 RESET=`tput sgr0`
 
 pushd deps/bc-crypto-base
-git checkout develop
 ./configure --prefix ${LIBS}
 make check
 make install
 popd
 
 pushd deps/bc-shamir
-git checkout develop
 ./configure --prefix ${LIBS}
 make check
 make install
 popd
 
 pushd deps/bc-slip39
-git checkout develop
 ./configure --prefix ${LIBS}
 make check
 make install
 popd
 
 pushd deps/bc-bip39
-git checkout develop
 ./configure --prefix ${LIBS}
 make check
 make install
 popd
 
 pushd deps/bc-bech32
-git checkout develop
 ./configure --prefix ${LIBS}
 make check
 make install
