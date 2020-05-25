@@ -1,6 +1,6 @@
 # 🌱 Seedtool
 
-**Version 0.1.1**<br/>**April 8, 2020**
+**Version 0.4.0**<br/>**May 19, 2020**
 
 *Copyright © 2020 by Blockchain Commons, LLC*<br/>*Licensed under the "BSD-2-Clause Plus Patent License"*
 
