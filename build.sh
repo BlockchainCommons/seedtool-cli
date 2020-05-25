@@ -11,41 +11,41 @@ GREEN=`tput setaf 2`
 RESET=`tput sgr0`
 
 pushd deps/bc-crypto-base
-./configure --prefix ${LIBS}
+./configure --prefix ${SYSROOT}
 make check
 make install
 popd
 
 pushd deps/bc-shamir
-./configure --prefix ${LIBS}
+./configure --prefix ${SYSROOT}
 make check
 make install
 popd
 
 pushd deps/bc-slip39
-./configure --prefix ${LIBS}
+./configure --prefix ${SYSROOT}
 make check
 make install
 popd
 
 pushd deps/bc-bip39
-./configure --prefix ${LIBS}
+./configure --prefix ${SYSROOT}
 make check
 make install
 popd
 
 pushd deps/bc-bech32
-./configure --prefix ${LIBS}
+./configure --prefix ${SYSROOT}
 make check
 make install
 popd
 
 pushd deps/argp-standalone/argp-standalone
 patch -N <../patch-argp-fmtstream.h
-./configure --prefix ${LIBS}
+./configure --prefix ${SYSROOT}
 make install
-cp libargp.a ${LIBS}/lib/
-cp argp.h ${LIBS}/include/
+cp libargp.a ${SYSROOT}/lib/
+cp argp.h ${SYSROOT}/include/
 popd
 
 ./configure
