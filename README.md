@@ -10,6 +10,7 @@ A tool for creating and transforming cryptographic seeds.
 * [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
 * [`bc-bech32`](https://github.com/blockchaincommons/bc-bech32)
 * [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
+* [`CBOR Lite`](https://bitbucket.org/isode/cbor-lite)
 
 ## Installation
 
