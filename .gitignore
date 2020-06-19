@@ -95,4 +95,4 @@ config.log
 config.status
 configure.scan
 config.h
-libs/
+sysroot/
