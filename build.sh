@@ -34,7 +34,7 @@ make check
 make install
 popd
 
-pushd deps/bc-bech32
+pushd deps/bc-bytewords
 ./configure --prefix ${SYSROOT}
 make check
 make install

@@ -55,25 +55,39 @@ $ seedtool --in random --out hex
 06799f71d16fad08ec5407d32d670147
 ```
 
-The `bc32` format can be used in place of `hex`. Unlike hex, where every possible input is a seed, BC32 includes error detection.
+The Bytewords format can be used in place of `hex`. Unlike hex, where every possible input is a seed, BC32 includes error detection.
 
 ```
 #
-# Generate a 16-byte random seed and display it as BC32.
+# Generate a 16-byte random seed and display it as Bytewords.
 #
 
-$ seedtool --out bc32
-dvxe0kpsvzxg4cqtnv7xexnafspdgrn6
+$ seedtool --out btw
+deli need cats taxi dice door webs vows free zest legs wall half waxy trip oval memo sets rock hill
 
 #
-# Convert the BC32-encoded seed to hex.
+# Convert the Bytewords-encoded seed to hex.
 #
 
-$ seedtool --in bc32 dvxe0kpsvzxg4cqtnv7xexnafspdgrn6
-6b0d97d830608c8ae00b9b3c6c9a7d4c
+$ seedtool --in btw "deli need cats taxi dice door webs vows free zest legs wall half waxy trip oval memo sets rock hill"
+279b18d0282aefe845fb83e956eed8a6
+
+#
+# Convert the same seed to Bytewords URI-compatible format.
+#
+
+$ seedtool --in hex --out btwu 279b18d0282aefe845fb83e956eed8a6
+deli-need-cats-taxi-dice-door-webs-vows-free-zest-legs-wall-half-waxy-trip-oval-memo-sets-rock-hill
+
+#
+# Convert the same seed to Bytewords minimal format.
+#
+
+$ seedtool --in hex --out btwm 279b18d0282aefe845fb83e956eed8a6
+dindcstidedrwsvsfeztlswlhfwytpolmossrkhl
 ```
 
-An output format `--out` and count `--count` may be specified. Count may be in [1-64] and the default `count` is 16. For the `hex` and `bc32` output formats, the count is the number of bytes generated. For other output formats, `count` is the number of "output units" (e.g., bits, cards, die rolls, etc.)
+An output format `--out` and count `--count` may be specified. Count may be in [1-64] and the default `count` is 16. For the `hex` and Bytewords (`btw`, `btwu`, `btwm`) output formats, the count is the number of bytes generated. For other output formats, `count` is the number of "output units" (e.g., bits, cards, die rolls, etc.)
 
 ```
 #
@@ -229,7 +243,7 @@ crucial enlarge ceramic method custody maximum campus earth ordinary twice adequ
 
 When the `--in` option is used, seedtool takes one or more arguments and uses them to construct the seed. If no arguments are given on the command line, it reads input from stdin and uses what it reads to construct the seed. In the examples below, the end of input to stdin is marked by `^D` on its own line.
 
-When the input format is `hex` or `bc32`, the construction is the identity function (passthrough.)
+When the input format is `hex` or Bytewords (`btw`, `btwu`, `btwm`), the construction is the identity function (passthrough.)
 
 ```
 #
@@ -242,13 +256,13 @@ $ seedtool --in hex
 3d1d142cd016cf8a393a1b477891c5e594fb7c9479b175a0db653067d6de0b17
 
 #
-# Input a BC32 seed via stdin, receive the same seed back in hex.
+# Input a bytewords seed via stdin, receive the same seed back in hex.
 #
 
-$ seedtool --in bc32
-xl4mgzzlhfxs2j0vc0q28e4xzqxx9sdf
+$ seedtool --in btwm
+dindcstidedrwsvsfeztlswlhfwytpolmossrkhl
 ^D
-37ebb4085fba4d0549ecc3c0a3e6a610
+279b18d0282aefe845fb83e956eed8a6
 ```
 
 For the other input formats, each "unit" of the input (bit, digit, card, etc.) is converted to a byte and placed in an array. The SHA256 is then taken of the resulting array, yielding a deterministic seed. This seed is then used to generate a cryptographic seed of `count` bytes.
@@ -352,7 +366,7 @@ $ seedtool --out dice | seedtool --in dice --count 32
 
 $ seedtool --out dice | tee dice.asc | seedtool --in dice
 c13be193c8e3451a20b75e8dc0f69284
-$ cat dice.asc 
+$ cat dice.asc
 4435442555226432
 ```
 
@@ -381,7 +395,7 @@ $ seedtool --in cards --count 20 6c2c3hthacts6d4hkhtd2d7c6c3sqs6h
 731e0a4c76189b2b55f4c705ccbb0105d3ee72c0
 ```
 
-`bip39` and `slip39` output formats can be combined with the `random` (default) input format. If the `--count N` option is used with the `hex` or `bc32` input formats, it results in a seed of `N` bytes being generated and used.
+`bip39` and `slip39` output formats can be combined with the `random` (default) input format. If the `--count N` option is used with the `hex` or Bytewords (`btw`, `btwu`, `btwm`) input formats, it results in a seed of `N` bytes being generated and used.
 
 ```
 #
@@ -400,7 +414,7 @@ $ seedtool --in random --out slip39 --count 32
 pumps guest academic academic analysis election admit harvest very webcam acquire answer primary viral venture declare have short bucket pickup pistol squeeze script racism western alarm depend depart lilac zero capacity capture warn
 ```
 
-`bip39` and `slip39` output formats can be combined with the `hex` or `bc32` input formats. The `--count` option is not allowed and the whole hex seed is used. For `bip39` the seed must be 12-32 bytes and even. For `slip39` the seed must be 16-32 bytes and even.
+`bip39` and `slip39` output formats can be combined with the `hex` or Bytewords (`btw`, `btwu`, `btwm`) input formats. The `--count` option is not allowed and the whole hex seed is used. For `bip39` the seed must be 12-32 bytes and even. For `slip39` the seed must be 16-32 bytes and even.
 
 ```
 #
@@ -418,17 +432,17 @@ $ seedtool --in hex --out bip39 8a3796240f6a9606a577c887f2e5c83a
 mechanic royal math burst practice addict noise weekend margin now improve invest
 
 #
-# Convert the seed above to BC32.
+# Convert the seed above to Bytewords minimal encoding.
 #
 
-$ seedtool --in hex --out bc32 8a3796240f6a9606a577c887f2e5c83a
-3gmevfq0d2tqdfthezrl9ewg8gk9vsp3
+$ seedtool --in hex --out btwm 8a3796240f6a9606a577c887f2e5c83a
+leemmtdkbsimmtamonktsplnwzvwspftjsoyiejs
 
 #
-# Display the BC32-encoded seed as BIP39.
+# Display the Bytewords-encoded seed as BIP39.
 #
 
-$ seedtool --in bc32 --out bip39 3gmevfq0d2tqdfthezrl9ewg8gk9vsp3
+$ seedtool --in btwm --out bip39 leemmtdkbsimmtamonktsplnwzvwspftjsoyiejs
 mechanic royal math burst practice addict noise weekend margin now improve invest
 
 #
@@ -439,8 +453,8 @@ mechanic royal math burst practice addict noise weekend margin now improve inves
 $ seedtool --count 12 --in hex --out bip39 8a3796240f6a9606a577c887f2e5c83a
 seedtool: The --count option is not available for hex input.
 
-$ seedtool --count 5 --in bc32 6qla75j339vluqwzrhnvr6knngsd37tq
-seedtool: The --count option is not available for bc32 input.
+$ seedtool --count 5 --in btwm leemmtdkbsimmtamonktsplnwzvwspftjsoyiejs
+seedtool: The --count option is not available for Bytewords input.
 
 #
 # The seed you provide must conform to the output format constraints.
@@ -481,13 +495,13 @@ mechanic royal math burst practice addict noise weekend margin now improve inves
 
 #
 # Recover from the same BIP39 mnemonic sequence, providing all
-# the words via stdin, and displaying the result as BC32.
+# the words via stdin, and displaying the result as Bytewords.
 #
 
-$ seedtool --in bip39 --out bc32
+$ seedtool --in bip39 --out btw
 mechanic royal math burst practice addict noise weekend margin now improve invest
 ^D
-3gmevfq0d2tqdfthezrl9ewg8gk9vsp3
+love exam mint dark bias item mint atom open kept soap lion whiz view soap fact jugs obey idle jugs
 ```
 
 `slip39` can be used as an input format, in which case the original seed is recovered. The SLIP39 shares may be passed on the command line or entered via stdin. If passed on the command line, the shares must each be a single argument (i.e., quoted). If passed via stdin, each share must appear by itself on one line.
@@ -520,7 +534,7 @@ $ seedtool --in slip39 activity away academic academic debut usher impact eviden
 seedtool: Invalid SLIP39 shares.
 
 ```
- 
+
 In this example, 2 shares of a 2-of-3 split are entered on the command line (each separately quoted) and via stdin (each on its own separate line.)
 
 ```
@@ -776,24 +790,24 @@ UR:CRYPTO-SEED/5GQ4QELHNPJYLFAE07APH603YHVLSVSZMPJPJ3LP5VE66K
 #
 
 $ seedtool --ur | tr [:lower:] [:upper:] | tee /dev/tty | qrencode -o seedqrcode.png -l L
-UR:CRYPTO-SEED/5GQ4QZQZ0Z7CT2QWEULWT50LXF8YPXGZMPJPJ3LP3RLQFT
+UR:CRYPTO-SEED/OEADGDKOSONNENBYLRSRCHMSAHADPTCLJEPTWDAOTPIECFFDBDPLGHLOOL
 ```
 
 `seedqrcode.png`:
 
 ![](manual-images/seedqrcode.png)
 
-The payload of a UR is [CBOR](https://tools.ietf.org/html/rfc7049) encoded as [BC32](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-0004-bc32.md). If you wish to examine the CBOR encoding, you can use seedtool to decode the BC32 payload of a UR. In this example we use the seed above, but only decode the part after the slash as BC32.
+The payload of a UR is [CBOR](https://tools.ietf.org/html/rfc7049) encoded as [Bytewords](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-012-bytewords.md). If you wish to examine the CBOR encoding, you can use seedtool to decode the BC32 payload of a UR. In this example we use the seed above, but only decode the part after the slash as BC32.
 
 ```
-$ seedtool --in bc32 5GQ4QZQZ0Z7CT2QWEULWT50LXF8YPXGZMPJPJ3LP3RLQFT
-a20150080278bd85a80ecf3ee5d1ff324e409902d8641947e1
+$ seedtool --in btwm OEADGDKOSONNENBYLRSRCHMSAHADPTCLJEPTWDAOTPIECFFDBDPLGHLOOL
+a2015076c99e361184c317970501a9216ba9ea02d86419480b
 ```
 
 Inputting this byte sequence into the [CBOR Playground](http://cbor.me/), we see the CBOR diagnostic notation output:
 
 ```
-{1: h'080278BD85A80ECF3EE5D1FF324E4099', 2: 100(18401)}
+{1: h'76C99E361184C317970501A9216BA9EA', 2: 100(18443)}
 ```
 
 This is a map with two fields, labeled `1` (the seed itself) and `2` (the date the seed was encoded as number of days since the Unix epoch, tagged with `100` as per the [IETF specification for such dates](https://datatracker.ietf.org/doc/draft-ietf-cbor-date-tag/?include_text=1). The map labels and their meanings are defined in the [Registry of Uniform Resource (UR) Types](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-0006-urtypes.md).
@@ -804,68 +818,76 @@ When a UR encoding must be broken up into parts, seedtool prints each part on a 
 
 ```
 $ seedtool --ur=150 --out slip39 --group 2-of-3
-ur:crypto-slip39/1of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/5gqc89r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxerpvd5kgetrv9exgumxv
-ur:crypto-slip39/2of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/f5hx6r0wpjxkmnfw3j8qctfv35xsatdd9jxjarevah82cmvv4shyetrw43xjcmxdf
-ur:crypto-slip39/3of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/6ku6t0wf5xvmmjv43kzum5v4jk6ur509nkc6trv4h8xetxv9ehqetrw3jkjmtpvaj
-ur:crypto-slip39/4of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ksempwdhkc6twv45x2ut4v96xjmmwvach2ctjw3jh99r8wajkzmr5dpukvum9de5k
-ur:crypto-slip39/5of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/7ungv93kzer9d45kxenpvajkucmev4j8yetpd4jxcctdwpnxxmrfde5kxetkv4ux2
-ur:crypto-slip39/6of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ergv4kx2anpw3hhy6rnw4hxc6t8dp6xvctnwpjkxar8wdhkx6t9w3uk27tfv4kxge
-ur:crypto-slip39/7of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/n8v4hxjatnvejkjargv4exgurpwpsksmmjvasku6t6v4jxvcttv45xvmr90p5kymr
-ur:crypto-slip39/8of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/9va6x2ctrdpjh99r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxenpd3mkz7tn
-ur:crypto-slip39/9of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ve3kzmt9wfsk2un0w4hxgetnd35kxet9vek82enxv4c82mtswdnxxctdwp6hxergd
-ur:crypto-slip39/10of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/a3x7endv9h82ctvvekh2umrd3jkvctjw35hxar8dphhymt0dejkwanpd4cxjun9dp
-ur:crypto-slip39/11of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/jxzuntdejhxum8wpex2urpwfjkvun9vaex2ar9wpe82mn9qtvxgx28uyxkd09j
+ur:crypto-slip39/1of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/oeadlsmwisieihjkiajpinidihioiskpjkidhsjtieishsiahsieihjniniaiehsiainieiyidihia
+ur:crypto-slip39/2of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jljnihioktjpinjyinjtioioiakpjpinjlkpjkiyjkiajpinjojyiojoihhsjkhsjtjyioimihktih
+ur:crypto-slip39/3of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jzjpkkiojnkpjkjyhsjtioihiyjpinhsjpisjljpieinjthsjpkkisjojpinjkjljtihjpihhsiejl
+ur:crypto-slip39/4of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jpjtioieihjzinkoihjpiyieihkoiniaihiokpjoiojphsieihisieinjkjyhsjtiaihiyjphsiain
+ur:crypto-slip39/5of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jkjnmwisieihjkiajpinidihioiskpjkidhsjtieishsiahsieihjniniaiyhsioihjtiakkihhsie
+ur:crypto-slip39/6of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/hsjojyihkpjtinjljtihjokpjzjkihiykoihjpiniykkiejyjliykpiyiokpinjyhsjpihjkjoinjz
+ur:crypto-slip39/7of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jziejpjljnjoiyjkkkjkjyihjniojziniaihjtjkihiyihinjyisihjpisjohsinjtjyinjtioisin
+ur:crypto-slip39/8of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jtiajpihhsjkihihjkishsjnihisjkjoihjzjzinjtioieimjlinjtmwisieihjkiajpinidihiois
+ur:crypto-slip39/9of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/kpjkidhsjtieishsiahsieihjniniaiyhsjzkthskkjkisieihiainjkinjljtiyjyhsiajejzihis
+ur:crypto-slip39/10of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/imkpieiniainhsjzisjojpinjljpinjykkiyiajlktidjlkkisiyjphsiajyinjljtieinjyihjnih
+ur:crypto-slip39/11of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jkiaihjtihihjkjykkjzihiykoiniajyinjniyjzihhskoihjkisjoishsjpjnhsiakkisjpihjnih
+ur:crypto-slip39/12of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jnidihjpiyjzinkoinjtioihjkjoinjtihiyinjnjohsiajyaotpiecffdbdidgshkgl
 ```
 
 The original seed can be recovered from the above:
 
 ```
 $ seedtool --in ur
-ur:crypto-slip39/1of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/5gqc89r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxerpvd5kgetrv9exgumxv
-ur:crypto-slip39/2of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/f5hx6r0wpjxkmnfw3j8qctfv35xsatdd9jxjarevah82cmvv4shyetrw43xjcmxdf
-ur:crypto-slip39/3of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/6ku6t0wf5xvmmjv43kzum5v4jk6ur509nkc6trv4h8xetxv9ehqetrw3jkjmtpvaj
-ur:crypto-slip39/4of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ksempwdhkc6twv45x2ut4v96xjmmwvach2ctjw3jh99r8wajkzmr5dpukvum9de5k
-ur:crypto-slip39/5of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/7ungv93kzer9d45kxenpvajkucmev4j8yetpd4jxcctdwpnxxmrfde5kxetkv4ux2
-ur:crypto-slip39/6of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ergv4kx2anpw3hhy6rnw4hxc6t8dp6xvctnwpjkxar8wdhkx6t9w3uk27tfv4kxge
-ur:crypto-slip39/7of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/n8v4hxjatnvejkjargv4exgurpwpsksmmjvasku6t6v4jxvcttv45xvmr90p5kymr
-ur:crypto-slip39/8of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/9va6x2ctrdpjh99r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxenpd3mkz7tn
-ur:crypto-slip39/9of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ve3kzmt9wfsk2un0w4hxgetnd35kxet9vek82enxv4c82mtswdnxxctdwp6hxergd
-ur:crypto-slip39/10of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/a3x7endv9h82ctvvekh2umrd3jkvctjw35hxar8dphhymt0dejkwanpd4cxjun9dp
-ur:crypto-slip39/11of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/jxzuntdejhxum8wpex2urpwfjkvun9vaex2ar9wpe82mn9qtvxgx28uyxkd09j
+ur:crypto-slip39/1of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/oeadlsmwisieihjkiajpinidihioiskpjkidhsjtieishsiahsieihjniniaiehsiainieiyidihia
+ur:crypto-slip39/2of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jljnihioktjpinjyinjtioioiakpjpinjlkpjkiyjkiajpinjojyiojoihhsjkhsjtjyioimihktih
+ur:crypto-slip39/3of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jzjpkkiojnkpjkjyhsjtioihiyjpinhsjpisjljpieinjthsjpkkisjojpinjkjljtihjpihhsiejl
+ur:crypto-slip39/4of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jpjtioieihjzinkoihjpiyieihkoiniaihiokpjoiojphsieihisieinjkjyhsjtiaihiyjphsiain
+ur:crypto-slip39/5of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jkjnmwisieihjkiajpinidihioiskpjkidhsjtieishsiahsieihjniniaiyhsioihjtiakkihhsie
+ur:crypto-slip39/6of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/hsjojyihkpjtinjljtihjokpjzjkihiykoihjpiniykkiejyjliykpiyiokpinjyhsjpihjkjoinjz
+ur:crypto-slip39/7of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jziejpjljnjoiyjkkkjkjyihjniojziniaihjtjkihiyihinjyisihjpisjohsinjtjyinjtioisin
+ur:crypto-slip39/8of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jtiajpihhsjkihihjkishsjnihisjkjoihjzjzinjtioieimjlinjtmwisieihjkiajpinidihiois
+ur:crypto-slip39/9of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/kpjkidhsjtieishsiahsieihjniniaiyhsjzkthskkjkisieihiainjkinjljtiyjyhsiajejzihis
+ur:crypto-slip39/10of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/imkpieiniainhsjzisjojpinjljpinjykkiyiajlktidjlkkisiyjphsiajyinjljtieinjyihjnih
+ur:crypto-slip39/11of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jkiaihjtihihjkjykkjzihiykoiniajyinjniyjzihhskoihjkisjoishsjpjnhsiakkisjpihjnih
+ur:crypto-slip39/12of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jnidihjpiyjzinkoinjtioihjkjoinjtihiyinjnjohsiajyaotpiecffdbdidgshkgl
 ^D
-edf2ffaf0e38678306c22d860d4db87a
+ab02265a98e3e7424d6d890c396804e4
 ```
 
 The encoded SLIP-39 shares can also be recovered:
 
 ```
 $ seedtool --in ur --out slip39
-ur:crypto-slip39/1of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/5gqc89r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxerpvd5kgetrv9exgumxv
-ur:crypto-slip39/2of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/f5hx6r0wpjxkmnfw3j8qctfv35xsatdd9jxjarevah82cmvv4shyetrw43xjcmxdf
-ur:crypto-slip39/3of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/6ku6t0wf5xvmmjv43kzum5v4jk6ur509nkc6trv4h8xetxv9ehqetrw3jkjmtpvaj
-ur:crypto-slip39/4of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ksempwdhkc6twv45x2ut4v96xjmmwvach2ctjw3jh99r8wajkzmr5dpukvum9de5k
-ur:crypto-slip39/5of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/7ungv93kzer9d45kxenpvajkucmev4j8yetpd4jxcctdwpnxxmrfde5kxetkv4ux2
-ur:crypto-slip39/6of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ergv4kx2anpw3hhy6rnw4hxc6t8dp6xvctnwpjkxar8wdhkx6t9w3uk27tfv4kxge
-ur:crypto-slip39/7of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/n8v4hxjatnvejkjargv4exgurpwpsksmmjvasku6t6v4jxvcttv45xvmr90p5kymr
-ur:crypto-slip39/8of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/9va6x2ctrdpjh99r8wajkzmr5dpukvum9de5k7ungv93kzer9d45kxenpd3mkz7tn
-ur:crypto-slip39/9of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/ve3kzmt9wfsk2un0w4hxgetnd35kxet9vek82enxv4c82mtswdnxxctdwp6hxergd
-ur:crypto-slip39/10of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/a3x7endv9h82ctvvekh2umrd3jkvctjw35hxar8dphhymt0dejkwanpd4cxjun9dp
-ur:crypto-slip39/11of11/drs6fzfe3cgsa6sa06la338wxvjcz7amyua8z3rxjyv90qa7zg5qa39yll/jxzuntdejhxum8wpex2urpwfjkvun9vaex2ar9wpe82mn9qtvxgx28uyxkd09j
+ur:crypto-slip39/1of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/oeadlsmwisieihjkiajpinidihioiskpjkidhsjtieishsiahsieihjniniaiehsiainieiyidihia
+ur:crypto-slip39/2of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jljnihioktjpinjyinjtioioiakpjpinjlkpjkiyjkiajpinjojyiojoihhsjkhsjtjyioimihktih
+ur:crypto-slip39/3of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jzjpkkiojnkpjkjyhsjtioihiyjpinhsjpisjljpieinjthsjpkkisjojpinjkjljtihjpihhsiejl
+ur:crypto-slip39/4of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jpjtioieihjzinkoihjpiyieihkoiniaihiokpjoiojphsieihisieinjkjyhsjtiaihiyjphsiain
+ur:crypto-slip39/5of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jkjnmwisieihjkiajpinidihioiskpjkidhsjtieishsiahsieihjniniaiyhsioihjtiakkihhsie
+ur:crypto-slip39/6of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/hsjojyihkpjtinjljtihjokpjzjkihiykoihjpiniykkiejyjliykpiyiokpinjyhsjpihjkjoinjz
+ur:crypto-slip39/7of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jziejpjljnjoiyjkkkjkjyihjniojziniaihjtjkihiyihinjyisihjpisjohsinjtjyinjtioisin
+ur:crypto-slip39/8of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jtiajpihhsjkihihjkishsjnihisjkjoihjzjzinjtioieimjlinjtmwisieihjkiajpinidihiois
+ur:crypto-slip39/9of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/kpjkidhsjtieishsiahsieihjniniaiyhsjzkthskkjkisieihiainjkinjljtiyjyhsiajejzihis
+ur:crypto-slip39/10of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/imkpieiniainhsjzisjojpinjljpinjykkiyiajlktidjlkkisiyjphsiajyinjljtieinjyihjnih
+ur:crypto-slip39/11of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jkiaihjtihihjkjykkjzihiykoiniajyinjniyjzihhskoihjkisjoishsjpjnhsiakkisjpihjnih
+ur:crypto-slip39/12of12/tpzeryamtiguaxnydlfwcalttpmkgrspsouefrcxrlwplocxmucxurmdgoahaxvwpfwssprk/jnidihjpiyjzinkoinjtioihjkjoinjtihiyinjnjohsiajyaotpiecffdbdidgshkgl
 ^D
-wealthy senior academic acid cards bishop knit paid humidity nuclear cubic junior forecast empty license aspect image gasoline equation quarter
-wealthy senior academic agency dream lamp clinic vexed elevator sunlight aspect society yield genius either papa organize fake flexible teacher
-wealthy senior academic always camera round slice fluff pumps campus hobo manual muscle artist hormone vampire darkness prepare regret prune
+describe husband academic acid become writing curious script peasant jewelry mustang friar ordinary prisoner adorn deliver device upgrade distance racism
+describe husband academic agency adapt union pulse verify tofu guitar spill romp system license either painting increase shame spelling join
+describe husband academic always decision tackle judicial priority cowboy fraction item scene style victim leaves pharmacy remember living spine impact
 ```
 
 ```
 $ seedtool --in slip39
-wealthy senior academic acid cards bishop knit paid humidity nuclear cubic junior forecast empty license aspect image gasoline equation quarter
-wealthy senior academic always camera round slice fluff pumps campus hobo manual muscle artist hormone vampire darkness prepare regret prune
+describe husband academic acid become writing curious script peasant jewelry mustang friar ordinary prisoner adorn deliver device upgrade distance racism
+describe husband academic agency adapt union pulse verify tofu guitar spill romp system license either painting increase shame spelling join
+describe husband academic always decision tackle judicial priority cowboy fraction item scene style victim leaves pharmacy remember living spine impact
 ^d
-edf2ffaf0e38678306c22d860d4db87a
+ab02265a98e3e7424d6d890c396804e4
 ```
 
 ## Version History
+
+### 0.5.0, 6/30/2020
+
+* Replaced BC32 with Bytewords.
 
 ### 0.4.0, 5/19/2020
 

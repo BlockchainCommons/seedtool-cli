@@ -46,7 +46,7 @@ void Params::validate_deterministic() {
     }
 }
 
-void Params::validate_input_format() {    
+void Params::validate_input_format() {
     if(raw.input_format.empty()) {
         input_format = new FormatRandom();
     } else {
@@ -65,7 +65,9 @@ void Params::validate_input_format() {
                 case Format::Key::ints: input_format = new FormatInts(); break;
                 case Format::Key::bip39: input_format = new FormatBIP39(); break;
                 case Format::Key::slip39: input_format = new FormatSLIP39(); break;
-                case Format::Key::bc32: input_format = new FormatBC32(); break;
+                case Format::Key::bytewords: input_format = new FormatBytewords(); break;
+                case Format::Key::bytewords_uri: input_format = new FormatBytewordsURI(); break;
+                case Format::Key::bytewords_minimal: input_format = new FormatBytewordsMinimal(); break;
                 default:
                     argp_error(state, "Unknown input format: %s", raw.input_format.c_str());
                     break;
@@ -74,7 +76,7 @@ void Params::validate_input_format() {
     }
 }
 
-void Params::validate_output_format() {    
+void Params::validate_output_format() {
     if(raw.output_format.empty()) {
         output_format = new FormatHex();
     } else {
@@ -89,7 +91,9 @@ void Params::validate_output_format() {
             case Format::Key::ints: output_format = new FormatInts(); break;
             case Format::Key::bip39: output_format = new FormatBIP39(); break;
             case Format::Key::slip39: output_format = new FormatSLIP39(); break;
-            case Format::Key::bc32: output_format = new FormatBC32(); break;
+            case Format::Key::bytewords: output_format = new FormatBytewords(); break;
+            case Format::Key::bytewords_uri: output_format = new FormatBytewordsURI(); break;
+            case Format::Key::bytewords_minimal: output_format = new FormatBytewordsMinimal(); break;
             default:
                 argp_error(state, "Unknown output format: %s", raw.output_format.c_str());
                 break;
@@ -103,8 +107,8 @@ void Params::validate_output_for_input() {
         return;
     }
 
-    // Any input format works with BC32 output format.
-    if(is_bc32(output_format)) {
+    // Any input format works with any Bytewords output format.
+    if(is_bytewords_any(output_format)) {
         return;
     }
 
@@ -118,8 +122,8 @@ void Params::validate_output_for_input() {
         return;
     }
 
-    // BC32 input works with any output format.
-    if(is_bc32(input_format)) {
+    // Any Bytewords input works with any output format.
+    if(is_bytewords_any(input_format)) {
         return;
     }
 
@@ -133,7 +137,7 @@ void Params::validate_output_for_input() {
         return;
     }
 
-    argp_error(state, "Input format %s cannot be used with output format %s", 
+    argp_error(state, "Input format %s cannot be used with output format %s",
         input_format->name.c_str(), output_format->name.c_str());
 }
 
@@ -219,7 +223,7 @@ void Params::validate_slip39_specific() {
             groups.push_back(group);
         }
     }
-    
+
     int groups_threshold;
     if(raw.slip39_groups_threshold.empty()) {
         groups_threshold = 1;
@@ -269,9 +273,9 @@ void Params::validate_count_for_input_format() {
         if (!raw.count.empty()) {
             argp_error(state, "The --count option is not available for hex input.");
         }
-    } else if (is_bc32(input_format)) {
+    } else if (is_bytewords_any(input_format)) {
         if (!raw.count.empty()) {
-            argp_error(state, "The --count option is not available for BC32 input.");
+            argp_error(state, "The --count option is not available for Bytewords input.");
         }
     }
 }
@@ -294,7 +298,7 @@ void Params::validate_ur() {
         if(is_hex(output_format)) { return; }
         if(is_bip39(output_format)) { return; }
         if(is_slip39(output_format)) { return ; }
-        
+
         argp_error(state, "The --ur option is only available for hex, BIP39 and SLIP39 output.");
     }
 }
@@ -350,8 +354,8 @@ static int parse_opt(int key, char* arg, struct argp_state* state) {
 }
 
 struct argp_option options[] = {
-    {"in", 'i', "random|hex|bc32|bits|cards|dice|base6|base10|ints|bip39|slip39|ur", 0, "The input format (default: random)"},
-    {"out", 'o', "hex|bc32|bits|cards|dice|base6|base10|ints|bip39|slip39", 0, "The output format (default: hex)"},
+    {"in", 'i', "random|hex|btw|btwu|btwm|bits|cards|dice|base6|base10|ints|bip39|slip39|ur", 0, "The input format (default: random)"},
+    {"out", 'o', "hex|btw|btwu|btwm|bits|cards|dice|base6|base10|ints|bip39|slip39", 0, "The output format (default: hex)"},
     {"count", 'c', "1-64", 0, "The number of output units (default: 32)"},
     {"ur", 'u', "MAX_PART_LENGTH", OPTION_ARG_OPTIONAL, "Encode output as a Uniform Resource (UR). If necessary the UR will be segmented into parts no larger than MAX_PART_LENGTH."},
 

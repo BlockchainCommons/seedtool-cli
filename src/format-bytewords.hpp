@@ -9,9 +9,9 @@
 
 #include "format.hpp"
 
-class FormatBC32 : public Format {
+class FormatBytewords : public Format {
    public:
-    FormatBC32() : Format(Format::Key::bc32, "bc32") {}
+    FormatBytewords() : Format(Format::Key::bytewords, "bytewords") {}
 
     virtual void process_input(Params* p) override;
     virtual void process_output(Params* p) override;
