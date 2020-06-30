@@ -13,7 +13,7 @@
 #include <chrono>
 
 #include <bc-crypto-base/bc-crypto-base.h>
-#include <bc-bech32/bc-bech32.h>
+#include <bc-bytewords/bc-bytewords.h>
 
 using namespace std;
 
@@ -66,8 +66,8 @@ const byte_vector data_to_base(const byte_vector& buf, size_t base) {
     return result;
 }
 
-const string data_to_alphabet(const byte_vector &in, 
-    size_t base, 
+const string data_to_alphabet(const byte_vector &in,
+    size_t base,
     string (to_alphabet)(size_t))
 {
     string result;
@@ -130,7 +130,7 @@ const string join(const string_vector &strings, const string &separator) {
 const string_vector split(const string& s, const char& separator) {
 	string_vector result;
 	string buf;
-	
+
 	for(auto c: s) {
 		if(c != separator) {
             buf += c;
@@ -143,7 +143,7 @@ const string_vector split(const string& s, const char& separator) {
 	if(buf != "") {
         result.push_back(buf);
     }
-	
+
 	return result;
 }
 
@@ -153,10 +153,10 @@ const byte_vector sha256(const byte_vector &buf) {
     return byte_vector(digest, digest + SHA256_DIGEST_LENGTH);
 }
 
-const string data_to_bc32(const byte_vector& in) {
-    char* output = bc32_encode(&in[0], in.size());
+const string data_to_bytewords(bw_style style, const byte_vector& in) {
+    char* output = bytewords_encode(style, &in[0], in.size());
     if(output == NULL) {
-        throw runtime_error("BC32 encoding failed.");
+        throw runtime_error("Bytewords encoding failed.");
     }
     string result;
     result.assign(output);
@@ -164,11 +164,11 @@ const string data_to_bc32(const byte_vector& in) {
     return result;
 }
 
-const byte_vector bc32_to_data(const string& in) {
+const byte_vector bytewords_to_data(bw_style style, const string& in) {
+    uint8_t* output;
     size_t output_len;
-    uint8_t* output = bc32_decode(&output_len, in.c_str());
-    if(output == NULL) {
-        throw runtime_error("Invalid BC32.");
+    if(!bytewords_decode(style, in.c_str(), &output, &output_len)) {
+        throw runtime_error("Invalid Bytewords.");
     }
     byte_vector result;
     result.assign(output, output + output_len);

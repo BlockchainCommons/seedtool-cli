@@ -10,9 +10,6 @@
 [submodule "deps/bc-bip39"]
 	path = deps/bc-bip39
 	url = https://github.com/blockchaincommons/bc-bip39.git
-[submodule "deps/bc-bech32"]
-	path = deps/bc-bech32
-	url = https://github.com/blockchaincommons/bc-bech32.git
 [submodule "deps/argp-standalone"]
 	path = deps/argp-standalone
 	url = https://github.com/BlockchainCommons/argp-standalone.git
@@ -20,3 +17,6 @@
 [submodule "deps/cbor-lite"]
 	path = deps/cbor-lite
 	url = https://github.com/blockchaincommons/cbor-lite.git
+[submodule "deps/bc-bytewords"]
+	path = deps/bc-bytewords
+	url = https://github.com/BlockchainCommons/bc-bytewords.git

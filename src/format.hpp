@@ -25,7 +25,9 @@ class Format {
         ints,
         bip39,
         slip39,
-        bc32
+        bytewords,
+        bytewords_uri,
+        bytewords_minimal
     };
 
     Format(Key key, const std::string &name) : key(key), name(name) {}
