@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([bc-seedtool-cli], [0.5.0])
+AC_INIT([bc-seedtool-cli], [0.6.0])
 AC_CONFIG_SRCDIR([src/seedtool.cpp])
 AC_CONFIG_HEADERS([src/config.h])
 

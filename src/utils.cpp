@@ -153,6 +153,13 @@ const byte_vector sha256(const byte_vector &buf) {
     return byte_vector(digest, digest + SHA256_DIGEST_LENGTH);
 }
 
+const byte_vector crc32(const byte_vector &buf) {
+    uint32_t checksum = crc32n(&buf[0], buf.size());
+    auto cbegin = (uint8_t*)&checksum;
+    auto cend = cbegin + sizeof(uint32_t);
+    return byte_vector(cbegin, cend);
+}
+
 const string data_to_bytewords(bw_style style, const byte_vector& in) {
     char* output = bytewords_encode(style, &in[0], in.size());
     if(output == NULL) {
