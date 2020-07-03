@@ -7,10 +7,7 @@
             "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/src/seedtool",
-            "args": [
-                "--in", "ur",
-                "ur:crypto-slip39/oeadlymwiyjohsjyihjtjyioiskpjkidhsjtieishsiahsieihjniniaishsiahsieihjniniaiohsiajpjlidhsjyihjkjoinjzjzisinjtiajpihhsjkihiojyjphsiyiyiniaiojoihjpiyihiajyihjojpkpjtihiojkisihjpiniyiyisjpjljnhsjtjyiniaiejkjyhskkihiakpjpjzkkiojkisihjpiniyiyihinjnhsioihioinjnjokpjzjkihiojkjljzieinihjpihhsiehsjojyiejoinjtjeaotpiecffdbdcarekpfh"
-            ],
+            "args": [ ],
             "cwd": "${workspaceFolder}/src",
             "preLaunchTask": "Build"
         }

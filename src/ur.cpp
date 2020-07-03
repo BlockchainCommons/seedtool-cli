@@ -17,8 +17,8 @@
 
 using namespace std;
 
-static size_t bc32_encoded_length(size_t payload_len) {
-    return size_t(ceil(payload_len * 8.0 / 5.0) + 6);
+static size_t bytewords_encoded_length(size_t payload_len) {
+    return size_t(payload_len + 4) * 2;
 }
 
 static string sequence_element(size_t seq_num, size_t seq_len) {
@@ -42,7 +42,7 @@ static size_t length_of_ur(size_t type_len, size_t fragment_len, size_t seq_num,
         len += sequence_element(seq_num, seq_len).length() + 1; // "/"
     }
     if(include_hash) {
-        len += bc32_encoded_length(32) + 1; // "/"
+        len += bytewords_encoded_length(4) + 1; // "/"
     }
     len += fragment_len;
     return len;
@@ -50,7 +50,7 @@ static size_t length_of_ur(size_t type_len, size_t fragment_len, size_t seq_num,
 
 static size_t find_number_of_parts(size_t type_len, size_t payload_len, size_t max_part_len) {
     auto seq_len = 0;
-    size_t encoded_payload_len = bc32_encoded_length(payload_len);
+    size_t encoded_payload_len = bytewords_encoded_length(payload_len);
     size_t ur_len;
     do {
         seq_len += 1;
@@ -87,7 +87,7 @@ string_vector encode_ur(const byte_vector& cbor, const string& type, size_t max_
     auto payload = data_to_bytewords(bw_minimal, cbor);
     auto payload_len = payload.length();
     auto frag_len = fragment_len(payload_len, seq_len);
-    auto hash = data_to_bytewords(bw_minimal, sha256(cbor));
+    auto hash = data_to_bytewords(bw_minimal, crc32(cbor));
 
     auto fragments = partition(payload, frag_len);
     assert(seq_len == fragments.size());
@@ -250,7 +250,8 @@ UR::UR(const string_vector& encoded_parts) {
 
     // Check the hash
     if(!hash.empty()) {
-        if(hash != sha256(cbor)) {
+        auto cborChecksum = crc32(cbor);
+        if(hash != cborChecksum) {
             throw runtime_error("UR: Hash didn't match.");
         }
     }

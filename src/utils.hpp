@@ -37,6 +37,7 @@ const std::string join(const string_vector &strings, const std::string &separato
 const string_vector split(const std::string& s, const char& separator);
 
 const byte_vector sha256(const byte_vector &buf);
+const byte_vector crc32(const byte_vector &buf);
 
 const std::string data_to_bytewords(bw_style style, const byte_vector& in);
 const byte_vector bytewords_to_data(bw_style style, const std::string& in);
