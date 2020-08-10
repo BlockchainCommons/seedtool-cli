@@ -17,6 +17,6 @@
 [submodule "deps/cbor-lite"]
 	path = deps/cbor-lite
 	url = https://github.com/blockchaincommons/cbor-lite.git
-[submodule "deps/bc-bytewords"]
-	path = deps/bc-bytewords
-	url = https://github.com/BlockchainCommons/bc-bytewords.git
+[submodule "deps/bc-ur"]
+	path = deps/bc-ur
+	url = https://github.com/BlockchainCommons/bc-ur.git

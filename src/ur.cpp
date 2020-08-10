@@ -13,7 +13,7 @@
 #include <string>
 #include <algorithm>
 #include <math.h>
-#include <bc-bytewords/bc-bytewords.h>
+#include <bc-ur/bc-ur.hpp>
 
 using namespace std;
 
@@ -84,10 +84,10 @@ static string encode_part(const string& fragment, const string& type,
 string_vector encode_ur(const byte_vector& cbor, const string& type, size_t max_part_len) {
     auto seq_len = find_number_of_parts(type.length(), cbor.size(), max_part_len);
 
-    auto payload = data_to_bytewords(bw_minimal, cbor);
+    auto payload = ur::Bytewords::encode(ur::Bytewords::style::minimal, cbor);
     auto payload_len = payload.length();
     auto frag_len = fragment_len(payload_len, seq_len);
-    auto hash = data_to_bytewords(bw_minimal, crc32(cbor));
+    auto hash = ur::Bytewords::encode(ur::Bytewords::style::minimal, crc32(cbor));
 
     auto fragments = partition(payload, frag_len);
     assert(seq_len == fragments.size());
@@ -184,7 +184,7 @@ struct URPart {
 
         // Decode the hash.
         try {
-            hash = bytewords_to_data(bw_minimal, components[hash_index]);
+            hash = ur::Bytewords::decode(ur::Bytewords::style::minimal, components[hash_index]);
         } catch(...) {
             throw runtime_error("UR: Invalid hash.");
         }
@@ -243,7 +243,7 @@ UR::UR(const string_vector& encoded_parts) {
 
     // Decode the payload
     try {
-        cbor = bytewords_to_data(bw_minimal, encoded_cbor);
+        cbor = ur::Bytewords::decode(ur::Bytewords::style::minimal, encoded_cbor);
     } catch(...) {
         throw runtime_error("UR: Invalid payload.");
     }

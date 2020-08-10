@@ -12,7 +12,6 @@
 #include <stdbool.h>
 #include <string>
 #include <vector>
-#include <bc-bytewords/bc-bytewords.h>
 
 typedef std::vector<uint8_t> byte_vector;
 typedef std::vector<std::string> string_vector;
@@ -38,9 +37,6 @@ const string_vector split(const std::string& s, const char& separator);
 
 const byte_vector sha256(const byte_vector &buf);
 const byte_vector crc32(const byte_vector &buf);
-
-const std::string data_to_bytewords(bw_style style, const byte_vector& in);
-const byte_vector bytewords_to_data(bw_style style, const std::string& in);
 
 const std::string to_lower(const std::string& s);
 const bool has_prefix(const std::string& s, const std::string& prefix);
