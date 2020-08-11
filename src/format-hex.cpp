@@ -15,8 +15,7 @@
 
 #include "params.hpp"
 #include "utils.hpp"
-#include "cbor.hpp"
-#include "cbor-lite/codec.h"
+#include "cbor-utils.hpp"
 
 using namespace std;
 
@@ -27,12 +26,12 @@ void FormatHex::process_input(Params* p) {
     // ONLY in "raw entropy" mode.
 
     if(p->is_ur_in) {
-        const UR& ur = *p->ur;
-        auto pos = ur.cbor.begin();
-        const auto end = ur.cbor.end();
+        auto& ur = *p->ur;
+        auto pos = ur.cbor().begin();
+        const auto end = ur.cbor().end();
 
         byte_vector bytes;
-        typedef decltype(ur.cbor)::const_iterator Iter;
+        typedef ur::ByteVector::const_iterator Iter;
         auto f = [&bytes](Iter& pos, Iter end) {
             decode_byte_string(pos, end, bytes);
         };

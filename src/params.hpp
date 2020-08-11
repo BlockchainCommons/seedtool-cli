@@ -11,10 +11,11 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <optional>
 #include <bc-slip39/bc-slip39.h>
+#include <bc-ur/bc-ur.hpp>
 
 #include "random.hpp"
-#include "ur.hpp"
 #include "utils.hpp"
 
 #define MAX_GROUPS 16
@@ -53,7 +54,7 @@ public:
 
     bool is_ur_out = false;
     bool is_ur_in = false;
-    UR* ur = NULL;
+    std::optional<ur::UR> ur;
     size_t max_part_length = 0;
 
     string_vector shares;

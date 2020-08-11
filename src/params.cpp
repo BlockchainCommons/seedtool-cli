@@ -22,7 +22,6 @@ using namespace std;
 Params::~Params() {
     delete input_format;
     delete output_format;
-    delete ur;
 }
 
 void Params::validate_count() {
@@ -254,15 +253,25 @@ void Params::validate_input() {
         }
 
         if(is_ur_in) {
-            ur = new UR(input);
-            if(ur->type == "crypto-seed") {
-                input_format = new FormatHex();
-            } else if(ur->type == "crypto-bip39") {
-                input_format = new FormatBIP39();
-            } else if(ur->type == "crypto-slip39") {
-                input_format = new FormatSLIP39();
+            auto decoder = ur::URDecoder();
+            for(auto part: input) {
+                decoder.receive_part(part);
+            }
+            if(!decoder.is_complete()) {
+                argp_error(state, "Incomplete UR parts.");
+            } else if(decoder.is_failure()) {
+                argp_error(state, "%s", decoder.result_error().what());
             } else {
-                argp_error(state, "Unknown UR type.");
+                ur = decoder.result_ur();
+                if(ur->type() == "crypto-seed") {
+                    input_format = new FormatHex();
+                } else if(ur->type() == "crypto-bip39") {
+                    input_format = new FormatBIP39();
+                } else if(ur->type() == "crypto-slip39") {
+                    input_format = new FormatSLIP39();
+                } else {
+                    argp_error(state, "Unknown UR type.");
+                }
             }
         }
     }
@@ -406,6 +415,11 @@ string_vector Params::get_multiple_arguments() {
 
 void Params::set_ur_output(const byte_vector& cbor, const string& type) {
     //cout << data_to_hex(cbor) << endl;
-    auto parts = encode_ur(cbor, type, max_part_length);
+    auto u = ur::UR(type, cbor);
+    auto encoder = ur::UREncoder(u, max_part_length);
+    string_vector parts;
+    for(auto i = 0; i < encoder.seq_len(); i++) {
+        parts.push_back(encoder.next_part());
+    }
     output = join(parts, "\n");
 }
