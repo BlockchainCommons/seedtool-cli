@@ -8,7 +8,7 @@ A tool for creating and transforming cryptographic seeds.
 * [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
 * [`bc-slip39`](https://github.com/blockchaincommons/bc-slip39)
 * [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
-* [`bc-bytewords`](https://github.com/blockchaincommons/bc-bytewords)
+* [`bc-ur`](https://github.com/blockchaincommons/bc-ur)
 * [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
 * [`CBOR Lite`](https://bitbucket.org/isode/cbor-lite)
 

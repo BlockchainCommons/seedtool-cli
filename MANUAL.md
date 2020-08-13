@@ -711,52 +711,52 @@ To encode the result of `seedtool` as a UR, supply the `--ur[=MAX_PART_LENGTH]` 
 # OK:
 
 $ seedtool --ur
-ur:crypto-seed/5gq4pjvz0lzqme7r36sfm44v43jhu3gzmpjpj3lp2k483n
+ur:crypto-seed/oeadgdcnwnvtkebnbncpaevdjkkeluveglnyldaotpiecffdendigyguki
 
 # OK, UR is still small enough to be encoded in one part
 
 $ seedtool --ur=500
-ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30
+ur:crypto-seed/oeadgdestskgnlknnlpsesbwdsrfkolosbpmynaotpiecffdengmaypssn
 
 # Illegal: Optional values must be defined using equal sign.
 
 $ seedtool --ur 500
 seedtool: Do not provide arguments when using the random (default) input format.
 
-# Invalid: MAX_PART_LENGTH too small:
+# Invalid: MAX_FRAGMENT_LENGTH too small:
 
-$ seedtool --ur=50
-seedtool: Maximum part length too small.
+$ seedtool --ur=9
+seedtool: MAX_FRAGMENT_LENGTH must be >= 10.
 ```
 
 To decode a UR in one of the supported formats, use the UR input method `--in ur`.
 
 ```
-$ seedtool --in ur ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30
-081afccdb9b58066c50f1733d63ebba8
+$ seedtool --in ur ur:crypto-seed/oeadgdcnwnvtkebnbncpaevdjkkeluveglnyldaotpiecffdendigyguki
+23f1e07c0c0c2200e7737c8be44e9a89
 ```
 
 As in other cases, input may be supplied on separate lines and terminated by `^D`.
 
 ```
 $ seedtool --in ur
-ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30
+ur:crypto-seed/oeadgdcnwnvtkebnbncpaevdjkkeluveglnyldaotpiecffdendigyguki
 ^D
-081afccdb9b58066c50f1733d63ebba8
+23f1e07c0c0c2200e7737c8be44e9a89
 ```
 
 As with other input and output methods, seedtool operates in either encoding mode or decoding mode. Thus it is illegal to combine the `--ur` option with the `--in ur` input method.
 
 ```
-$ seedtool --ur --in ur ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30
+$ seedtool --ur --in ur ur:crypto-seed/oeadgdcnwnvtkebnbncpaevdjkkeluveglnyldaotpiecffdendigyguki
 seedtool: The --ur option may not be combined with the --in ur input method.
 ```
 
 The following example pipes the output of one invocation of seedtool to another, first decoding a binary seed UR to hex, and then re-encoding that hex seed as BIP39.
 
 ```
-$ seedtool --in ur ur:crypto-seed/5gq4qzq6lnxmndvqvmzs79en6clth2qzmpjpj3lpax8n30 | seedtool --out bip39 --ur
-ur:crypto-bip39/5gqccemvda38xar9wfjxxmr4vf5xvetnw35hvctvv3jkzumev3kk2ctwvashgarjv93hgetnd9nksar9v4shyargv4cxj7n6v9jxymmy09nkket5vd582urxwfjkvatnv5pdseqeglssz4y9pq
+$ seedtool --in ur ur:crypto-seed/oeadgdcnwnvtkebnbncpaevdjkkeluveglnyldaotpiecffdendigyguki | seedtool --out bip39 --ur
+ur:crypto-ur:crypto-bip39/oeadlkiyihjyisiniajkiykojlkkhsioihihjkjojphskkisieinjkiajlkoihjpieiajzhsktisjehsjtiohsjpjljlieiyinjtieiykoihjkjkihjzieiajphsjniyidihjyjyihjpiajphsktieiekpjtihaotpiecffdenjlprfsvw
 
 #
 # Decode the previous result
@@ -765,21 +765,28 @@ ur:crypto-bip39/5gqccemvda38xar9wfjxxmr4vf5xvetnw35hvctvv3jkzumev3kk2ctwvashgarj
 $ seedtool --in ur
 ur:crypto-bip39/5gqccemvda38xar9wfjxxmr4vf5xvetnw35hvctvv3jkzumev3kk2ctwvashgarjv93hgetnd9nksar9v4shyargv4cxj7n6v9jxymmy09nkket5vd582urxwfjkvatnv5pdseqeglssz4y9pq
 ^D
-83258554a2e89c1db20a2ba5a31de7da
+4dbec34b9f72a0f315af983222b2ca22
 
 #
 # Re-encode the previous result to BIP39 words
 #
 
-$ seedtool --out bip39 --in hex 83258554a2e89c1db20a2ba5a31de7da
-lobster club festival easy mean attract sight earth pizza body ketchup refuse
+$ seedtool --out bip39 --in hex 4dbec34b9f72a0f315af983222b2ca22
+ethics voyage spray discover claw kangaroo find vessel cram better raw dune
+
+#
+# Re-encode the previous result to Bytewords
+#
+
+$ seedtool --out btw --in hex 4dbec34b9f72a0f315af983222b2ca22
+gift ruin scar gear note jump numb wolf buzz pose monk easy cusp purr song cusp kick wave keno brew
 ```
 
 The UR format is designed to be efficiently transmitted in QR codes, because it uses only characters in the QR Code "alphanumeric" character set. This set uses only upper case letters. The Unix `tr` tool can be used to transform the QR to upper case:
 
 ```
 $ seedtool --ur | tr [:lower:] [:upper:]
-UR:CRYPTO-SEED/5GQ4QELHNPJYLFAE07APH603YHVLSVSZMPJPJ3LP5VE66K
+UR:CRYPTO-SEED/OEADGDPLLGAEVTQZESVONNPRLPJLPATAYKWDZCAOTPIECFFDENIMDLDRIO
 ```
 
 ```
@@ -790,7 +797,7 @@ UR:CRYPTO-SEED/5GQ4QELHNPJYLFAE07APH603YHVLSVSZMPJPJ3LP5VE66K
 #
 
 $ seedtool --ur | tr [:lower:] [:upper:] | tee /dev/tty | qrencode -o seedqrcode.png -l L
-UR:CRYPTO-SEED/OEADGDKOSONNENBYLRSRCHMSAHADPTCLJEPTWDAOTPIECFFDBDPLGHLOOL
+UR:CRYPTO-SEED/OEADGDHHGTPKFXLGHHLBPYMHLFRYHLPLSSRKPKAOTPIECFFDENTNJNWNPF
 ```
 
 `seedqrcode.png`:
@@ -800,14 +807,14 @@ UR:CRYPTO-SEED/OEADGDKOSONNENBYLRSRCHMSAHADPTCLJEPTWDAOTPIECFFDBDPLGHLOOL
 The payload of a UR is [CBOR](https://tools.ietf.org/html/rfc7049) encoded as [Bytewords](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-012-bytewords.md). If you wish to examine the CBOR encoding, you can use seedtool to decode the BC32 payload of a UR. In this example we use the seed above, but only decode the part after the slash as BC32.
 
 ```
-$ seedtool --in btwm OEADGDKOSONNENBYLRSRCHMSAHADPTCLJEPTWDAOTPIECFFDBDPLGHLOOL
-a2015076c99e361184c317970501a9216ba9ea02d86419480b
+$ seedtool --in btwm OEADGDHHGTPKFXLGHHLBPYMHLFRYHLPLSSRKPKAOTPIECFFDENTNJNWNPF
+a201505c4daa438d5c7fab9082bd5daec4bbaa02d864194836
 ```
 
 Inputting this byte sequence into the [CBOR Playground](http://cbor.me/), we see the CBOR diagnostic notation output:
 
 ```
-{1: h'76C99E361184C317970501A9216BA9EA', 2: 100(18443)}
+{1: h'5C4DAA438D5C7FAB9082BD5DAEC4BBAA', 2: 100(18486)}
 ```
 
 This is a map with two fields, labeled `1` (the seed itself) and `2` (the date the seed was encoded as number of days since the Unix epoch, tagged with `100` as per the [IETF specification for such dates](https://datatracker.ietf.org/doc/draft-ietf-cbor-date-tag/?include_text=1). The map labels and their meanings are defined in the [Registry of Uniform Resource (UR) Types](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-0006-urtypes.md).
@@ -817,52 +824,40 @@ This is a map with two fields, labeled `1` (the seed itself) and `2` (the date t
 When a UR encoding must be broken up into parts, seedtool prints each part on a separate line.
 
 ```
-$ seedtool --ur=150 --out slip39 --group 2-of-3
-ur:crypto-slip39/1of9/yttkierttndwfrhe/oeadlsmwioioihjtkpinjtihiyjyhskpioisjyishsiahsieihjniniaiehsiainieioiahsjziainkpjnihjliyjyihjtioiojp
-ur:crypto-slip39/2of9/yttkierttndwfrhe/jliaihjpkkieinjyihjnioidjzhsjtjeihjyiojskphsjpjyihjpihiyjpjljyisiojyhsiejojljzihihhsjpiokpihioieihjz
-ur:crypto-slip39/3of9/yttkierttndwfrhe/inkoihjpihjkjyiniajeiejkjzinjnihidkpjnjokkisihkoinieihjtiaihiyiahsjnjokpjkiojkiaisjljzhsjpmwioioihjt
-ur:crypto-slip39/4of9/yttkierttndwfrhe/kpinjtihiyjyhskpioisjyishsiahsieihjniniaiyhsioihjtiakkisieihjkiajpinidihiyjpjljkjyihjpioinjkjljzhsjy
-ur:crypto-slip39/5of9/yttkierttndwfrhe/ihisiejljnihjkjyiniaiejyinjtioiyihjphsjkihjpisjkiajphsjnidjzihihjkjyjljpkkiejzhsjnjoiejljninjyioiyjl
-ur:crypto-slip39/6of9/yttkierttndwfrhe/kpjtieihjpiejyjpkpihiyjpihjtieihjpiojkinjninjzhsjpihjkjojphskkiohsjziajlisjljzmwioioihjtkpinjtihiyjy
-ur:crypto-slip39/7of9/yttkierttndwfrhe/hskpioisjyishsiahsieihjniniaiyhsjzkthskkjkiohsjtjyihjtjthsioiakpjkjyjliekkiyieihjojzjlkkiyihksiaihih
-ur:crypto-slip39/8of9/yttkierttndwfrhe/ieiyjphsinjkinjtiyiyjljpioihjyieisjljzkkiojkjoihiainihjkisjojpihjkihjtiaihiyinjtjkihiajyihjkjykkjzih
-ur:crypto-slip39/9of9/yttkierttndwfrhe/iyieihjkihjpjyihiahsjpkoihisjeihkkidjlhsjpieihidkpjnjokkisiejljnihjkjyiniaaotpiecffdbtyttkiert
+$ seedtool --ur=100 --out slip39 --group 2-of-3
+ur:crypto-slip39/1-5/ltadahcfadsgcyrtrhhfprhdhhoeadlsmwisjkihiakpjpinjykkiyiohsjpieihjtishsiahsieihjniniaiehsiainieisiehskpioisjyihjpisjpihhsiajyinjljtisiehsjpjejtihjkjkihjyjpkpjkjyiohsjnhskninjtioiyiyjzhskojljpihktjljnhsjtihihhsjppmlfenwd
+ur:crypto-slip39/2-5/ltaoahcfadsgcyrtrhhfprhdhhjyisiyktihidiahsjniojoishsjtjyjljniyiahsjpidjljtiyjljphsjtioihisjkjyjphsjyihiokkiojzhsktjkkpinjyiyiohsjzhskskkisimkpieiniainhsjzmwisjkihiakpjpinjykkiyiohsjpieihjtishsiahsieihjniniaiyhsamolzojk
+ur:crypto-slip39/3-5/ltaxahcfadsgcyrtrhhfprhdhhioihjtiakkiyiajljzkpjnjtiyimhsiajeihjyiokohsjnjoinjpihiyhsiyjphsinieiyhskpiokpjkjyisjljpieinjthsjpkkiejphsiaihiskpjojkjyhsinjpjkihjyjpihhsjyiyjkinjkjyihjpioihjtiejljpjkihisiyinjtieinjtjsfhrnfs
+ur:crypto-slip39/4-5/ltaaahcfadsgcyrtrhhfprhdhhiojkiyiohsjyisihjpiyjphsinjkinjtisidjpinihiyinjtioiyjpihkoinihktmwisjkihiakpjpinjykkiyiohsjpieihjtishsiahsieihjniniaiyhsjzkthskkjkihihhsjpjyisioieihiajzhsjpihiyjnkpjkiajzihihjliyjyihjtemfwmecn
+ur:crypto-slip39/5-5/ltahahcfadsgcyrtrhhfprhdhhiojkiahsjyjyihjpiyjkjyihhsiekkihiskpjnhsjtiyjokpjtinjkisisidjpinihiyinjtioiyinjkjzhsjtieiejkhsjzjyiyiahsjpjoihjyioiakpjkjyjliekkihjskpinihjyiokoinjtjyhsioihihjnkpjkiniaaotpiecffdenaeaechoyrnzm
 ```
 
 The original seed can be recovered from the above:
 
 ```
 $ seedtool --in ur
-ur:crypto-slip39/1of9/yttkierttndwfrhe/oeadlsmwioioihjtkpinjtihiyjyhskpioisjyishsiahsieihjniniaiehsiainieioiahsjziainkpjnihjliyjyihjtioiojp
-ur:crypto-slip39/2of9/yttkierttndwfrhe/jliaihjpkkieinjyihjnioidjzhsjtjeihjyiojskphsjpjyihjpihiyjpjljyisiojyhsiejojljzihihhsjpiokpihioieihjz
-ur:crypto-slip39/3of9/yttkierttndwfrhe/inkoihjpihjkjyiniajeiejkjzinjnihidkpjnjokkisihkoinieihjtiaihiyiahsjnjokpjkiojkiaisjljzhsjpmwioioihjt
-ur:crypto-slip39/4of9/yttkierttndwfrhe/kpinjtihiyjyhskpioisjyishsiahsieihjniniaiyhsioihjtiakkisieihjkiajpinidihiyjpjljkjyihjpioinjkjljzhsjy
-ur:crypto-slip39/5of9/yttkierttndwfrhe/ihisiejljnihjkjyiniaiejyinjtioiyihjphsjkihjpisjkiajphsjnidjzihihjkjyjljpkkiejzhsjnjoiejljninjyioiyjl
-ur:crypto-slip39/6of9/yttkierttndwfrhe/kpjtieihjpiejyjpkpihiyjpihjtieihjpiojkinjninjzhsjpihjkjojphskkiohsjziajlisjljzmwioioihjtkpinjtihiyjy
-ur:crypto-slip39/7of9/yttkierttndwfrhe/hskpioisjyishsiahsieihjniniaiyhsjzkthskkjkiohsjtjyihjtjthsioiakpjkjyjliekkiyieihjojzjlkkiyihksiaihih
-ur:crypto-slip39/8of9/yttkierttndwfrhe/ieiyjphsinjkinjtiyiyjljpioihjyieisjljzkkiojkjoihiainihjkisjojpihjkihjtiaihiyinjtjkihiajyihjkjykkjzih
-ur:crypto-slip39/9of9/yttkierttndwfrhe/iyieihjkihjpjyihiahsjpkoihisjeihkkidjlhsjpieihidkpjnjokkisiejljnihjkjyiniaaotpiecffdbtyttkiert
+ur:crypto-slip39/1-5/ltadahcfadsgcyrtrhhfprhdhhoeadlsmwisjkihiakpjpinjykkiyiohsjpieihjtishsiahsieihjniniaiehsiainieisiehskpioisjyihjpisjpihhsiajyinjljtisiehsjpjejtihjkjkihjyjpkpjkjyiohsjnhskninjtioiyiyjzhskojljpihktjljnhsjtihihhsjppmlfenwd
+ur:crypto-slip39/2-5/ltaoahcfadsgcyrtrhhfprhdhhjyisiyktihidiahsjniojoishsjtjyjljniyiahsjpidjljtiyjljphsjtioihisjkjyjphsjyihiokkiojzhsktjkkpinjyiyiohsjzhskskkisimkpieiniainhsjzmwisjkihiakpjpinjykkiyiohsjpieihjtishsiahsieihjniniaiyhsamolzojk
+ur:crypto-slip39/3-5/ltaxahcfadsgcyrtrhhfprhdhhioihjtiakkiyiajljzkpjnjtiyimhsiajeihjyiokohsjnjoinjpihiyhsiyjphsinieiyhskpiokpjkjyisjljpieinjthsjpkkiejphsiaihiskpjojkjyhsinjpjkihjyjpihhsjyiyjkinjkjyihjpioihjtiejljpjkihisiyinjtieinjtjsfhrnfs
+ur:crypto-slip39/4-5/ltaaahcfadsgcyrtrhhfprhdhhiojkiyiohsjyisihjpiyjphsinjkinjtisidjpinihiyinjtioiyjpihkoinihktmwisjkihiakpjpinjykkiyiohsjpieihjtishsiahsieihjniniaiyhsjzkthskkjkihihhsjpjyisioieihiajzhsjpihiyjnkpjkiajzihihjliyjyihjtemfwmecn
+ur:crypto-slip39/5-5/ltahahcfadsgcyrtrhhfprhdhhiojkiahsjyjyihjpiyjkjyihhsiekkihiskpjnhsjtiyjokpjtinjkisisidjpinihiyinjtioiyinjkjzhsjtieiejkhsjzjyiyiahsjpjoihjyioiakpjkjyjliekkihjskpinihjyiokoinjtjyhsioihihjnkpjkiniaaotpiecffdenaeaechoyrnzm
 ^D
-e067d56c0e75d733495e35d4e8524dac
+3b9e4e41fe053ae2b2f0aea8de8c5fad
 ```
 
 The encoded SLIP-39 shares can also be recovered:
 
 ```
 $ seedtool --in ur --out slip39
-ur:crypto-slip39/1of9/yttkierttndwfrhe/oeadlsmwioioihjtkpinjtihiyjyhskpioisjyishsiahsieihjniniaiehsiainieioiahsjziainkpjnihjliyjyihjtioiojp
-ur:crypto-slip39/2of9/yttkierttndwfrhe/jliaihjpkkieinjyihjnioidjzhsjtjeihjyiojskphsjpjyihjpihiyjpjljyisiojyhsiejojljzihihhsjpiokpihioieihjz
-ur:crypto-slip39/3of9/yttkierttndwfrhe/inkoihjpihjkjyiniajeiejkjzinjnihidkpjnjokkisihkoinieihjtiaihiyiahsjnjokpjkiojkiaisjljzhsjpmwioioihjt
-ur:crypto-slip39/4of9/yttkierttndwfrhe/kpinjtihiyjyhskpioisjyishsiahsieihjniniaiyhsioihjtiakkisieihjkiajpinidihiyjpjljkjyihjpioinjkjljzhsjy
-ur:crypto-slip39/5of9/yttkierttndwfrhe/ihisiejljnihjkjyiniaiejyinjtioiyihjphsjkihjpisjkiajphsjnidjzihihjkjyjljpkkiejzhsjnjoiejljninjyioiyjl
-ur:crypto-slip39/6of9/yttkierttndwfrhe/kpjtieihjpiejyjpkpihiyjpihjtieihjpiojkinjninjzhsjpihjkjojphskkiohsjziajlisjljzmwioioihjtkpinjtihiyjy
-ur:crypto-slip39/7of9/yttkierttndwfrhe/hskpioisjyishsiahsieihjniniaiyhsjzkthskkjkiohsjtjyihjtjthsioiakpjkjyjliekkiyieihjojzjlkkiyihksiaihih
-ur:crypto-slip39/8of9/yttkierttndwfrhe/ieiyjphsinjkinjtiyiyjljpioihjyieisjljzkkiojkjoihiainihjkisjojpihjkihjtiaihiyinjtjkihiajyihjkjykkjzih
-ur:crypto-slip39/9of9/yttkierttndwfrhe/iyieihjkihjpjyihiahsjpkoihisjeihkkidjlhsjpieihidkpjnjokkisiejljnihjkjyiniaaotpiecffdbtyttkiert
+ur:crypto-slip39/1-5/ltadahcfadsgcyrtrhhfprhdhhoeadlsmwisjkihiakpjpinjykkiyiohsjpieihjtishsiahsieihjniniaiehsiainieisiehskpioisjyihjpisjpihhsiajyinjljtisiehsjpjejtihjkjkihjyjpkpjkjyiohsjnhskninjtioiyiyjzhskojljpihktjljnhsjtihihhsjppmlfenwd
+ur:crypto-slip39/2-5/ltaoahcfadsgcyrtrhhfprhdhhjyisiyktihidiahsjniojoishsjtjyjljniyiahsjpidjljtiyjljphsjtioihisjkjyjphsjyihiokkiojzhsktjkkpinjyiyiohsjzhskskkisimkpieiniainhsjzmwisjkihiakpjpinjykkiyiohsjpieihjtishsiahsieihjniniaiyhsamolzojk
+ur:crypto-slip39/3-5/ltaxahcfadsgcyrtrhhfprhdhhioihjtiakkiyiajljzkpjnjtiyimhsiajeihjyiokohsjnjoinjpihiyhsiyjphsinieiyhskpiokpjkjyisjljpieinjthsjpkkiejphsiaihiskpjojkjyhsinjpjkihjyjpihhsjyiyjkinjkjyihjpioihjtiejljpjkihisiyinjtieinjtjsfhrnfs
+ur:crypto-slip39/4-5/ltaaahcfadsgcyrtrhhfprhdhhiojkiyiohsjyisihjpiyjphsinjkinjtisidjpinihiyinjtioiyjpihkoinihktmwisjkihiakpjpinjykkiyiohsjpieihjtishsiahsieihjniniaiyhsjzkthskkjkihihhsjpjyisioieihiajzhsjpihiyjnkpjkiajzihihjliyjyihjtemfwmecn
+ur:crypto-slip39/5-5/ltahahcfadsgcyrtrhhfprhdhhiojkiahsjyjyihjpiyjkjyihhsiekkihiskpjnhsjtiyjokpjtinjkisisidjpinihiyinjtioiyinjkjzhsjtieiejkhsjzjyiyiahsjpjoihjyioiakpjkjyjliekkihjskpinihjyiokoinjtjyhsioihihjnkpjkiniaaotpiecffdenaeaechoyrnzm
 ^D
-genuine taught academic acid calcium often grocery item blanket quarter froth tadpole argue deliver stick slim bumpy evidence campus scholar
-genuine taught academic agency describe roster isolate domestic ting eraser scramble story lamp omit founder true render similar spray alcohol
-genuine taught academic always antenna custody deploy exceed raisin forget holy species presence insect style desert carve keyboard bumpy domestic
+security garden academic acid daughter reaction darkness trust amazing flavor woman earth webcam phantom carbon orange strategy lawsuit galaxy judicial
+security garden academic agency column jacket vampire afraid august ordinary race upstairs treat sister endorse findings gather raisin briefing review
+security garden academic always earth declare muscle often scatter steady human punish briefing island salt carpet custody quiet vintage music
 ```
 
 ```
@@ -871,10 +866,79 @@ genuine taught academic acid calcium often grocery item blanket quarter froth ta
 genuine taught academic agency describe roster isolate domestic ting eraser scramble story lamp omit founder true render similar spray alcohol
 genuine taught academic always antenna custody deploy exceed raisin forget holy species presence insect style desert carve keyboard bumpy domestic
 ^D
-e067d56c0e75d733495e35d4e8524dac
+3b9e4e41fe053ae2b2f0aea8de8c5fad
+```
+
+## Multipart Encoding of URs with Fountain Codes
+
+When encoding a multi-part UR, seedtool outputs the minimum number of parts needed to reconstruct the message. You can, however, ask seedtool to produce any number of additional parts beyond the minimum. These are generated using [fountain codes](https://en.wikipedia.org/wiki/Fountain_code), such that each additional part carries some mix of the other parts. The primary purpose of this is to produce a continuous stream of QR codes that can be read starting at any point, and even with a certain number of QR codes missed, still reproduce the original message without ending up having to wait for a single specific part to be displayed.
+
+```
+#
+# Generate a multi-part UR
+#
+
+$ seedtool --deterministic=TEST --ur=50 --out slip39 --group 2-of-3
+ur:crypto-slip39/1-9/ltadascfadrkcyrkfmesjlhdeyoeadlsmwioiahsjpihiykpjzisjohsinjtjyinjtioishsiahsieihjniniaiehsiainieihhsiekpjzjyihjniniejkjyiejzihnldafplf
+ur:crypto-slip39/2-9/ltaoascfadrkcyrkfmesjlhdeyhsiyiejtkpjnidiyjzihhskoihjkiyinjtiyhsjtjyiejyjpinjoiojkiahsjtiehsjzisktinjpihjzihjkjkisiejljninjthstyvwrsao
+ur:crypto-slip39/3-9/ltaxascfadrkcyrkfmesjlhdeyjtjyihjkjnihhsjpisjkkpjtjzinioisjyihjyjpihjtieisiyinjtieinjtiojkihjkjyhsiyiyieiajzkpidmwioiahsjpihiytkltzoda
+ur:crypto-slip39/4-9/ltaaascfadrkcyrkfmesjlhdeykpjzisjohsinjtjyinjtioishsiahsieihjniniaiyhsioihjtiakkioidihjzinihkoihiohsjziajlisjljziyieihiaihjtjykepyttkk
+ur:crypto-slip39/5-9/ltahascfadrkcyrkfmesjlhdeyihiajlkoihjpiojkjyhsieinkpjniojoishsjtjyjljnieisjljzkkiyjnhsjeinjtioiektinjtihiejzihhsiyihihhsjpjzkkntpskbso
+ur:crypto-slip39/6-9/ltamascfadrkcyrkfmesjlhdeyiyiajlkpjpjkihihiainkoinjzieiyhsiajyiojpihkpjtinjljtioiajzjljyisihjkmwioiahsjpihiykpjzisjohsinjtjyinlyrfaofm
+ur:crypto-slip39/7-9/ltatascfadrkcyrkfmesjlhdeyjtioishsiahsieihjniniaiyhsjzkthskkjkisiahsjyihiojljpkkiojoihjthsjzjykkiyjnhsjpkoihjziekthsjpjtihiakpasrpjymw
+ur:crypto-slip39/8-9/ltayascfadrkcyrkfmesjlhdeyidiniaiojkjzhskoihjpkkisjyihhsjkjojljljtiykthsjzjtkpjyihiejlkpioisioiyinjkisinjtioisieihhsiejzinjtihjswptaps
+ur:crypto-slip39/9-9/ltasascfadrkcyrkfmesjlhdeyisiejphsjnhsjyiniaihjzhsieihjtihjljpidinjyiyiohsjyisihjpisiejliakpjnihjtjyaotpiecffdenaeaeaeaeaeaeaetdwtheke
+
+#
+# Generate the same multi-part UR, but add 10 additional parts
+#
+
+$ seedtool --deterministic=TEST --ur=50 --out slip39 --group 2-of-3 --parts 10
+ur:crypto-slip39/1-9/ltadascfadrkcyrkfmesjlhdeyoeadlsmwioiahsjpihiykpjzisjohsinjtjyinjtioishsiahsieihjniniaiehsiainieihhsiekpjzjyihjniniejkjyiejzihnldafplf
+ur:crypto-slip39/2-9/ltaoascfadrkcyrkfmesjlhdeyhsiyiejtkpjnidiyjzihhskoihjkiyinjtiyhsjtjyiejyjpinjoiojkiahsjtiehsjzisktinjpihjzihjkjkisiejljninjthstyvwrsao
+ur:crypto-slip39/3-9/ltaxascfadrkcyrkfmesjlhdeyjtjyihjkjnihhsjpisjkkpjtjzinioisjyihjyjpihjtieisiyinjtieinjtiojkihjkjyhsiyiyieiajzkpidmwioiahsjpihiytkltzoda
+ur:crypto-slip39/4-9/ltaaascfadrkcyrkfmesjlhdeykpjzisjohsinjtjyinjtioishsiahsieihjniniaiyhsioihjtiakkioidihjzinihkoihiohsjziajlisjljziyieihiaihjtjykepyttkk
+ur:crypto-slip39/5-9/ltahascfadrkcyrkfmesjlhdeyihiajlkoihjpiojkjyhsieinkpjniojoishsjtjyjljnieisjljzkkiyjnhsjeinjtioiektinjtihiejzihhsiyihihhsjpjzkkntpskbso
+ur:crypto-slip39/6-9/ltamascfadrkcyrkfmesjlhdeyiyiajlkpjpjkihihiainkoinjzieiyhsiajyiojpihkpjtinjljtioiajzjljyisihjkmwioiahsjpihiykpjzisjohsinjtjyinlyrfaofm
+ur:crypto-slip39/7-9/ltatascfadrkcyrkfmesjlhdeyjtioishsiahsieihjniniaiyhsjzkthskkjkisiahsjyihiojljpkkiojoihjthsjzjykkiyjnhsjpkoihjziekthsjpjtihiakpasrpjymw
+ur:crypto-slip39/8-9/ltayascfadrkcyrkfmesjlhdeyidiniaiojkjzhskoihjpkkisjyihhsjkjojljljtiykthsjzjtkpjyihiejlkpioisioiyinjkisinjtioisieihhsiejzinjtihjswptaps
+ur:crypto-slip39/9-9/ltasascfadrkcyrkfmesjlhdeyisiejphsjnhsjyiniaihjzhsieihjtihjljpidinjyiyiohsjyisihjpisiejliakpjnihjtjyaotpiecffdenaeaeaeaeaeaeaetdwtheke
+ur:crypto-slip39/10-9/ltbkascfadrkcyrkfmesjlhdeyidiniaiojkjzhskoihjpkkisjyihhsjkjojljljtiykthsjzjtkpjyihiejlkpioisioiyinjkisinjtioisieihhsiejzinjtihswpkctbt
+ur:crypto-slip39/11-9/ltbdascfadrkcyrkfmesjlhdeyuyiavtvocmatbkbzaabwaybkcecycmctaoahataeambkaobtbaaebyayctbnbwbaaobnckbtckadbtcwckbaadcaaeaebzbtbsadlopalbrs
+ur:crypto-slip39/12-9/ltbnascfadrkcyrkfmesjlhdeyiahnkpkojejpktlbknjnjejtjoiekbjykbhniekbknlbiyjtjykoihjkkphnimjektkbkslbjobttkkobefpeobyaachbschbsbnwzgryawf
+ur:crypto-slip39/13-9/ltbtascfadrkcyrkfmesjlhdeyayaaatbbbybgadaebaaebzbsbtaybyaecyatbsbyaaadbdbaaececkaacebkcyasasatweadbaaeaebwaxcfayctbybwatbdchcedmaegwvo
+ur:crypto-slip39/14-9/ltbaascfadrkcyrkfmesjlhdeyihiajlkoihjpiojkjyhsieinkpjniojoishsjtjyjljnieisjljzkkiyjnhsjeinjtioiektinjtihiejzihhsiyihihhsjpjzkkdwkkfdhe
+ur:crypto-slip39/15-9/ltbsascfadrkcyrkfmesjlhdeyjtjyihjkjnihhsjpisjkkpjtjzinioisjyihjyjpihjtieisiyinjtieinjtiojkihjkjyhsiyiyieiajzkpidmwioiahsjpihiysgwniehs
+ur:crypto-slip39/16-9/ltbeascfadrkcyrkfmesjlhdeyihiajlkoihjpiojkjyhsieinkpjniojoishsjtjyjljnieisjljzkkiyjnhsjeinjtioiektinjtihiejzihhsiyihihhsjpjzkkdkdreokp
+ur:crypto-slip39/17-9/ltbyascfadrkcyrkfmesjlhdeyaaahbdcsbectahbzcsaaahctbeckadcfamatbscycwasbecyamceckbzbaaeahbtbsbdbnaeaeceaeayascmbgbaadbkbncwaocsgmwpaypk
+ur:crypto-slip39/18-9/ltbgascfadrkcyrkfmesjlhdeyihiajlkoihjpiojkjyhsieinkpjniojoishsjtjyjljnieisjljzkkiyjnhsjeinjtioiektinjtihiejzihhsiyihihhsjpjzkkmujzykty
+ur:crypto-slip39/19-9/ltbwascfadrkcyrkfmesjlhdeyihiajlkoihjpiojkjyhsieinkpjniojoishsjtjyjljnieisjljzkkiyjnhsjeinjtioiektinjtihiejzihhsiyihihhsjpjzkkdaktbzox
+
+#
+# Reconstruct the message from a subset of the generated parts.
+#
+
+$ seedtool --in ur
+seedtool --in ur
+ur:crypto-slip39/1-9/ltadascfadrkcyrkfmesjlhdeyoeadlsmwioiahsjpihiykpjzisjohsinjtjyinjtioishsiahsieihjniniaiehsiainieihhsiekpjzjyihjniniejkjyiejzihnldafplf
+ur:crypto-slip39/2-9/ltaoascfadrkcyrkfmesjlhdeyhsiyiejtkpjnidiyjzihhskoihjkiyinjtiyhsjtjyiejyjpinjoiojkiahsjtiehsjzisktinjpihjzihjkjkisiejljninjthstyvwrsao
+ur:crypto-slip39/3-9/ltaxascfadrkcyrkfmesjlhdeyjtjyihjkjnihhsjpisjkkpjtjzinioisjyihjyjpihjtieisiyinjtieinjtiojkihjkjyhsiyiyieiajzkpidmwioiahsjpihiytkltzoda
+ur:crypto-slip39/4-9/ltaaascfadrkcyrkfmesjlhdeykpjzisjohsinjtjyinjtioishsiahsieihjniniaiyhsioihjtiakkioidihjzinihkoihiohsjziajlisjljziyieihiaihjtjykepyttkk
+ur:crypto-slip39/5-9/ltahascfadrkcyrkfmesjlhdeyihiajlkoihjpiojkjyhsieinkpjniojoishsjtjyjljnieisjljzkkiyjnhsjeinjtioiektinjtihiejzihhsiyihihhsjpjzkkntpskbso
+ur:crypto-slip39/10-9/ltbkascfadrkcyrkfmesjlhdeyidiniaiojkjzhskoihjpkkisjyihhsjkjojljljtiykthsjzjtkpjyihiejlkpioisioiyinjkisinjtioisieihhsiejzinjtihswpkctbt
+ur:crypto-slip39/11-9/ltbdascfadrkcyrkfmesjlhdeyuyiavtvocmatbkbzaabwaybkcecycmctaoahataeambkaobtbaaebyayctbnbwbaaobnckbtckadbtcwckbaadcaaeaebzbtbsadlopalbrs
+ur:crypto-slip39/12-9/ltbnascfadrkcyrkfmesjlhdeyiahnkpkojejpktlbknjnjejtjoiekbjykbhniekbknlbiyjtjykoihjkkphnimjektkbkslbjobttkkobefpeobyaachbschbsbnwzgryawf
+ur:crypto-slip39/13-9/ltbtascfadrkcyrkfmesjlhdeyayaaatbbbybgadaebaaebzbsbtaybyaecyatbsbyaaadbdbaaececkaacebkcyasasatweadbaaeaebwaxcfayctbybwatbdchcedmaegwvo
+ur:crypto-slip39/18-9/ltbgascfadrkcyrkfmesjlhdeyihiajlkoihjpiojkjyhsieinkpjniojoishsjtjyjljnieisjljzkkiyjnhsjeinjtioiektinjtihiejzihhsiyihihhsjpjzkkmujzykty
+^D
+9d347f841a4e2ce6bc886e1aee74d824
 ```
 
 ## Version History
+
+### 0.7.0, 8/12/2020
+
+* Now using bc-ur for UR encoding/decoding. Support multi-part fountain encoding/decoding.
 
 ### 0.6.0, 7/1/2020
 

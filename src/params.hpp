@@ -34,7 +34,8 @@ public:
 
     std::string random_deterministic;
     bool is_ur;
-    std::string max_part_length;
+    std::string max_fragment_length;
+    std::string fountain_parts;
 
     std::string slip39_groups_threshold;
     string_vector slip39_groups;
@@ -55,7 +56,8 @@ public:
     bool is_ur_out = false;
     bool is_ur_in = false;
     std::optional<ur::UR> ur;
-    size_t max_part_length = 0;
+    size_t max_fragment_length = 0;
+    std::optional<size_t> fountain_parts;
 
     string_vector shares;
 
@@ -83,7 +85,7 @@ public:
     string_vector get_multiple_arguments();
 
     void set_ur_output(const byte_vector& cbor, const std::string& type);
-    
+
 private:
     group_descriptor parse_group_spec(const std::string &string);
 

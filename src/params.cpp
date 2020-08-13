@@ -298,10 +298,19 @@ void Params::validate_ur() {
 
         is_ur_out = true;
 
-        if(raw.max_part_length.empty()) {
-            max_part_length = 2500;
+        if(raw.max_fragment_length.empty()) {
+            max_fragment_length = 2500;
         } else {
-            max_part_length = stoi(raw.max_part_length);
+            max_fragment_length = stoi(raw.max_fragment_length);
+        }
+
+        if(max_fragment_length < 10) {
+            argp_error(state, "MAX_FRAGMENT_LENGTH must be >= 10.");
+            return;
+        }
+
+        if(!raw.fountain_parts.empty()) {
+            fountain_parts = stoi(raw.fountain_parts);
         }
 
         if(is_hex(output_format)) { return; }
@@ -349,7 +358,8 @@ static int parse_opt(int key, char* arg, struct argp_state* state) {
             case 'l': raw.ints_low = arg; break;
             case 'o': raw.output_format = arg; break;
             case 't': raw.slip39_groups_threshold = arg; break;
-            case 'u': raw.is_ur = true; raw.max_part_length = arg != NULL ? arg : ""; break;
+            case 'u': raw.is_ur = true; raw.max_fragment_length = arg != NULL ? arg : ""; break;
+            case 'p': raw.fountain_parts = arg; break;
             case ARGP_KEY_ARG: raw.args.push_back(arg); break;
             case ARGP_KEY_END: {
                 p->validate();
@@ -366,7 +376,8 @@ struct argp_option options[] = {
     {"in", 'i', "random|hex|btw|btwu|btwm|bits|cards|dice|base6|base10|ints|bip39|slip39|ur", 0, "The input format (default: random)"},
     {"out", 'o', "hex|btw|btwu|btwm|bits|cards|dice|base6|base10|ints|bip39|slip39", 0, "The output format (default: hex)"},
     {"count", 'c', "1-64", 0, "The number of output units (default: 32)"},
-    {"ur", 'u', "MAX_PART_LENGTH", OPTION_ARG_OPTIONAL, "Encode output as a Uniform Resource (UR). If necessary the UR will be segmented into parts no larger than MAX_PART_LENGTH."},
+    {"ur", 'u', "MAX_FRAGMENT_LENGTH", OPTION_ARG_OPTIONAL, "Encode output as a Uniform Resource (UR). If necessary the UR will be segmented into parts with fragments no larger than MAX_FRAGMENT_LENGTH."},
+    {"parts", 'p', "FOUNTAIN_PARTS", 0, "For multi-part URs, the number of additional UR parts above the minimum to generate using fountain encoding."},
 
     {0, 0, 0, 0, "ints Input and Output Options:", 1},
     {"low", 'l', "0-254", 0, "The lowest int returned (default: 1)"},
@@ -416,9 +427,18 @@ string_vector Params::get_multiple_arguments() {
 void Params::set_ur_output(const byte_vector& cbor, const string& type) {
     //cout << data_to_hex(cbor) << endl;
     auto u = ur::UR(type, cbor);
-    auto encoder = ur::UREncoder(u, max_part_length);
+    auto encoder = ur::UREncoder(u, max_fragment_length);
+    size_t seq_len;
+    if(encoder.is_single_part()) {
+        seq_len = 1;
+    } else {
+        seq_len = encoder.seq_len();
+        if(fountain_parts.has_value()) {
+            seq_len += *fountain_parts;
+        }
+    }
     string_vector parts;
-    for(auto i = 0; i < encoder.seq_len(); i++) {
+    for(auto i = 0; i < seq_len; i++) {
         parts.push_back(encoder.next_part());
     }
     output = join(parts, "\n");
