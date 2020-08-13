@@ -20,7 +20,6 @@
 using namespace std;
 
 void FormatHex::process_input(Params* p) {
-    auto input = p->get_one_argument();
 
     // Currently compatible with with https://iancoleman.io/bip39/
     // ONLY in "raw entropy" mode.
@@ -39,6 +38,7 @@ void FormatHex::process_input(Params* p) {
 
         p->seed = bytes;
     } else {
+        auto input = p->get_one_argument();
         p->seed = hex_to_data(input);
     }
 }

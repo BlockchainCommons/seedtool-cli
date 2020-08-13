@@ -1,6 +1,6 @@
 # 🌱 Seedtool
 
-**Version 0.4.0**<br/>**May 19, 2020**
+**Version 0.7.0**<br/>**August 12, 2020**
 
 *Copyright © 2020 by Blockchain Commons, LLC*<br/>*Licensed under the "BSD-2-Clause Plus Patent License"*
 
@@ -55,7 +55,7 @@ $ seedtool --in random --out hex
 06799f71d16fad08ec5407d32d670147
 ```
 
-The Bytewords format can be used in place of `hex`. Unlike hex, where every possible input is a seed, BC32 includes error detection.
+The Bytewords format can be used in place of `hex`. Unlike hex, where every possible input is a seed, Bytewords includes error detection.
 
 ```
 #
@@ -804,7 +804,7 @@ UR:CRYPTO-SEED/OEADGDHHGTPKFXLGHHLBPYMHLFRYHLPLSSRKPKAOTPIECFFDENTNJNWNPF
 
 ![](manual-images/seedqrcode.png)
 
-The payload of a UR is [CBOR](https://tools.ietf.org/html/rfc7049) encoded as [Bytewords](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-012-bytewords.md). If you wish to examine the CBOR encoding, you can use seedtool to decode the BC32 payload of a UR. In this example we use the seed above, but only decode the part after the slash as BC32.
+The payload of a UR is [CBOR](https://tools.ietf.org/html/rfc7049) encoded as [Bytewords](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-012-bytewords.md). If you wish to examine the CBOR encoding, you can use seedtool to decode the Bytewords payload of a UR. In this example we use the seed above, but only decode the part after the slash as Bytewords.
 
 ```
 $ seedtool --in btwm OEADGDHHGTPKFXLGHHLBPYMHLFRYHLPLSSRKPKAOTPIECFFDENTNJNWNPF
