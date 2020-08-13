@@ -11,8 +11,7 @@
 #include <iostream>
 
 #include "params.hpp"
-#include "cbor-lite/codec.h"
-#include "cbor.hpp"
+#include "cbor-utils.hpp"
 
 using namespace std;
 
@@ -70,12 +69,12 @@ static byte_vector combine(string_vector shares) {
 
 void FormatSLIP39::process_input(Params* p) {
     if(p->is_ur_in) {
-        const UR& ur = *p->ur;
-        auto pos = ur.cbor.begin();
-        const auto end = ur.cbor.end();
+        auto& ur = *p->ur;
+        auto pos = ur.cbor().begin();
+        const auto end = ur.cbor().end();
 
         vector<string_vector> array_of_string_arrays;
-        typedef decltype(ur.cbor)::const_iterator Iter;
+        typedef ur::ByteVector::const_iterator Iter;
         auto f = [&array_of_string_arrays](Iter& pos, Iter end) {
             decode_array_of_string_arrays(pos, end, array_of_string_arrays);
         };

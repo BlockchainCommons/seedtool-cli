@@ -1,6 +1,125 @@
 # 🌱 Blockchain Commons bc-seedtool-cli
 
-A tool for creating and transforming cryptographic seeds.
+## Introduction
+
+`seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications. Here are a few examples of use:
+
+### Generate a cryptographically-strong 16-byte seed
+
+```
+$ seedtool
+8935a8068526d84da555cdb741a3b8a8
+```
+
+### Encode the above seed as BIP-39
+
+```
+$ seedtool --in hex --out bip39 8935a8068526d84da555cdb741a3b8a8
+matrix pull accuse apart horn chat next rifle resemble artist until eye
+```
+
+### Decode the above BIP-39 back to hex
+
+```
+$ seedtool --in bip39 "matrix pull accuse apart horn chat next rifle resemble artist until eye"
+8935a8068526d84da555cdb741a3b8a8
+```
+
+### Decode a seed encoded by Bytewords back to hex
+
+```
+$ seedtool --in btw "deli need cats taxi dice door webs vows free zest legs wall half waxy trip oval memo sets rock hill"
+279b18d0282aefe845fb83e956eed8a6
+```
+
+### Generate a seed using entropy provided as coin flips
+
+```
+$ seedtool --in bits 1110110001110111
+8d933e43b1bc8f2e3fc27adc98ad4534
+```
+
+### Generate a 32-byte seed using entropy provided as cards drawn from a deck of playing cards
+
+```
+$ seedtool --count 32 --in cards 6c9s8c7c9c4cah6c2sjs7d5c2s4c4dqs
+7df301924511326d7350be14c9e7176d98e945f9ad0ed034726ad4ee0de59c25
+```
+
+### Generate a 16-byte seed and encode it using SLIP-39 as 3 shares, 2 of which are required for recovery
+
+```
+$ seedtool --out slip39 --group 2-of-3
+forward enlarge academic acid earth anxiety believe aluminum identify various forecast airline taste tactics oasis frost patrol chest texture mental
+forward enlarge academic agency dress episode penalty animal trip paid cover blessing spark smart coal fluff starting mortgage friendly rival
+forward enlarge academic always distance memory both rhythm enforce costume spider mouse script wrote that favorite auction literary organize gross
+```
+
+### Recover the above seed using 2 of the 3 shares
+
+```
+$ seedtool --in slip39
+forward enlarge academic acid earth anxiety believe aluminum identify various forecast airline taste tactics oasis frost patrol chest texture mental
+forward enlarge academic always distance memory both rhythm enforce costume spider mouse script wrote that favorite auction literary organize gross
+^D
+d17043174fc3a461ecb7d97c167c8ba1
+```
+
+### Generate a seed, encode it as UR, transform it to upper case, display it on the console, and encode it to a QR Code in the file "seedqrcode.png"
+
+```
+$ seedtool --ur | tr [:lower:] [:upper:] | tee /dev/tty | qrencode -o seedqrcode.png -l L
+UR:CRYPTO-SEED/OEADGDHHGTPKFXLGHHLBPYMHLFRYHLPLSSRKPKAOTPIECFFDENTNJNWNPF
+```
+
+![](manual-images/seedqrcode.png)
+
+### Generate a 64-byte seed using a deterministic random number generator and encode it as a multi-part UR with a maximum fragment size of 20 bytes
+
+```
+$ seedtool --deterministic=TEST --count 64 --ur=20
+ur:crypto-seed/1-4/ltadaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytpfsmdidpk
+ur:crypto-seed/2-4/ltaoaacsgecyuywdrnesgudkfwprylienshnjnpluypmamtkmybsjkspvseeehwnpdbb
+ur:crypto-seed/3-4/ltaxaacsgecyuywdrnesgusawmrltdlplgkplfbkqzztglfeoyaegsnedtronnfgpsas
+ur:crypto-seed/4-4/ltaaaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaedmnsoxhf
+```
+
+### Same as above, but generate 5 additional parts using fountain codes
+
+```
+$ seedtool --deterministic=TEST --count 64 --ur=20 --parts 5
+ur:crypto-seed/1-4/ltadaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytpfsmdidpk
+ur:crypto-seed/2-4/ltaoaacsgecyuywdrnesgudkfwprylienshnjnpluypmamtkmybsjkspvseeehwnpdbb
+ur:crypto-seed/3-4/ltaxaacsgecyuywdrnesgusawmrltdlplgkplfbkqzztglfeoyaegsnedtronnfgpsas
+ur:crypto-seed/4-4/ltaaaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaedmnsoxhf
+ur:crypto-seed/5-4/ltahaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaegtndkijp
+ur:crypto-seed/6-4/ltamaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytptkwfjech
+ur:crypto-seed/7-4/ltataacsgecyuywdrnesgusbjlzontwtiytiueutrdwfaachwmcmfrzovseerfsefmdp
+ur:crypto-seed/8-4/ltayaacsgecyuywdrnesguhnwdwsmocwrhbkambezstspdytdtjthfjshlhnbdpygmao
+ur:crypto-seed/9-4/ltasaacsgecyuywdrnesgusawmrltdlplgkplfbkqzztglfeoyaegsnedtroynmduyvl
+```
+
+### Recover the seed using a subset of the generated parts
+
+```
+$ seedtool --in ur
+ur:crypto-seed/2-4/ltaoaacsgecyuywdrnesgudkfwprylienshnjnpluypmamtkmybsjkspvseeehwnpdbb
+ur:crypto-seed/4-4/ltaaaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaedmnsoxhf
+ur:crypto-seed/6-4/ltamaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytptkwfjech
+ur:crypto-seed/8-4/ltayaacsgecyuywdrnesguhnwdwsmocwrhbkambezstspdytdtjthfjshlhnbdpygmao
+^D
+9d347f841a4e2ce6bc886e1aee74d82442b2f7649c606daedbad06cf8f0f73c8e834c2ebb7d2868d75820ab4fb4e45a1004c9f29b8ef2d4d6a94fab0b373615e
+```
+
+### Display usage and help information
+
+```
+$ seedtool --help
+```
+
+## Full Documentation
+
+See [`MANUAL.md`](MANUAL.md) for details, many more examples, and version history.
 
 ## Dependencies
 
@@ -8,7 +127,7 @@ A tool for creating and transforming cryptographic seeds.
 * [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
 * [`bc-slip39`](https://github.com/blockchaincommons/bc-slip39)
 * [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
-* [`bc-bytewords`](https://github.com/blockchaincommons/bc-bytewords)
+* [`bc-ur`](https://github.com/blockchaincommons/bc-ur)
 * [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
 * [`CBOR Lite`](https://bitbucket.org/isode/cbor-lite)
 
@@ -41,25 +160,6 @@ $ source set_build_paths.sh # sets shell variables used by make
 $ make clean # If you want a clean build
 $ make
 ```
-
-## Use
-
-```
-$ seedtool
-8935a8068526d84da555cdb741a3b8a8
-
-$ seedtool --in hex --out bip39 8935a8068526d84da555cdb741a3b8a8
-matrix pull accuse apart horn chat next rifle resemble artist until eye
-
-$ seedtool --in bip39 matrix pull accuse apart horn chat next rifle resemble artist until eye
-8935a8068526d84da555cdb741a3b8a8
-```
-
-```
-$ seedtool --help
-```
-
-See [`MANUAL.md`](MANUAL.md) for detail, examples, and version history.
 
 ## Notes for Maintainers
 

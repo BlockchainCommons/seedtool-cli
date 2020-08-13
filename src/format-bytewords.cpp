@@ -8,7 +8,7 @@
 #include "format-bytewords.hpp"
 
 #include <stdexcept>
-#include <bc-bytewords/bc-bytewords.h>
+#include <bc-ur/bc-ur.hpp>
 
 #include "params.hpp"
 #include "utils.hpp"
@@ -22,9 +22,9 @@ bool FormatBytewords::is_seed_length_valid(size_t seed_len) {
 
 void FormatBytewords::process_input(Params* p) {
     auto input = p->get_one_argument();
-    p->seed = bytewords_to_data(bw_standard, input);
+    p->seed = ur::Bytewords::decode(ur::Bytewords::style::standard, input);
 }
 
 void FormatBytewords::process_output(Params* p) {
-    p->output = data_to_bytewords(bw_standard, p->seed);
+    p->output = ur::Bytewords::encode(ur::Bytewords::style::standard, p->seed);
 }

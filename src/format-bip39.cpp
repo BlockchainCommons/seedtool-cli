@@ -8,12 +8,14 @@
 #include "format-bip39.hpp"
 
 #include <strings.h>
-#include <bc-bip39/bc-bip39.h>
 #include <stdexcept>
+
+#include <bc-bip39/bc-bip39.h>
+#include <bc-ur/bc-ur.hpp>
 
 #include "params.hpp"
 #include "utils.hpp"
-#include "cbor.hpp"
+#include "cbor-utils.hpp"
 
 using namespace std;
 
@@ -27,12 +29,12 @@ void FormatBIP39::process_input(Params* p) {
     string input;
 
     if(p->is_ur_in) {
-        const UR& ur = *p->ur;
-        auto pos = ur.cbor.begin();
-        const auto end = ur.cbor.end();
+        auto& ur = *(p->ur);
+        auto pos = ur.cbor().begin();
+        const auto end = ur.cbor().end();
 
         string_vector strings;
-        typedef decltype(ur.cbor)::const_iterator Iter;
+        typedef ur::ByteVector::const_iterator Iter;
         auto f = [&strings](Iter& pos, Iter end) {
             decode_string_array(pos, end, strings);
         };

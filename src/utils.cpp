@@ -13,7 +13,6 @@
 #include <chrono>
 
 #include <bc-crypto-base/bc-crypto-base.h>
-#include <bc-bytewords/bc-bytewords.h>
 
 using namespace std;
 
@@ -158,29 +157,6 @@ const byte_vector crc32(const byte_vector &buf) {
     auto cbegin = (uint8_t*)&checksum;
     auto cend = cbegin + sizeof(uint32_t);
     return byte_vector(cbegin, cend);
-}
-
-const string data_to_bytewords(bw_style style, const byte_vector& in) {
-    char* output = bytewords_encode(style, &in[0], in.size());
-    if(output == NULL) {
-        throw runtime_error("Bytewords encoding failed.");
-    }
-    string result;
-    result.assign(output);
-    free(output);
-    return result;
-}
-
-const byte_vector bytewords_to_data(bw_style style, const string& in) {
-    uint8_t* output;
-    size_t output_len;
-    if(!bytewords_decode(style, in.c_str(), &output, &output_len)) {
-        throw runtime_error("Invalid Bytewords.");
-    }
-    byte_vector result;
-    result.assign(output, output + output_len);
-    free(output);
-    return result;
 }
 
 const string to_lower(const string& s) {

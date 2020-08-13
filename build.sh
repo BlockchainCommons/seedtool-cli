@@ -34,7 +34,7 @@ make check
 make install
 popd
 
-pushd deps/bc-bytewords
+pushd deps/bc-ur
 ./configure --prefix ${SYSROOT}
 make check
 make install
