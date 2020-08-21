@@ -1,6 +1,6 @@
 # 🌱 Seedtool
 
-**Version 0.7.0**<br/>**August 12, 2020**
+**Version 0.7.1**<br/>**August 21, 2020**
 
 *Copyright © 2020 by Blockchain Commons, LLC*<br/>*Licensed under the "BSD-2-Clause Plus Patent License"*
 
@@ -933,7 +933,26 @@ ur:crypto-slip39/18-9/ltbgascfadrkcyrkfmesjlhdeyihiajlkoihjpiojkjyhsieinkpjniojo
 9d347f841a4e2ce6bc886e1aee74d824
 ```
 
+The example above uses a multi-part UR to encode all the shares of a SLIP-39 seed. Each of the parts of a multi-part UR are *not* equivalent to a share of a multi-share recovery tool like SLIP-39. Seedtool can also decode a SLIP-39 seed from one or more single-part URs that each represent one share of a SLIP-39.
+
+```
+#
+# Recover a SLIP-39 seed using 2 of 3 shares. Each UR is one share.
+#
+
+$ seedtool --in ur
+ur:crypto-slip39/oyadlymwihkojliniaihishsiahsieihjniniaishsiahsieihjniniaiehsiainieiohsjtksinihjykkihiojpinjzjzieiyhsktjtiohskpiajyinjljtiokoihjpieiniajyiyjyihjnjojzihieisjlkpjpiojzinidjphsjpkkihiokpihjkjyiejohsjohsiyjpiskkjyisjnihjkhskoihjpiejlkoihjtihjphsjkjokkisihksiaishsjtioihiyjyjphsiajejkbnvsckem
+ur:crypto-slip39/oyadlymwihkojliniaihishsiahsieihjniniaishsiahsieihjniniaiyhsioihjtiakkiyhsiyjphsinieiyiahsjtkkjljtisjkkkjnjohsjyiskkiyiajpihieinjyiojpihkoihjtkpihihiejpjlkoihiohsiekohsjtiaihiojzhsktjkkpinjyihiahsjpiojlisidinjpjyisiehskkieieihjtkkiyjphsiainjkjnihhsjohsjpjyiyjkhsiyhsjpiniojyjphsiyiyiniaiyihjphsjkihjptytpolwy
+^D
+e3b0c44298fc1c149afbf4c8996fb924
+```
+
 ## Version History
+
+### 0.7.1, 8/21/2020
+
+* Fixed bug where multi-share URs like SLIP-39 were not decoded correctly due to support for multi-part URs being added. Seedtool now supports *either* decoding a multi-part UR or a multi-share UR where the shares are encoded as URs, but not both simultaneously.
+* Added example to MANUAL of decoding URs containing SLIP-39 shares.
 
 ### 0.7.0, 8/12/2020
 

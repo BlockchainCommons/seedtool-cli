@@ -25,7 +25,7 @@ void FormatHex::process_input(Params* p) {
     // ONLY in "raw entropy" mode.
 
     if(p->is_ur_in) {
-        auto& ur = *p->ur;
+        auto& ur = p->ur_shares.front();
         auto pos = ur.cbor().begin();
         const auto end = ur.cbor().end();
 

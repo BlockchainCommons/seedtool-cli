@@ -69,18 +69,19 @@ static byte_vector combine(string_vector shares) {
 
 void FormatSLIP39::process_input(Params* p) {
     if(p->is_ur_in) {
-        auto& ur = *p->ur;
-        auto pos = ur.cbor().begin();
-        const auto end = ur.cbor().end();
+        for(auto& ur: p->ur_shares) {
+            auto pos = ur.cbor().begin();
+            const auto end = ur.cbor().end();
 
-        vector<string_vector> array_of_string_arrays;
-        typedef ur::ByteVector::const_iterator Iter;
-        auto f = [&array_of_string_arrays](Iter& pos, Iter end) {
-            decode_array_of_string_arrays(pos, end, array_of_string_arrays);
-        };
-        decode_dict_with_birthdate(pos, end, f);
-        for(auto a: array_of_string_arrays) {
-            p->shares.push_back(join(a, " "));
+            vector<string_vector> array_of_string_arrays;
+            typedef ur::ByteVector::const_iterator Iter;
+            auto f = [&array_of_string_arrays](Iter& pos, Iter end) {
+                decode_array_of_string_arrays(pos, end, array_of_string_arrays);
+            };
+            decode_dict_with_birthdate(pos, end, f);
+            for(auto a: array_of_string_arrays) {
+                p->shares.push_back(join(a, " "));
+            }
         }
     } else {
         p->shares = p->get_multiple_arguments();
