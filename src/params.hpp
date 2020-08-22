@@ -55,7 +55,7 @@ public:
 
     bool is_ur_out = false;
     bool is_ur_in = false;
-    std::optional<ur::UR> ur;
+    std::vector<ur::UR> ur_shares;
     size_t max_fragment_length = 0;
     std::optional<size_t> fountain_parts;
 

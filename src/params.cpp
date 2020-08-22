@@ -252,22 +252,73 @@ void Params::validate_input() {
             argp_error(state, "No input provided.");
         }
 
+        // We have to handle the cases of multi-part URs and multi-share URs, like SLIP39.
+        // It's also possible that SLIP39 UR shares might themselves be multi-part.
         if(is_ur_in) {
-            auto decoder = ur::URDecoder();
-            for(auto part: input) {
-                decoder.receive_part(part);
+            auto i = input.begin();
+            ur::URDecoder* decoder = NULL;
+
+            enum decoding_state {
+                starting,
+                decoding_multi_part,
+                decoding_multi_share
+            };
+
+            decoding_state ur_state = starting;
+
+            while(i != input.end()) {
+                auto part = *i;
+                //cout << part << endl;
+
+                if(decoder == NULL) {
+                    decoder = new ur::URDecoder();
+                }
+
+                decoder->receive_part(part);
+
+                if(decoder->is_failure()) {
+                    argp_error(state, "%s", decoder->result_error().what());
+                }
+
+                if(ur_state == starting) {
+                    if(decoder->is_success()) {
+                        ur_state = decoding_multi_share;
+                    } else {
+                        ur_state = decoding_multi_part;
+                    }
+                }
+
+                if(decoder->is_success()) {
+                    ur_shares.push_back(decoder->result_ur());
+                }
+
+                if(ur_state == decoding_multi_share) {
+                    if(decoder->is_success()) {
+                        delete decoder;
+                        decoder = NULL;
+                    } else {
+                        argp_error(state, "Multi-part UR encountered while decoding multi-share.");
+                    }
+                } else if(ur_state == decoding_multi_part) {
+                    if(decoder->is_success()) {
+                        delete decoder;
+                        decoder = NULL;
+                        break;
+                    }
+                }
+
+                i++;
             }
-            if(!decoder.is_complete()) {
+
+            if(decoder != NULL) {
                 argp_error(state, "Incomplete UR parts.");
-            } else if(decoder.is_failure()) {
-                argp_error(state, "%s", decoder.result_error().what());
             } else {
-                ur = decoder.result_ur();
-                if(ur->type() == "crypto-seed") {
+                auto type = ur_shares.front().type();
+                if(type == "crypto-seed") {
                     input_format = new FormatHex();
-                } else if(ur->type() == "crypto-bip39") {
+                } else if(type == "crypto-bip39") {
                     input_format = new FormatBIP39();
-                } else if(ur->type() == "crypto-slip39") {
+                } else if(type == "crypto-slip39") {
                     input_format = new FormatSLIP39();
                 } else {
                     argp_error(state, "Unknown UR type.");

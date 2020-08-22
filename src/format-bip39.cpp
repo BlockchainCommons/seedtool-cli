@@ -29,7 +29,7 @@ void FormatBIP39::process_input(Params* p) {
     string input;
 
     if(p->is_ur_in) {
-        auto& ur = *(p->ur);
+        auto& ur = p->ur_shares.front();
         auto pos = ur.cbor().begin();
         const auto end = ur.cbor().end();
 
