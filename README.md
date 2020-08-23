@@ -135,8 +135,32 @@ See [`MANUAL.md`](MANUAL.md) for details, many more examples, and version histor
 
 These dependencies are automatically installed as submodules when you run the build script. This is the recommended way to install.
 
+### MacOS
+
 ```bash
 $ ./build.sh
+$ sudo make install
+```
+
+### Linux
+
+Make sure you have llvm/clang, libc++ and libc++abi installed. All of them with
+a minimum recommended version 10.
+
+#### Ubuntu and Debian
+
+```bash
+$ sudo apt-get install make
+
+$ wget https://apt.llvm.org/llvm.sh
+$ chmod +x llvm.sh
+$ sudo ./llvm.sh 10  # version 10
+
+$ sudo apt-get install libc++-10-dev libc++abi-10-dev
+```
+
+```bash
+$ export CC="clang-10" && export CXX="clang++-10" && ./build.sh
 $ sudo make install
 ```
 
@@ -149,6 +173,7 @@ $ ./configure
 $ make
 $ sudo make install
 ```
+*Note:* On Linux the first step is `./configure CC=clang-10 CXX=clang++-10`
 
 ## Incremental Builds
 

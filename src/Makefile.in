@@ -59,7 +59,13 @@ OBJS = \
 	randombytes.o \
 	hkdf.o
 
-LDFLAGS += -lstdc++ -lbc-crypto-base -lbc-shamir -lbc-slip39 -lbc-bip39 -lbc-ur -largp
+LDFLAGS += -lstdc++
+LDLIBS += -lbc-slip39 -lbc-shamir -lbc-crypto-base -lbc-bip39 -lbc-ur -largp
+
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+    LDLIBS += -lm -lc++ -lc++abi -lgcc_s -lgcc
+endif
 
 $(toolname): $(OBJS)
 
