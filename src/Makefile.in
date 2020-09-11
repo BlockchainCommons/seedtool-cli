@@ -59,12 +59,14 @@ OBJS = \
 	randombytes.o \
 	hkdf.o
 
-LDFLAGS += -lstdc++
 LDLIBS += -lbc-slip39 -lbc-shamir -lbc-crypto-base -lbc-bip39 -lbc-ur -largp
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
     LDLIBS += -lm -lc++ -lc++abi -lgcc_s -lgcc
+else ifeq ($(findstring MINGW64, $(UNAME)), MINGW64)
+    # on windows building with msys2/mingw64
+    LDLIBS += -lm -lc++ -lws2_32
 endif
 
 $(toolname): $(OBJS)
@@ -91,7 +93,7 @@ format-bytewords.o: format-bytewords.hpp format.hpp params.hpp random.hpp
 format-bytewords-uri.o: format-bytewords-uri.hpp format.hpp params.hpp random.hpp
 format-bytewords-minimal.o: format-bytewords-minimal.hpp format.hpp params.hpp random.hpp
 
-bindir = $(DESTDIR)/$(prefix)/bin
+bindir = $(DESTDIR)$(prefix)/bin
 
 .PHONY: install
 install: $(toolname)

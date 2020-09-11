@@ -10,6 +10,9 @@
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
     SHELL := /bin/bash
+else ifeq ($(findstring MINGW64, $(UNAME)), MINGW64)
+    # on windows building with msys2/mingw64
+		SHELL := /bin/bash
 endif
 
 # Package-specific substitution variables
