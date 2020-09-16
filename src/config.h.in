@@ -12,9 +12,6 @@
 /* Define to 1 if you have the `bc-bip39' library (-lbc-bip39). */
 #undef HAVE_LIBBC_BIP39
 
-/* Define to 1 if you have the `bc-bytewords' library (-lbc-bytewords). */
-#undef HAVE_LIBBC_BYTEWORDS
-
 /* Define to 1 if you have the `bc-crypto-base' library (-lbc-crypto-base). */
 #undef HAVE_LIBBC_CRYPTO_BASE
 
