@@ -10,7 +10,7 @@
 
 void FormatRandom::process_input(Params* p) {
     p->seed.resize(p->count);
-    p->rng(&p->seed[0], p->count);
+    p->rng(p->seed.data(), p->count);
 }
 
 void FormatRandom::process_output(Params* p) {

@@ -46,23 +46,23 @@ $ seedtool --count 32 --in cards 6c9s8c7c9c4cah6c2sjs7d5c2s4c4dqs
 7df301924511326d7350be14c9e7176d98e945f9ad0ed034726ad4ee0de59c25
 ```
 
-### Generate a 16-byte seed and encode it using SLIP-39 as 3 shares, 2 of which are required for recovery
+### Generate a 16-byte seed and encode it using SSKR as 3 shares, 2 of which are required for recovery
 
 ```
-$ seedtool --out slip39 --group 2-of-3
-forward enlarge academic acid earth anxiety believe aluminum identify various forecast airline taste tactics oasis frost patrol chest texture mental
-forward enlarge academic agency dress episode penalty animal trip paid cover blessing spark smart coal fluff starting mortgage friendly rival
-forward enlarge academic always distance memory both rhythm enforce costume spider mouse script wrote that favorite auction literary organize gross
+$ seedtool --out sskr --group 2-of-3
+tuna acid epic gyro edge twin able acid able yoga nail wand keno paid ruin jazz keys acid time film pool skew flew luck ruby song owls soap obey
+tuna acid epic gyro edge twin able acid acid yell omit mild webs warm epic flew liar view fuel deli fund glow skew dull knob claw gray surf wand
+tuna acid epic gyro edge twin able acid also visa wave bulb hope drum quad duty need tied vast barn kick task gray tent crux owls easy jolt toil
 ```
 
 ### Recover the above seed using 2 of the 3 shares
 
 ```
-$ seedtool --in slip39
-forward enlarge academic acid earth anxiety believe aluminum identify various forecast airline taste tactics oasis frost patrol chest texture mental
-forward enlarge academic always distance memory both rhythm enforce costume spider mouse script wrote that favorite auction literary organize gross
+$ seedtool --in sskr
+tuna acid epic gyro edge twin able acid able yoga nail wand keno paid ruin jazz keys acid time film pool skew flew luck ruby song owls soap obey
+tuna acid epic gyro edge twin able acid also visa wave bulb hope drum quad duty need tied vast barn kick task gray tent crux owls easy jolt toil
 ^D
-d17043174fc3a461ecb7d97c167c8ba1
+8a7e9c3c0d783371d80e1192e5f6217d
 ```
 
 ### Generate a seed, encode it as UR, transform it to upper case, display it on the console, and encode it to a QR Code in the file "seedqrcode.png"
@@ -125,7 +125,7 @@ See [`MANUAL.md`](MANUAL.md) for details, many more examples, and version histor
 
 * [`bc-crypto-base`](https://github.com/blockchaincommons/bc-crypto-base)
 * [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
-* [`bc-slip39`](https://github.com/blockchaincommons/bc-slip39)
+* [`bc-sskr`](https://github.com/blockchaincommons/bc-sskr)
 * [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
 * [`bc-ur`](https://github.com/blockchaincommons/bc-ur)
 * [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
@@ -185,18 +185,6 @@ This table below also establishes provenance (repository of origin, permalink, a
 | hkdf.h | [rustyrussell/ccan](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/hkdf_sha256.h) | [d07f742](https://github.com/rustyrussell/ccan/commit/d07f742c5925b97ed558eb07aae285616f5df823) | 2016 [Rusty Russell](https://github.com/rustyrussell) | [MIT](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/LICENSE)
 | randombytes.c | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.c) | [6db39aa](https://github.com/dsprenkels/randombytes/commit/6db39aaae6bb9ab97beca00d81bcfe935c56c88d) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
 | randombytes.h | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.h) | [19fd002](https://github.com/dsprenkels/randombytes/commit/19fd002d9b7b001b333a671186a91231b60d821b) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
-
-### Known Issues
-
-#### ⚠️ Warning: Lack of Round-trip Compatibility between BIP-39 and SLIP-39
-
-At first glance, BIP-39 and SLIP-39 both appear to be means of converting a binary seed to a set of backup words and back. You might assume you could simply convert a BIP-39 backup to a binary seed, from that binary seed to SLIP-39, and then use the SLIP-39 backup to recover the same wallet as the original BIP-39 backup, but this is **NOT** the case. This is because the SLIP-39 algorithm that SatoshiLabs uses in their Trezor wallet does not derive the master secret in the same way as their BIP-39 algorithm does.
-
-Currently Blockchain Commons is investigating an alternative to SLIP-39 that allows round-trips with BIP-39. We want to ensure that the same seed will result in the same derived keys using either BIP-39 or our alternative approach.
-
-As SLIP-39 is not round-trip compatible with BIP-39, and SLIP-39 is under the control of SatoshiLabs and does not appear to be a fully community-controlled standard, Blockchain Commons is no longer endorsing SLIP-39.
-
-* This issue is being tracked [here](https://github.com/BlockchainCommons/bc-lethekit/issues/38).
 
 ### Tool Dependencies
 

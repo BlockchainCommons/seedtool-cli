@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 #include <optional>
-#include <bc-slip39/bc-slip39.h>
+#include <bc-sskr/bc-sskr.h>
 #include <bc-ur/bc-ur.hpp>
 
 #include "random.hpp"
@@ -37,8 +37,8 @@ public:
     std::string max_fragment_length;
     std::string fountain_parts;
 
-    std::string slip39_groups_threshold;
-    string_vector slip39_groups;
+    std::string sskr_groups_threshold;
+    string_vector sskr_groups;
 
     string_vector args;
 };
@@ -87,7 +87,7 @@ public:
     void set_ur_output(const byte_vector& cbor, const std::string& type);
 
 private:
-    group_descriptor parse_group_spec(const std::string &string);
+    sskr_group_descriptor parse_group_spec(const std::string &string);
 
     void validate_count();
     void validate_deterministic();
@@ -97,7 +97,7 @@ private:
     void validate_output_for_input();
     void validate_ints_specific();
     void validate_bip39_specific();
-    void validate_slip39_specific();
+    void validate_sskr_specific();
     void validate_input();
     void validate_ur();
 };

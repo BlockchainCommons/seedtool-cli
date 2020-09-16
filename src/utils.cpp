@@ -148,12 +148,12 @@ const string_vector split(const string& s, const char& separator) {
 
 const byte_vector sha256(const byte_vector &buf) {
     uint8_t digest[SHA256_DIGEST_LENGTH];
-    sha256_Raw(&buf[0], buf.size(), digest);
+    sha256_Raw(buf.data(), buf.size(), digest);
     return byte_vector(digest, digest + SHA256_DIGEST_LENGTH);
 }
 
 const byte_vector crc32(const byte_vector &buf) {
-    uint32_t checksum = crc32n(&buf[0], buf.size());
+    uint32_t checksum = crc32n(buf.data(), buf.size());
     auto cbegin = (uint8_t*)&checksum;
     auto cend = cbegin + sizeof(uint32_t);
     return byte_vector(cbegin, cend);

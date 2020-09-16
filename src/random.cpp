@@ -45,9 +45,9 @@ byte_vector deterministic_random(const byte_vector &entropy, size_t n) {
 
     auto seed = sha256(entropy);
 
-    hkdf_sha256(&result[0], n,
+    hkdf_sha256(result.data(), n,
     NULL, 0, // no salt
-    &seed[0], SHA256_DIGEST_LENGTH,
+    seed.data(), SHA256_DIGEST_LENGTH,
     NULL, 0); // no info
 
     return result;

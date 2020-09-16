@@ -1,5 +1,5 @@
 //
-//  format-slip39.hpp
+//  format-sskr.hpp
 //
 //  Copyright © 2020 by Blockchain Commons, LLC
 //  Licensed under the "BSD-2-Clause Plus Patent License"
@@ -7,15 +7,15 @@
 
 #pragma once
 
-#include <bc-slip39/bc-slip39.h>
+#include <bc-sskr/bc-sskr.h>
 #include <vector>
 
 #include "format.hpp"
 #include "utils.hpp"
 
-class FormatSLIP39 : public Format {
+class FormatSSKR : public Format {
    public:
-    FormatSLIP39();
+    FormatSSKR();
 
     virtual void process_input(Params* p) override;
     virtual void process_output(Params* p) override;
@@ -23,5 +23,5 @@ class FormatSLIP39 : public Format {
     static bool is_seed_length_valid(size_t seed_len);
 
     size_t groups_threshold;
-    std::vector<group_descriptor> groups;
+    std::vector<sskr_group_descriptor> groups;
 };
