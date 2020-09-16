@@ -470,11 +470,11 @@ string Params::get_combined_arguments() {
     return join(input, " ");
 }
 
-string_vector Params::get_multiple_arguments() {
+StringVector Params::get_multiple_arguments() {
     return input;
 }
 
-void Params::set_ur_output(const byte_vector& cbor, const string& type) {
+void Params::set_ur_output(const ByteVector& cbor, const string& type) {
     //cout << data_to_hex(cbor) << endl;
     auto u = ur::UR(type, cbor);
     auto encoder = ur::UREncoder(u, max_fragment_length);
@@ -487,7 +487,7 @@ void Params::set_ur_output(const byte_vector& cbor, const string& type) {
             seq_len += *fountain_parts;
         }
     }
-    string_vector parts;
+    StringVector parts;
     for(auto i = 0; i < seq_len; i++) {
         parts.push_back(encoder.next_part());
     }

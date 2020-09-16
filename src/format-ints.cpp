@@ -23,8 +23,8 @@ FormatInts::FormatInts() : Format(Format::Key::ints, "ints") {
     high = 9;
 }
 
-static byte_vector parse_ints(const string& input) {
-    byte_vector result;
+static ByteVector parse_ints(const string& input) {
+    ByteVector result;
 
     istringstream iss(input);
 

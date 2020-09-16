@@ -18,17 +18,17 @@
 const auto cborDecodingFlags = ur::CborLite::Flag::requireMinimalEncoding;
 
 template <typename Buffer>
-void encode_byte_string(Buffer& cbor, const byte_vector& bytes) {
+void encode_byte_string(Buffer& cbor, const ByteVector& bytes) {
     ur::CborLite::encodeBytes(cbor, bytes);
 }
 
 template <typename Iter>
-void decode_byte_string(Iter& pos, Iter end, byte_vector& bytes) {
+void decode_byte_string(Iter& pos, Iter end, ByteVector& bytes) {
     ur::CborLite::decodeBytes(pos, end, bytes, cborDecodingFlags);
 }
 
 template <typename Buffer>
-void encode_string_array(Buffer& cbor, const string_vector& strings) {
+void encode_string_array(Buffer& cbor, const StringVector& strings) {
     ur::CborLite::encodeArraySize(cbor, strings.size());
     for(auto string: strings) {
         ur::CborLite::encodeText(cbor, string);
@@ -36,7 +36,7 @@ void encode_string_array(Buffer& cbor, const string_vector& strings) {
 }
 
 template <typename Iter>
-void decode_string_array(Iter& pos, Iter end, string_vector& strings) {
+void decode_string_array(Iter& pos, Iter end, StringVector& strings) {
     size_t size;
     ur::CborLite::decodeArraySize(pos, end, size, cborDecodingFlags);
     for(auto i = 0; i < size; i++) {
@@ -47,7 +47,7 @@ void decode_string_array(Iter& pos, Iter end, string_vector& strings) {
 }
 
 template <typename Buffer>
-void encode_array_of_string_arrays(Buffer& cbor, const std::vector<string_vector>& array_of_string_arrays) {
+void encode_array_of_string_arrays(Buffer& cbor, const std::vector<StringVector>& array_of_string_arrays) {
     ur::CborLite::encodeArraySize(cbor, array_of_string_arrays.size());
     for(auto string_array: array_of_string_arrays) {
         encode_string_array(cbor, string_array);
@@ -55,18 +55,18 @@ void encode_array_of_string_arrays(Buffer& cbor, const std::vector<string_vector
 }
 
 template <typename Iter>
-void decode_array_of_string_arrays(Iter& pos, Iter end, std::vector<string_vector>& array_of_string_arrays) {
+void decode_array_of_string_arrays(Iter& pos, Iter end, std::vector<StringVector>& array_of_string_arrays) {
     size_t size;
     ur::CborLite::decodeArraySize(pos, end, size, cborDecodingFlags);
     for(auto i = 0; i < size; i++) {
-        string_vector strings;
+        StringVector strings;
         decode_string_array(pos, end, strings);
         array_of_string_arrays.push_back(strings);
     }
 }
 
 template <typename Buffer>
-void encode_dict_with_birthdate(Buffer& cbor, const byte_vector& embedded_cbor) {
+void encode_dict_with_birthdate(Buffer& cbor, const ByteVector& embedded_cbor) {
     ur::CborLite::encodeMapSize(cbor, size_t(2));
     ur::CborLite::encodeInteger(cbor, 1);
     append(cbor, embedded_cbor);

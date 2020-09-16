@@ -22,8 +22,8 @@ bool FormatSSKR::is_seed_length_valid(size_t seed_len) {
     return true;
 }
 
-static byte_vector combine(string_vector shares) {
-    vector<byte_vector*> shares_bytes;
+static ByteVector combine(StringVector shares) {
+    vector<ByteVector*> shares_bytes;
     size_t bytes_in_each_share = 0;
     for(auto share: shares) {
         auto cbor_buf = ur::Bytewords::decode(ur::Bytewords::standard, share);
@@ -36,7 +36,7 @@ static byte_vector combine(string_vector shares) {
         if(tag != ur::CborLite::Major::semantic || value != 309) {
             throw runtime_error("Not a valid SSKR share.");
         }
-        byte_vector* bytes_buf = new byte_vector;
+        ByteVector* bytes_buf = new ByteVector;
         ur::CborLite::decodeBytes(pos, end, *bytes_buf, ur::CborLite::Flag::requireMinimalEncoding);
         auto bytes_in_share = bytes_buf->size();
         if(bytes_in_each_share == 0) {
@@ -54,7 +54,7 @@ static byte_vector combine(string_vector shares) {
     }
 
     size_t result_len = bytes_in_each_share - METADATA_LENGTH_BYTES;
-    byte_vector result(result_len) ;
+    ByteVector result(result_len) ;
 
     auto recovered_secret_len = sskr_combine(
         shares_bytes_pointers.data(), bytes_in_each_share, shares_bytes_pointers.size(),
@@ -116,11 +116,11 @@ void FormatSSKR::process_output(Params* p) {
     assert(bytes_in_each_share == share_len);
 
     if(p->is_ur_out) {
-        string_vector strings;
+        StringVector strings;
         for (int i = 0; i < share_count; i++) {
             uint8_t* bytes = shares_buffer + (i * bytes_in_each_share);
-            auto v = byte_vector(bytes, bytes + bytes_in_each_share);
-            byte_vector cbor;
+            auto v = ByteVector(bytes, bytes + bytes_in_each_share);
+            ByteVector cbor;
             ur::CborLite::encodeTagAndValue(cbor, ur::CborLite::Major::semantic, size_t(309));
             ur::CborLite::encodeBytes(cbor, v);
             ur::UR ur("crypto-sskr", cbor);
@@ -130,11 +130,11 @@ void FormatSSKR::process_output(Params* p) {
         auto all_strings = join(strings, "\n");
         p->output = all_strings;
     } else {
-        string_vector strings;
+        StringVector strings;
         for (int i = 0; i < share_count; i++) {
             uint8_t* bytes = shares_buffer + (i * bytes_in_each_share);
-            auto v = byte_vector(bytes, bytes + bytes_in_each_share);
-            byte_vector cbor;
+            auto v = ByteVector(bytes, bytes + bytes_in_each_share);
+            ByteVector cbor;
             ur::CborLite::encodeTagAndValue(cbor, ur::CborLite::Major::semantic, size_t(309));
             ur::CborLite::encodeBytes(cbor, v);
             auto s = ur::Bytewords::encode(ur::Bytewords::standard, cbor);

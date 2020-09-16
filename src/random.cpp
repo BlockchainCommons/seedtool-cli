@@ -39,8 +39,8 @@ void deterministic_random(uint8_t* buf, size_t n) {
     NULL, 0);
 }
 
-byte_vector deterministic_random(const byte_vector &entropy, size_t n) {
-    byte_vector result;
+ByteVector deterministic_random(const ByteVector &entropy, size_t n) {
+    ByteVector result;
     result.resize(n);
 
     auto seed = sha256(entropy);
@@ -53,7 +53,7 @@ byte_vector deterministic_random(const byte_vector &entropy, size_t n) {
     return result;
 }
 
-byte_vector sha256_deterministic_random(const byte_vector &entropy, size_t n) {
+ByteVector sha256_deterministic_random(const ByteVector &entropy, size_t n) {
     auto seed = sha256(entropy);
     if(n <= seed.size()) {
         return take(seed, n);
@@ -62,8 +62,8 @@ byte_vector sha256_deterministic_random(const byte_vector &entropy, size_t n) {
     }
 }
 
-byte_vector sha256_deterministic_random(const string &string, size_t n) {
-    byte_vector entropy;
+ByteVector sha256_deterministic_random(const string &string, size_t n) {
+    ByteVector entropy;
     for(auto c: string) {
         entropy.push_back(c);
     }
