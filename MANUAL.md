@@ -917,6 +917,7 @@ e3b0c44298fc1c149afbf4c8996fb924
 ### 0.8.0, 9/15/2020
 
 * Replaced SLIP-39 with SSKR.
+* Increased maximum value of `--count` to 1024.
 
 ### 0.7.1, 8/21/2020
 
