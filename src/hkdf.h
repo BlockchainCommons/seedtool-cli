@@ -24,6 +24,7 @@ extern "C" {
 // THE SOFTWARE.
 
 #include <stdlib.h>
+#include <stdint.h>
 
 /**
  * hkdf_sha256 - generate a derived key
