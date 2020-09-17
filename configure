@@ -3617,13 +3617,13 @@ else
 
 fi
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for slip39_word_for_string in -lbc-slip39" >&5
-$as_echo_n "checking for slip39_word_for_string in -lbc-slip39... " >&6; }
-if ${ac_cv_lib_bc_slip39_slip39_word_for_string+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for sskr_generate in -lbc-sskr" >&5
+$as_echo_n "checking for sskr_generate in -lbc-sskr... " >&6; }
+if ${ac_cv_lib_bc_sskr_sskr_generate+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lbc-slip39  $LIBS"
+LIBS="-lbc-sskr  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -3633,36 +3633,36 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char slip39_word_for_string ();
+char sskr_generate ();
 int
 main ()
 {
-return slip39_word_for_string ();
+return sskr_generate ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_bc_slip39_slip39_word_for_string=yes
+  ac_cv_lib_bc_sskr_sskr_generate=yes
 else
-  ac_cv_lib_bc_slip39_slip39_word_for_string=no
+  ac_cv_lib_bc_sskr_sskr_generate=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_bc_slip39_slip39_word_for_string" >&5
-$as_echo "$ac_cv_lib_bc_slip39_slip39_word_for_string" >&6; }
-if test "x$ac_cv_lib_bc_slip39_slip39_word_for_string" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_bc_sskr_sskr_generate" >&5
+$as_echo "$ac_cv_lib_bc_sskr_sskr_generate" >&6; }
+if test "x$ac_cv_lib_bc_sskr_sskr_generate" = xyes; then :
   cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBBC_SLIP39 1
+#define HAVE_LIBBC_SSKR 1
 _ACEOF
 
-  LIBS="-lbc-slip39 $LIBS"
+  LIBS="-lbc-sskr $LIBS"
 
 else
 
-  echo "### Error! libbc-slip39 must be installed first."
+  echo "### Error! libbc-sskr must be installed first."
   exit -1
 
 fi

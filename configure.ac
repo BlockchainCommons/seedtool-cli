@@ -21,8 +21,8 @@ AC_CHECK_LIB([bc-shamir], [split_secret], [], [
   echo "### Error! libbc-shamir must be installed first."
   exit -1
   ])
-AC_CHECK_LIB([bc-slip39], [slip39_word_for_string], [], [
-  echo "### Error! libbc-slip39 must be installed first."
+AC_CHECK_LIB([bc-sskr], [sskr_generate], [], [
+  echo "### Error! libbc-sskr must be installed first."
   exit -1
   ])
 AC_CHECK_LIB([bc-bip39], [bip39_mnemonic_from_word], [], [

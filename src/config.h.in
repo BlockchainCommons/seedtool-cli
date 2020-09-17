@@ -18,8 +18,8 @@
 /* Define to 1 if you have the `bc-shamir' library (-lbc-shamir). */
 #undef HAVE_LIBBC_SHAMIR
 
-/* Define to 1 if you have the `bc-slip39' library (-lbc-slip39). */
-#undef HAVE_LIBBC_SLIP39
+/* Define to 1 if you have the `bc-sskr' library (-lbc-sskr). */
+#undef HAVE_LIBBC_SSKR
 
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */

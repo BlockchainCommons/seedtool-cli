@@ -7,6 +7,14 @@
 #  Licensed under the "BSD-2-Clause Plus Patent License"
 #
 
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+    SHELL := /bin/bash
+else ifeq ($(findstring MINGW64, $(UNAME)), MINGW64)
+    # on windows building with msys2/mingw64
+		SHELL := /bin/bash
+endif
+
 # Package-specific substitution variables
 package = @PACKAGE_NAME@
 version = @PACKAGE_VERSION@
