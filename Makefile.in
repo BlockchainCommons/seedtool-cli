@@ -52,6 +52,5 @@ distclean:
 	rm -f autoscan.log
 	rm -f configure.scan configure.status config.log
 	rm -f config.log config.status config.h
-	rm -rf libs
 	rm -rf deps/*
 	rm -rf sysroot
