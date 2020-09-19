@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 #include <optional>
-#include <bc-slip39/bc-slip39.h>
+#include <bc-sskr/bc-sskr.h>
 #include <bc-ur/bc-ur.hpp>
 
 #include "random.hpp"
@@ -37,10 +37,10 @@ public:
     std::string max_fragment_length;
     std::string fountain_parts;
 
-    std::string slip39_groups_threshold;
-    string_vector slip39_groups;
+    std::string sskr_groups_threshold;
+    StringVector sskr_groups;
 
-    string_vector args;
+    StringVector args;
 };
 
 class Format;
@@ -59,12 +59,12 @@ public:
     size_t max_fragment_length = 0;
     std::optional<size_t> fountain_parts;
 
-    string_vector shares;
+    StringVector shares;
 
-    string_vector input;
+    StringVector input;
     std::string output;
 
-    byte_vector seed;
+    ByteVector seed;
 
     size_t count = 0;
 
@@ -82,12 +82,12 @@ public:
 
     std::string get_one_argument();
     std::string get_combined_arguments();
-    string_vector get_multiple_arguments();
+    StringVector get_multiple_arguments();
 
-    void set_ur_output(const byte_vector& cbor, const std::string& type);
+    void set_ur_output(const ByteVector& cbor, const std::string& type);
 
 private:
-    group_descriptor parse_group_spec(const std::string &string);
+    sskr_group_descriptor parse_group_spec(const std::string &string);
 
     void validate_count();
     void validate_deterministic();
@@ -97,7 +97,7 @@ private:
     void validate_output_for_input();
     void validate_ints_specific();
     void validate_bip39_specific();
-    void validate_slip39_specific();
+    void validate_sskr_specific();
     void validate_input();
     void validate_ur();
 };

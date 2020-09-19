@@ -31,8 +31,8 @@ void Params::validate_count() {
         count = 16;
     }
 
-    if(count < 1 || count > 64) {
-        argp_error(state, "COUNT must be in [1-64].");
+    if(count < 1 || count > 1024) {
+        argp_error(state, "COUNT must be in [1-1024].");
     }
 }
 
@@ -63,7 +63,7 @@ void Params::validate_input_format() {
                 case Format::Key::base10: input_format = new FormatBase10(); break;
                 case Format::Key::ints: input_format = new FormatInts(); break;
                 case Format::Key::bip39: input_format = new FormatBIP39(); break;
-                case Format::Key::slip39: input_format = new FormatSLIP39(); break;
+                case Format::Key::sskr: input_format = new FormatSSKR(); break;
                 case Format::Key::bytewords: input_format = new FormatBytewords(); break;
                 case Format::Key::bytewords_uri: input_format = new FormatBytewordsURI(); break;
                 case Format::Key::bytewords_minimal: input_format = new FormatBytewordsMinimal(); break;
@@ -89,7 +89,7 @@ void Params::validate_output_format() {
             case Format::Key::base10: output_format = new FormatBase10(); break;
             case Format::Key::ints: output_format = new FormatInts(); break;
             case Format::Key::bip39: output_format = new FormatBIP39(); break;
-            case Format::Key::slip39: output_format = new FormatSLIP39(); break;
+            case Format::Key::sskr: output_format = new FormatSSKR(); break;
             case Format::Key::bytewords: output_format = new FormatBytewords(); break;
             case Format::Key::bytewords_uri: output_format = new FormatBytewordsURI(); break;
             case Format::Key::bytewords_minimal: output_format = new FormatBytewordsMinimal(); break;
@@ -131,8 +131,8 @@ void Params::validate_output_for_input() {
         return;
     }
 
-    // SLIP39 UR input works with SLIP39 output format.
-    if(is_ur_in && is_slip39(input_format) && is_slip39(output_format)) {
+    // SSKR UR input works with SSKR output format.
+    if(is_ur_in && is_sskr(input_format) && is_sskr(output_format)) {
         return;
     }
 
@@ -173,7 +173,7 @@ void Params::validate_bip39_specific() {
     }
 }
 
-group_descriptor Params::parse_group_spec(const string &string) {
+sskr_group_descriptor Params::parse_group_spec(const string &string) {
     size_t threshold;
     size_t count;
     auto items = sscanf(string.c_str(), "%zd-of-%zd", &threshold, &count);
@@ -186,48 +186,47 @@ group_descriptor Params::parse_group_spec(const string &string) {
     if(count > 1 && threshold == 1) {
         argp_error(state, "Invalid group specifier. 1-of-M groups where M > 1 are not supported.");
     }
-    group_descriptor g;
+    sskr_group_descriptor g;
     g.threshold = threshold;
     g.count = count;
-    g.passwords = NULL;
     return g;
 }
 
-void Params::validate_slip39_specific() {
-    auto raw_groups_count = raw.slip39_groups.size();
+void Params::validate_sskr_specific() {
+    auto raw_groups_count = raw.sskr_groups.size();
 
-    auto of = dynamic_cast<FormatSLIP39*>(output_format);
+    auto of = dynamic_cast<FormatSSKR*>(output_format);
     if(of == NULL) {
         if(raw_groups_count > 0) {
-            argp_error(state, "Option --group can only be used with the \"slip39\" output format.");
+            argp_error(state, "Option --group can only be used with the \"sskr\" output format.");
         }
-        if(!raw.slip39_groups_threshold.empty()) {
-            argp_error(state, "Option --group-threshold can only be used with the \"slip39\" output format.");
+        if(!raw.sskr_groups_threshold.empty()) {
+            argp_error(state, "Option --group-threshold can only be used with the \"sskr\" output format.");
         }
         return;
     }
 
-    if(!FormatSLIP39::is_seed_length_valid(count)) {
+    if(!FormatSSKR::is_seed_length_valid(count)) {
         argp_error(state, "For BIP39 COUNT must be in [16-32] and even.");
     }
 
-    vector<group_descriptor> groups;
+    vector<sskr_group_descriptor> groups;
     if(raw_groups_count > MAX_GROUPS) {
         argp_error(state, "There must be no more than %d groups.", MAX_GROUPS);
     } else if(raw_groups_count == 0) {
         groups.push_back( {1, 1} );
     } else {
-        for(auto g: raw.slip39_groups) {
+        for(auto g: raw.sskr_groups) {
             auto group = parse_group_spec(g);
             groups.push_back(group);
         }
     }
 
     int groups_threshold;
-    if(raw.slip39_groups_threshold.empty()) {
+    if(raw.sskr_groups_threshold.empty()) {
         groups_threshold = 1;
     } else {
-        groups_threshold = stoi(raw.slip39_groups_threshold);
+        groups_threshold = stoi(raw.sskr_groups_threshold);
     }
     if(!(0 < groups_threshold && groups_threshold <= groups.size())) {
         argp_error(state, "Group threshold must be <= the number of groups.");
@@ -252,8 +251,8 @@ void Params::validate_input() {
             argp_error(state, "No input provided.");
         }
 
-        // We have to handle the cases of multi-part URs and multi-share URs, like SLIP39.
-        // It's also possible that SLIP39 UR shares might themselves be multi-part.
+        // We have to handle the cases of multi-part URs and multi-share URs, like SSKR.
+        // It's also possible that SSKR UR shares might themselves be multi-part.
         if(is_ur_in) {
             auto i = input.begin();
             ur::URDecoder* decoder = NULL;
@@ -318,8 +317,8 @@ void Params::validate_input() {
                     input_format = new FormatHex();
                 } else if(type == "crypto-bip39") {
                     input_format = new FormatBIP39();
-                } else if(type == "crypto-slip39") {
-                    input_format = new FormatSLIP39();
+                } else if(type == "crypto-sskr") {
+                    input_format = new FormatSSKR();
                 } else {
                     argp_error(state, "Unknown UR type.");
                 }
@@ -341,7 +340,7 @@ void Params::validate_count_for_input_format() {
 }
 
 void Params::validate_ur() {
-    // The --ur option is only available for hex, BIP39 and SLIP39 output.
+    // The --ur option is only available for hex, BIP39 and SSKR output.
     if(raw.is_ur) {
         if(is_ur_in) {
             argp_error(state, "The --ur option may not be combined with the --in ur input method.");
@@ -366,9 +365,9 @@ void Params::validate_ur() {
 
         if(is_hex(output_format)) { return; }
         if(is_bip39(output_format)) { return; }
-        if(is_slip39(output_format)) { return ; }
+        if(is_sskr(output_format)) { return ; }
 
-        argp_error(state, "The --ur option is only available for hex, BIP39 and SLIP39 output.");
+        argp_error(state, "The --ur option is only available for hex, BIP39 and SSKR output.");
     }
 }
 
@@ -382,7 +381,7 @@ void Params::validate() {
     validate_output_for_input();
     validate_ints_specific();
     validate_bip39_specific();
-    validate_slip39_specific();
+    validate_sskr_specific();
     validate_ur();
 }
 
@@ -403,12 +402,12 @@ static int parse_opt(int key, char* arg, struct argp_state* state) {
             case ARGP_KEY_INIT: break;
             case 'c': raw.count = arg; break;
             case 'd': raw.random_deterministic = arg; break;
-            case 'g': raw.slip39_groups.push_back(arg); break;
+            case 'g': raw.sskr_groups.push_back(arg); break;
             case 'h': raw.ints_high = arg; break;
             case 'i': raw.input_format = arg; break;
             case 'l': raw.ints_low = arg; break;
             case 'o': raw.output_format = arg; break;
-            case 't': raw.slip39_groups_threshold = arg; break;
+            case 't': raw.sskr_groups_threshold = arg; break;
             case 'u': raw.is_ur = true; raw.max_fragment_length = arg != NULL ? arg : ""; break;
             case 'p': raw.fountain_parts = arg; break;
             case ARGP_KEY_ARG: raw.args.push_back(arg); break;
@@ -424,9 +423,9 @@ static int parse_opt(int key, char* arg, struct argp_state* state) {
 }
 
 struct argp_option options[] = {
-    {"in", 'i', "random|hex|btw|btwu|btwm|bits|cards|dice|base6|base10|ints|bip39|slip39|ur", 0, "The input format (default: random)"},
-    {"out", 'o', "hex|btw|btwu|btwm|bits|cards|dice|base6|base10|ints|bip39|slip39", 0, "The output format (default: hex)"},
-    {"count", 'c', "1-64", 0, "The number of output units (default: 32)"},
+    {"in", 'i', "random|hex|btw|btwu|btwm|bits|cards|dice|base6|base10|ints|bip39|sskr|ur", 0, "The input format (default: random)"},
+    {"out", 'o', "hex|btw|btwu|btwm|bits|cards|dice|base6|base10|ints|bip39|sskr", 0, "The output format (default: hex)"},
+    {"count", 'c', "1-1024", 0, "The number of output units (default: 16)"},
     {"ur", 'u', "MAX_FRAGMENT_LENGTH", OPTION_ARG_OPTIONAL, "Encode output as a Uniform Resource (UR). If necessary the UR will be segmented into parts with fragments no larger than MAX_FRAGMENT_LENGTH."},
     {"parts", 'p', "FOUNTAIN_PARTS", 0, "For multi-part URs, the number of additional UR parts above the minimum to generate using fountain encoding."},
 
@@ -435,7 +434,7 @@ struct argp_option options[] = {
     {"high", 'h', "1-255", 0, "The highest int returned (default: 9)"},
     {"low < high", 0, 0, OPTION_NO_USAGE, 0},
 
-    {0, 0, 0, 0, "SLIP39 Output Options:", 2},
+    {0, 0, 0, 0, "SSKR Output Options:", 2},
     {"group-threshold", 't', "1-16", 0, "The number of groups that must meet their threshold (default: 1)"},
     {"group", 'g', "M-of-N", 0, "The group specification (default: 1-of-1)"},
     {"The --group option may appear more than once.", 0, 0, OPTION_NO_USAGE, 0},
@@ -471,11 +470,11 @@ string Params::get_combined_arguments() {
     return join(input, " ");
 }
 
-string_vector Params::get_multiple_arguments() {
+StringVector Params::get_multiple_arguments() {
     return input;
 }
 
-void Params::set_ur_output(const byte_vector& cbor, const string& type) {
+void Params::set_ur_output(const ByteVector& cbor, const string& type) {
     //cout << data_to_hex(cbor) << endl;
     auto u = ur::UR(type, cbor);
     auto encoder = ur::UREncoder(u, max_fragment_length);
@@ -488,7 +487,7 @@ void Params::set_ur_output(const byte_vector& cbor, const string& type) {
             seq_len += *fountain_parts;
         }
     }
-    string_vector parts;
+    StringVector parts;
     for(auto i = 0; i < seq_len; i++) {
         parts.push_back(encoder.next_part());
     }

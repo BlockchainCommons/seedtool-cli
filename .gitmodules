@@ -4,9 +4,6 @@
 [submodule "deps/bc-shamir"]
 	path = deps/bc-shamir
 	url = https://github.com/blockchaincommons/bc-shamir.git
-[submodule "deps/bc-slip39"]
-	path = deps/bc-slip39
-	url = https://github.com/blockchaincommons/bc-slip39.git
 [submodule "deps/bc-bip39"]
 	path = deps/bc-bip39
 	url = https://github.com/blockchaincommons/bc-bip39.git
@@ -20,3 +17,6 @@
 [submodule "deps/bc-ur"]
 	path = deps/bc-ur
 	url = https://github.com/BlockchainCommons/bc-ur.git
+[submodule "deps/bc-sskr"]
+	path = deps/bc-sskr
+	url = https://github.com/BlockchainCommons/bc-sskr.git

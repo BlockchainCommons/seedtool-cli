@@ -24,7 +24,7 @@ class Format {
         base10,
         ints,
         bip39,
-        slip39,
+        sskr,
         bytewords,
         bytewords_uri,
         bytewords_minimal

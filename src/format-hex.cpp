@@ -29,7 +29,7 @@ void FormatHex::process_input(Params* p) {
         auto pos = ur.cbor().begin();
         const auto end = ur.cbor().end();
 
-        byte_vector bytes;
+        ByteVector bytes;
         typedef ur::ByteVector::const_iterator Iter;
         auto f = [&bytes](Iter& pos, Iter end) {
             decode_byte_string(pos, end, bytes);
@@ -45,9 +45,9 @@ void FormatHex::process_input(Params* p) {
 
 void FormatHex::process_output(Params* p) {
     if(p->is_ur_out) {
-        byte_vector byte_string;
+        ByteVector byte_string;
         encode_byte_string(byte_string, p->seed);
-        byte_vector dict;
+        ByteVector dict;
         encode_dict_with_birthdate(dict, byte_string);
         p->set_ur_output(dict, "crypto-seed");
     } else {

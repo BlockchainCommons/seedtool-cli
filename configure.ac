@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([bc-seedtool-cli], [0.7.1])
+AC_INIT([bc-seedtool-cli], [0.8.0])
 AC_CONFIG_SRCDIR([src/seedtool.cpp])
 AC_CONFIG_HEADERS([src/config.h])
 
@@ -21,8 +21,8 @@ AC_CHECK_LIB([bc-shamir], [split_secret], [], [
   echo "### Error! libbc-shamir must be installed first."
   exit -1
   ])
-AC_CHECK_LIB([bc-slip39], [slip39_word_for_string], [], [
-  echo "### Error! libbc-slip39 must be installed first."
+AC_CHECK_LIB([bc-sskr], [sskr_generate], [], [
+  echo "### Error! libbc-sskr must be installed first."
   exit -1
   ])
 AC_CHECK_LIB([bc-bip39], [bip39_mnemonic_from_word], [], [

@@ -22,7 +22,7 @@ make check
 make install
 popd
 
-pushd deps/bc-slip39
+pushd deps/bc-sskr
 ./configure --prefix ${SYSROOT}
 make check
 make install

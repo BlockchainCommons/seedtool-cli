@@ -24,7 +24,7 @@ void seed_deterministic_string(const std::string &string);
 // Generates a buffer of random bytes using the cryptographically strong deterministic random number generator.
 void deterministic_random(uint8_t* buf, size_t n);
 
-byte_vector deterministic_random(const byte_vector &entropy, size_t n);
+ByteVector deterministic_random(const ByteVector &entropy, size_t n);
 
-byte_vector sha256_deterministic_random(const byte_vector &entropy, size_t n);
-byte_vector sha256_deterministic_random(const std::string &string, size_t n);
+ByteVector sha256_deterministic_random(const ByteVector &entropy, size_t n);
+ByteVector sha256_deterministic_random(const std::string &string, size_t n);

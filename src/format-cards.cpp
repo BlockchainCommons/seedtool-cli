@@ -27,7 +27,7 @@ static size_t parse_rank(char c) {
         if(c == card_ranks[i]) {
             return i;
         }
-    }    
+    }
     throw runtime_error("Invalid card rank. Allowed: [A,2-9,T,J,Q,K]");
 }
 
@@ -37,12 +37,12 @@ static size_t parse_suit(char c) {
         if(c == card_suits[i]) {
             return i;
         }
-    }    
+    }
     throw runtime_error("Invalid card rank. Allowed: [D,C,H,S]");
 }
 
-byte_vector cards_to_data(const string& cards) {
-    byte_vector result;
+ByteVector cards_to_data(const string& cards) {
+    ByteVector result;
 
     auto len = cards.length();
     if(len % 2 != 0) {
