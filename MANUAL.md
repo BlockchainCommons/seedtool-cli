@@ -914,6 +914,10 @@ e3b0c44298fc1c149afbf4c8996fb924
 
 ## Version History
 
+### 0.8.1, 9/19/2020
+
+* Updated to latest versions of dependencies.
+
 ### 0.8.0, 9/15/2020
 
 * Replaced SLIP-39 with SSKR.

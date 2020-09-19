@@ -17,7 +17,7 @@
 
 using namespace std;
 
-void crypto_random(uint8_t* buf, size_t n) {
+void crypto_random(uint8_t* buf, size_t n, void* ctx) {
     assert(randombytes(buf, n) == 0);
 }
 
@@ -30,7 +30,7 @@ void seed_deterministic_string(const string &string) {
     deterministic_salt = 0;
 }
 
-void deterministic_random(uint8_t* buf, size_t n) {
+void deterministic_random(uint8_t* buf, size_t n, void* ctx) {
     deterministic_salt += 1;
 
     hkdf_sha256(buf, n,
