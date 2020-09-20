@@ -109,6 +109,7 @@ void FormatSSKR::process_output(Params* p) {
         groups_threshold, groups.data(), groups.size(),
         p->seed.data(), seed_len,
         &bytes_in_each_share, shares_buffer, shares_buffer_len,
+        NULL,
         p->rng
     );
 
