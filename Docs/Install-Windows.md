@@ -5,12 +5,12 @@ This document describes building `seedtool` with `MSYS2` and its usage on `Windo
 ## Installing MSYS2 and Packages
 
 1. Install `MSYS2` by downloading the installer and following the installation guide in [www.msys2.org](www.msys2.org).
-1. Run `MSYS2` and make sure the package database is updated:
+2. Run `MSYS2` and make sure the package database is updated:
 ```bash
 # pacman -Syu
 # pacman -Su
 ```
-1. Next, install the compiler and the required packages:
+3. Next, install the compiler and the required packages:
 ```bash
 # pacman -S mingw-w64-x86_64-clang
 # pacman -S patch
@@ -24,12 +24,12 @@ This document describes building `seedtool` with `MSYS2` and its usage on `Windo
 ## Compiling Seedtool
 
 1. Clone `bc-seedtool-cli`, e.g. into `C:\msys64\home`
-1. Open `MSYS2 MinGW 64-bit` application and `cd` into `C:\msys64\home\bc-seedtool-cli`
-1. Run the build script with:
+2. Open `MSYS2 MinGW 64-bit` application and `cd` into `C:\msys64\home\bc-seedtool-cli`
+3. Run the build script with:
 ```bash
 # export CC="clang" && export CXX="clang++" && ./build.sh
 ```
-1. Install:
+4. Install:
 ```bash
 # make install
 ```
