@@ -2,43 +2,52 @@
 
 ## Introduction
 
-`seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications. Here are a few examples of use:
+`seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications. 
 
-## Seedtool Usage
+It exercises the various cryptographic C libraries created by Blockchain Commons, as described in the Dependencies section.
 
-See [usage examples](Docs/usage.md) for examples of using seedtool.
+## Status - Feature-Complete Beta
 
-## Full Documentation
-
-See [`MANUAL.md`](MANUAL.md) for details, many more examples, and version history.
+Seedtool is now considered feature-complete and is entering beta-level testing.
 
 ## Dependencies
+
+Seedtool exercises the following Blockchain libraries:
 
 * [`bc-crypto-base`](https://github.com/blockchaincommons/bc-crypto-base)
 * [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
 * [`bc-sskr`](https://github.com/blockchaincommons/bc-sskr)
 * [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
 * [`bc-ur`](https://github.com/blockchaincommons/bc-ur)
+
+It also requires the following additional programs:
+
 * [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
 * [`CBOR Lite`](https://bitbucket.org/isode/cbor-lite)
 
-## Installation
+### Tool Dependencies
 
-These dependencies are automatically installed as submodules when you run the build script. This is the recommended way to install.
+To build `seedtool` you'll need to use the following tools:
 
-### MacOS
+- autotools - Gnu Build System from Free Software Foundation ([intro](https://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)).
+
+## Recommended Installation instructions
+
+The dependencies will be automatically installed as submodules when you run the build script. This is the recommended way to install.
+
+### Build on MacOS
 
 ```bash
 $ ./build.sh
 $ sudo make install
 ```
 
-### Linux
+### Build on Linux
 
-Make sure you have llvm/clang, libc++ and libc++abi installed. All of them with
+Make sure you have `llvm`/`clang`, `libc++` and `libc++abi` installed, all with
 a minimum recommended version 10.
 
-#### Ubuntu and Debian
+#### Build on Ubuntu and Debian
 
 ```bash
 $ sudo apt-get install make
@@ -55,13 +64,13 @@ $ export CC="clang-10" && export CXX="clang++-10" && ./build.sh
 $ sudo make install
 ```
 
-### Windows
+### Build on Windows
 
-See [instructions here](Windows.md).
+See [instructions here](Docs/Install-Windows.md).
 
-## Alternative Installation
+## Alternative Installation Instructions
 
-This sequence does *not* install the dependencies from submodules; instead they must be installed in the usual places on the build system, otherwise the `./configure` step below will fail.
+The following sequence does *not* install the dependencies from submodules; instead they must be installed in the usual places on the build system, otherwise the `./configure` step below will fail.
 
 ```bash
 $ ./configure
@@ -70,7 +79,7 @@ $ sudo make install
 ```
 *Note:* On Linux the first step is `./configure CC=clang-10 CXX=clang++-10`
 
-## Incremental Builds
+## Incremental Build Instructions
 
 If you wish to make changes to the source code and rebuild:
 
@@ -80,6 +89,13 @@ $ source set_build_paths.sh # sets shell variables used by make
 $ make clean # If you want a clean build
 $ make
 ```
+## Usage Instructions
+
+See [usage examples](Docs/Usage.md) for examples of using seedtool.
+
+## Full Documentation
+
+See [`MANUAL.md`](Docs/MANUAL.md) for details, many more examples, and version history.
 
 ## Notes for Maintainers
 
@@ -105,12 +121,6 @@ This table below also establishes provenance (repository of origin, permalink, a
 | hkdf.h | [rustyrussell/ccan](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/hkdf_sha256.h) | [d07f742](https://github.com/rustyrussell/ccan/commit/d07f742c5925b97ed558eb07aae285616f5df823) | 2016 [Rusty Russell](https://github.com/rustyrussell) | [MIT](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/LICENSE)
 | randombytes.c | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.c) | [6db39aa](https://github.com/dsprenkels/randombytes/commit/6db39aaae6bb9ab97beca00d81bcfe935c56c88d) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
 | randombytes.h | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.h) | [19fd002](https://github.com/dsprenkels/randombytes/commit/19fd002d9b7b001b333a671186a91231b60d821b) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
-
-### Tool Dependencies
-
-To build `seedtool` you'll need to use the following tools:
-
-- autotools - Gnu Build System from Free Software Foundation ([intro](https://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)).
 
 ## Financial Support
 
