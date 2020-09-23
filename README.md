@@ -107,6 +107,11 @@ $ make check
 $ make distclean
 ```
 
+## Related Projects
+
+* [LetheKit](https://github.com/BlockchainCommons/bc-lethekit) is a parallel project that uses many of the same libraries, but in hardware.
+* [URKit](https://github.com/BlockchainCommons/URKit) is another example of our [bc-ur](https://github.com/BlockchainCommons/bc-ur) universal-reference library.
+
 ## Origin, Authors, Copyright & Licenses
 
 Unless otherwise noted (either in this [/README.md](./README.md) or in the file's header comments) the contents of this repository are Copyright © 2020 by Blockchain Commons, LLC, and are [licensed](./LICENSE) under the [spdx:BSD-2-Clause Plus Patent License](https://spdx.org/licenses/BSD-2-Clause-Patent.html).
