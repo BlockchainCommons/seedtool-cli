@@ -2,140 +2,40 @@
 
 ## Introduction
 
-`seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications. Here are a few examples of use:
+`seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications.
 
-### Generate a cryptographically-strong 16-byte seed
+It exercises the various cryptographic C libraries created by Blockchain Commons, as described in the Dependencies section.
 
-```
-$ seedtool
-8935a8068526d84da555cdb741a3b8a8
-```
+## Status - Feature-Complete Beta
 
-### Encode the above seed as BIP-39
-
-```
-$ seedtool --in hex --out bip39 8935a8068526d84da555cdb741a3b8a8
-matrix pull accuse apart horn chat next rifle resemble artist until eye
-```
-
-### Decode the above BIP-39 back to hex
-
-```
-$ seedtool --in bip39 "matrix pull accuse apart horn chat next rifle resemble artist until eye"
-8935a8068526d84da555cdb741a3b8a8
-```
-
-### Decode a seed encoded by Bytewords back to hex
-
-```
-$ seedtool --in btw "deli need cats taxi dice door webs vows free zest legs wall half waxy trip oval memo sets rock hill"
-279b18d0282aefe845fb83e956eed8a6
-```
-
-### Generate a seed using entropy provided as coin flips
-
-```
-$ seedtool --in bits 1110110001110111
-8d933e43b1bc8f2e3fc27adc98ad4534
-```
-
-### Generate a 32-byte seed using entropy provided as cards drawn from a deck of playing cards
-
-```
-$ seedtool --count 32 --in cards 6c9s8c7c9c4cah6c2sjs7d5c2s4c4dqs
-7df301924511326d7350be14c9e7176d98e945f9ad0ed034726ad4ee0de59c25
-```
-
-### Generate a 16-byte seed and encode it using SSKR as 3 shares, 2 of which are required for recovery
-
-```
-$ seedtool --out sskr --group 2-of-3
-tuna acid epic gyro edge twin able acid able yoga nail wand keno paid ruin jazz keys acid time film pool skew flew luck ruby song owls soap obey
-tuna acid epic gyro edge twin able acid acid yell omit mild webs warm epic flew liar view fuel deli fund glow skew dull knob claw gray surf wand
-tuna acid epic gyro edge twin able acid also visa wave bulb hope drum quad duty need tied vast barn kick task gray tent crux owls easy jolt toil
-```
-
-### Recover the above seed using 2 of the 3 shares
-
-```
-$ seedtool --in sskr
-tuna acid epic gyro edge twin able acid able yoga nail wand keno paid ruin jazz keys acid time film pool skew flew luck ruby song owls soap obey
-tuna acid epic gyro edge twin able acid also visa wave bulb hope drum quad duty need tied vast barn kick task gray tent crux owls easy jolt toil
-^D
-8a7e9c3c0d783371d80e1192e5f6217d
-```
-
-### Generate a seed, encode it as UR, transform it to upper case, display it on the console, and encode it to a QR Code in the file "seedqrcode.png"
-
-```
-$ seedtool --ur | tr [:lower:] [:upper:] | tee /dev/tty | qrencode -o seedqrcode.png -l L
-UR:CRYPTO-SEED/OEADGDHHGTPKFXLGHHLBPYMHLFRYHLPLSSRKPKAOTPIECFFDENTNJNWNPF
-```
-
-![](manual-images/seedqrcode.png)
-
-### Generate a 64-byte seed using a deterministic random number generator and encode it as a multi-part UR with a maximum fragment size of 20 bytes
-
-```
-$ seedtool --deterministic=TEST --count 64 --ur=20
-ur:crypto-seed/1-4/ltadaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytpfsmdidpk
-ur:crypto-seed/2-4/ltaoaacsgecyuywdrnesgudkfwprylienshnjnpluypmamtkmybsjkspvseeehwnpdbb
-ur:crypto-seed/3-4/ltaxaacsgecyuywdrnesgusawmrltdlplgkplfbkqzztglfeoyaegsnedtronnfgpsas
-ur:crypto-seed/4-4/ltaaaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaedmnsoxhf
-```
-
-### Same as above, but generate 5 additional parts using fountain codes
-
-```
-$ seedtool --deterministic=TEST --count 64 --ur=20 --parts 5
-ur:crypto-seed/1-4/ltadaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytpfsmdidpk
-ur:crypto-seed/2-4/ltaoaacsgecyuywdrnesgudkfwprylienshnjnpluypmamtkmybsjkspvseeehwnpdbb
-ur:crypto-seed/3-4/ltaxaacsgecyuywdrnesgusawmrltdlplgkplfbkqzztglfeoyaegsnedtronnfgpsas
-ur:crypto-seed/4-4/ltaaaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaedmnsoxhf
-ur:crypto-seed/5-4/ltahaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaegtndkijp
-ur:crypto-seed/6-4/ltamaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytptkwfjech
-ur:crypto-seed/7-4/ltataacsgecyuywdrnesgusbjlzontwtiytiueutrdwfaachwmcmfrzovseerfsefmdp
-ur:crypto-seed/8-4/ltayaacsgecyuywdrnesguhnwdwsmocwrhbkambezstspdytdtjthfjshlhnbdpygmao
-ur:crypto-seed/9-4/ltasaacsgecyuywdrnesgusawmrltdlplgkplfbkqzztglfeoyaegsnedtroynmduyvl
-```
-
-### Recover the seed using a subset of the generated parts
-
-```
-$ seedtool --in ur
-ur:crypto-seed/2-4/ltaoaacsgecyuywdrnesgudkfwprylienshnjnpluypmamtkmybsjkspvseeehwnpdbb
-ur:crypto-seed/4-4/ltaaaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaedmnsoxhf
-ur:crypto-seed/6-4/ltamaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytptkwfjech
-ur:crypto-seed/8-4/ltayaacsgecyuywdrnesguhnwdwsmocwrhbkambezstspdytdtjthfjshlhnbdpygmao
-^D
-9d347f841a4e2ce6bc886e1aee74d82442b2f7649c606daedbad06cf8f0f73c8e834c2ebb7d2868d75820ab4fb4e45a1004c9f29b8ef2d4d6a94fab0b373615e
-```
-
-### Display usage and help information
-
-```
-$ seedtool --help
-```
-
-## Full Documentation
-
-See [`MANUAL.md`](MANUAL.md) for details, many more examples, and version history.
+Seedtool is now considered feature-complete and is entering beta-level testing.
 
 ## Dependencies
+
+Seedtool exercises the following Blockchain libraries:
 
 * [`bc-crypto-base`](https://github.com/blockchaincommons/bc-crypto-base)
 * [`bc-shamir`](https://github.com/blockchaincommons/bc-shamir)
 * [`bc-sskr`](https://github.com/blockchaincommons/bc-sskr)
 * [`bc-bip39`](https://github.com/blockchaincommons/bc-bip39)
 * [`bc-ur`](https://github.com/blockchaincommons/bc-ur)
+
+It also requires the following additional programs:
+
 * [`GNU argp`](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
 * [`CBOR Lite`](https://bitbucket.org/isode/cbor-lite)
 
-## Installation
+### Tool Dependencies
 
-These dependencies are automatically installed as submodules when you run the build script. This is the recommended way to install.
+To build `seedtool` you'll need to use the following tools:
 
-### MacOS
+- autotools - Gnu Build System from Free Software Foundation ([intro](https://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)).
+
+## Recommended Installation instructions
+
+The dependencies will be automatically installed as submodules when you run the build script. This is the recommended way to install.
+
+### Build on MacOS
 
 ```bash
 $ brew install autoconf automake libtool shunit2
@@ -146,12 +46,12 @@ $ ./build.sh
 $ sudo make install
 ```
 
-### Linux
+### Build on Linux
 
-Make sure you have llvm/clang, libc++ and libc++abi installed. All of them with
+Make sure you have `llvm`/`clang`, `libc++` and `libc++abi` installed, all with
 a minimum recommended version 10.
 
-#### Ubuntu and Debian
+#### Build on Ubuntu and Debian
 
 ```bash
 $ sudo apt-get install make
@@ -168,13 +68,13 @@ $ export CC="clang-10" && export CXX="clang++-10" && ./build.sh
 $ sudo make install
 ```
 
-### Windows
+### Build on Windows
 
-See [instructions here](Windows.md).
+See [instructions here](Docs/Install-Windows.md).
 
-## Alternative Installation
+## Alternative Installation Instructions
 
-This sequence does *not* install the dependencies from submodules; instead they must be installed in the usual places on the build system, otherwise the `./configure` step below will fail.
+The following sequence does *not* install the dependencies from submodules; instead they must be installed in the usual places on the build system, otherwise the `./configure` step below will fail.
 
 ```bash
 $ ./configure
@@ -183,7 +83,7 @@ $ sudo make install
 ```
 *Note:* On Linux the first step is `./configure CC=clang-10 CXX=clang++-10`
 
-## Incremental Builds
+## Incremental Build Instructions
 
 If you wish to make changes to the source code and rebuild:
 
@@ -193,6 +93,13 @@ $ source set_build_paths.sh # sets shell variables used by make
 $ make clean # If you want a clean build
 $ make
 ```
+## Usage Instructions
+
+See [usage examples](Docs/Usage.md) for examples of using seedtool.
+
+## Full Documentation
+
+See [`MANUAL.md`](Docs/MANUAL.md) for details, many more examples, and version history.
 
 ## Notes for Maintainers
 
@@ -203,6 +110,11 @@ $ ./build.sh
 $ make check
 $ make distclean
 ```
+
+## Related Projects
+
+* [LetheKit](https://github.com/BlockchainCommons/bc-lethekit) is a parallel project that uses many of the same libraries, but in hardware.
+* [URKit](https://github.com/BlockchainCommons/URKit) is another example of our [bc-ur](https://github.com/BlockchainCommons/bc-ur) universal-reference library.
 
 ## Origin, Authors, Copyright & Licenses
 

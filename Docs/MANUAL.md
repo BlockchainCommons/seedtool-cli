@@ -1,6 +1,6 @@
 # 🌱 Seedtool
 
-**Version 0.8.0**<br/>**September 15, 2020**
+**Version 0.8.1**<br/>**September 22, 2020**
 
 *Copyright © 2020 by Blockchain Commons, LLC*<br/>*Licensed under the "BSD-2-Clause Plus Patent License"*
 
@@ -10,7 +10,7 @@
 
 * [Introduction](#introduction)
 * [General Functionality](#general-functionality)
-* [Generate Random Seeds](#generate-random-seeds)
+* [Generating Random Seeds](#generating-random-seeds)
 * [Generating Seeds from Provided Entropy](#generating-seeds-from-provided-entropy)
 * [Deterministic Randomness](#deterministic-randomness)
 * [Compatibility](#compatibility)
@@ -21,7 +21,7 @@
 
 `seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications.
 
-See [`README.md`](README.md) for installation and credits.
+See [`README.md`](../README.md) for installation and credits.
 
 ## General Functionality
 
@@ -51,6 +51,8 @@ $ seedtool
 $ seedtool --in random --out hex
 06799f71d16fad08ec5407d32d670147
 ```
+
+### Bytewords
 
 The Bytewords format can be used in place of `hex`. Unlike hex, where every possible input is a seed, Bytewords includes error detection.
 
@@ -83,7 +85,7 @@ deli-need-cats-taxi-dice-door-webs-vows-free-zest-legs-wall-half-waxy-trip-oval-
 $ seedtool --in hex --out btwm 279b18d0282aefe845fb83e956eed8a6
 dindcstidedrwsvsfeztlswlhfwytpolmossrkhl
 ```
-
+### Outputs & Counts
 An output format `--out` and count `--count` may be specified. Count may be in [1-1024] and the default `count` is 16. For the `hex` and Bytewords (`btw`, `btwu`, `btwm`) output formats, the count is the number of bytes generated. For other output formats, `count` is the number of "output units" (e.g., bits, cards, die rolls, etc.)
 
 ```
@@ -139,6 +141,7 @@ $ seedtool --out cards --count 5
 
 **✅ NOTE:** Playing cards may be duplicated; it is as if each card is drawn from a freshly shuffled deck.
 
+### Low & High
 Sequences of random integers may be generated. By default, `--count` is 16, `--low` is 0, and `--high` is 9.
 
 `low` < `high` < `256`
@@ -159,6 +162,8 @@ $ seedtool --out ints --count 8 --low 1 --high 100
 76 15 25 57 99 41 4 95
 ```
 
+### BIP39
+
 BIP39 can be used as an output format. The default `--count` is 16 bytes (128 bits, 12 words), but may be any multiple of 2 in [12,32].
 
 ```
@@ -176,6 +181,8 @@ sorry pupil battle tortoise ceiling hurdle family market device primary language
 $ seedtool --out bip39 --count 32
 mind knock evoke recycle payment snack pear party mean rubber open work rug trophy federal connect indicate security release three buzz buddy motion game
 ```
+
+### SSKRs
 
 SSKR can be used as an output format. By default `--count` is 16 bytes (128 bits, 20 words), but may be any multiple of 2 in [16-32]. By default a single 1-of-1 share is generated. This is the same as running `seedtool --out sskr --group-threshold 1 --group 1-of-1`.
 
@@ -238,6 +245,8 @@ tuna acid epic gyro into knob brag cusp aqua slot film each horn cash sets hang 
 
 When the `--in` option is used, seedtool takes one or more arguments and uses them to construct the seed. If no arguments are given on the command line, it reads input from stdin and uses what it reads to construct the seed. In the examples below, the end of input to stdin is marked by `^D` on its own line.
 
+### Hex & Bytewords
+
 When the input format is `hex` or Bytewords (`btw`, `btwu`, `btwm`), the construction is the identity function (passthrough.)
 
 ```
@@ -259,6 +268,8 @@ dindcstidedrwsvsfeztlswlhfwytpolmossrkhl
 ^D
 279b18d0282aefe845fb83e956eed8a6
 ```
+
+### Other Inputs
 
 For the other input formats, each "unit" of the input (bit, digit, card, etc.) is converted to a byte and placed in an array. The SHA256 is then taken of the resulting array, yielding a deterministic seed. This seed is then used to generate a cryptographic seed of `count` bytes.
 
@@ -344,6 +355,8 @@ $ seedtool --in ints 71 22 95 6 23 65 27 10 67 16
 a38385ba7a67b7f5882b37f75b43c2df
 ```
 
+### Piping Output & Input
+
 Output of one call to seedtool can be piped into another.
 
 ```
@@ -364,6 +377,8 @@ c13be193c8e3451a20b75e8dc0f69284
 $ cat dice.asc
 4435442555226432
 ```
+
+### Count Options
 
 If a smaller or larger seed is desired, the `--count` option specifies how many bytes it contains.
 
@@ -389,6 +404,8 @@ $ seedtool --in bits --count 32 0111100011000011
 $ seedtool --in cards --count 20 6c2c3hthacts6d4hkhtd2d7c6c3sqs6h
 731e0a4c76189b2b55f4c705ccbb0105d3ee72c0
 ```
+
+### Inputs for BIP39 & SSKR
 
 `bip39` and `sskr` output formats can be combined with the `random` (default) input format. If the `--count N` option is used with the `hex` or Bytewords (`btw`, `btwu`, `btwm`) input formats, it results in a seed of `N` bytes being generated and used.
 
@@ -611,7 +628,7 @@ $ seedtool --in sskr "tuna acid epic gyro brag aqua able able able hill code dut
 5d1c30bbc6f3cfd070067b63c851ffe7
 ```
 
-Seedtool also provides the `--deterministic S` option, which takes a string `S`, produces the SHA256 hash of that string, and then uses that to seed it's own cryptography-quality random number generator it uses for the rest of its run. This means that seeds generated by seedtool with the same `--deterministic` input will yield the same results.
+Seedtool also provides the `--deterministic S` option, which takes a string `S`, produces the SHA256 hash of that string, and then uses that to seed its own cryptography-quality random number generator, which it uses for the rest of its run. This means that seeds generated by seedtool with the same `--deterministic` input will yield the same results.
 
 ```
 #
@@ -795,7 +812,7 @@ UR:CRYPTO-SEED/OEADGDHHGTPKFXLGHHLBPYMHLFRYHLPLSSRKPKAOTPIECFFDENTNJNWNPF
 
 `seedqrcode.png`:
 
-![](manual-images/seedqrcode.png)
+![](../manual-images/seedqrcode.png)
 
 The payload of a UR is [CBOR](https://tools.ietf.org/html/rfc7049) encoded as [Bytewords](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-012-bytewords.md). If you wish to examine the CBOR encoding, you can use seedtool to decode the Bytewords payload of a UR. In this example we use the seed above, but only decode the part after the slash as Bytewords.
 
