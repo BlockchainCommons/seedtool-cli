@@ -29,6 +29,10 @@ AC_CHECK_LIB([bc-bip39], [bip39_mnemonic_from_word], [], [
   echo "### Error! libbc-bip39 must be installed first."
   exit -1
   ])
+AC_CHECK_LIB([bc-ur], [crc32n], [], [
+  echo "### Error! libbc-ur must be installed first."
+  exit -1
+  ])
 AC_CHECK_LIB([argp], [argp_parse], [], [
   echo "### Error! argp must be installed first. Try 'brew install argp-standalone'."
   exit -1

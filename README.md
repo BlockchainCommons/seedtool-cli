@@ -138,6 +138,10 @@ These dependencies are automatically installed as submodules when you run the bu
 ### MacOS
 
 ```bash
+$ brew install autoconf automake libtool shunit2
+```
+
+```bash
 $ ./build.sh
 $ sudo make install
 ```
@@ -220,6 +224,7 @@ This table below also establishes provenance (repository of origin, permalink, a
 To build `seedtool` you'll need to use the following tools:
 
 - autotools - Gnu Build System from Free Software Foundation ([intro](https://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)).
+- shunit2 - Unit testing for shell scripts
 
 ## Financial Support
 
