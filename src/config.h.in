@@ -21,6 +21,9 @@
 /* Define to 1 if you have the `bc-sskr' library (-lbc-sskr). */
 #undef HAVE_LIBBC_SSKR
 
+/* Define to 1 if you have the `bc-ur' library (-lbc-ur). */
+#undef HAVE_LIBBC_UR
+
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
 #undef HAVE_MALLOC

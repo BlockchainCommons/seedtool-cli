@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications. 
+`seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications.
 
 It exercises the various cryptographic C libraries created by Blockchain Commons, as described in the Dependencies section.
 
@@ -36,6 +36,10 @@ To build `seedtool` you'll need to use the following tools:
 The dependencies will be automatically installed as submodules when you run the build script. This is the recommended way to install.
 
 ### Build on MacOS
+
+```bash
+$ brew install autoconf automake libtool shunit2
+```
 
 ```bash
 $ ./build.sh
@@ -126,6 +130,13 @@ This table below also establishes provenance (repository of origin, permalink, a
 | hkdf.h | [rustyrussell/ccan](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/hkdf_sha256.h) | [d07f742](https://github.com/rustyrussell/ccan/commit/d07f742c5925b97ed558eb07aae285616f5df823) | 2016 [Rusty Russell](https://github.com/rustyrussell) | [MIT](https://github.com/rustyrussell/ccan/blob/master/ccan/crypto/hkdf_sha256/LICENSE)
 | randombytes.c | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.c) | [6db39aa](https://github.com/dsprenkels/randombytes/commit/6db39aaae6bb9ab97beca00d81bcfe935c56c88d) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
 | randombytes.h | [dsprenkels/randombytes](https://github.com/dsprenkels/randombytes/blob/master/randombytes.h) | [19fd002](https://github.com/dsprenkels/randombytes/commit/19fd002d9b7b001b333a671186a91231b60d821b) | 2017-2019 [Daan Sprenkels](https://github.com/dsprenkels/) | [MIT](https://github.com/dsprenkels/randombytes/commit/73ae9b4fce2e62babdd6a480b53ad449dd745ed9) |
+
+### Tool Dependencies
+
+To build `seedtool` you'll need to use the following tools:
+
+- autotools - Gnu Build System from Free Software Foundation ([intro](https://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)).
+- shunit2 - Unit testing for shell scripts
 
 ## Financial Support
 
