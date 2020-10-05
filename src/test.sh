@@ -31,13 +31,13 @@ testInBTW()
 
 testOutBTWU()
 {
-  assertEquals $'deli-need-cats-taxi-dice-door-webs-vows-free-zest-legs-wall-half-waxy-trip-oval-memo-sets-rock-hill' \
+  assertEquals $'deli-need-cats-taxi-dice-door-webs-vows-free-zero-legs-wall-half-waxy-trip-oval-memo-sets-rock-hill' \
     "$(${SEEDTOOL} --in hex --out btwu 279b18d0282aefe845fb83e956eed8a6)"
 }
 
 testOutBTWM()
 {
-  assertEquals $'dindcstidedrwsvsfeztlswlhfwytpolmossrkhl' \
+  assertEquals $'dindcstidedrwsvsfezolswlhfwytpolmossrkhl' \
     "$(${SEEDTOOL} --in hex --out btwm 279b18d0282aefe845fb83e956eed8a6)"
 }
 
@@ -115,7 +115,7 @@ testOutSSKRCount32()
 
 testOutSSKRGroup2Of3()
 {
-  assertEquals $'tuna acid epic gyro many meow able acid able mild fern pool door purr calm trip cyan flew zinc cats tuna omit figs bias acid aunt keys play frog
+  assertEquals $'tuna acid epic gyro many meow able acid able mild fern pool door purr calm trip cyan flew zest cats tuna omit figs bias acid aunt keys play frog
 tuna acid epic gyro many meow able acid acid keep undo peck poem kiwi jazz cola luck hope rock into film jolt lava flux rust gala sets ruin toil
 tuna acid epic gyro many meow able acid also girl void oval fish exam veto gala inky keys jump visa barn cusp high miss monk jazz numb dice foxy' \
     "$(${SEEDTOOL} --out sskr --group 2-of-3)"
@@ -130,12 +130,12 @@ tuna acid epic gyro many meow brag brag able kiwi pool yell user math girl figs 
 tuna acid epic gyro many meow brag brag acid surf miss barn kick surf miss lamb calm miss dark song kite fuel real hill mint apex dull runs unit
 tuna acid epic gyro many meow brag brag also skew love quad dull iced join each curl numb data aqua wand vows owls idea cash keep echo keys math
 tuna acid epic gyro many meow brag brag apex kept quad fund loud film quiz junk kiln jump paid fish brag toil yank high meow apex data cash ruin
-tuna acid epic gyro many meow brag brag aqua epic open wave main high calm echo taxi void paid fact kiln soap tiny lion join kiln rust blue flap
+tuna acid epic gyro many meow brag brag aqua epic open wave main high calm echo taxi void paid fact kiln soap tiny list join kiln rust blue flap
 tuna acid epic gyro many meow brag cusp able legs acid keep menu film yell very lava undo flew curl wolf soap chef idle fuel king runs trip urge
-tuna acid epic gyro many meow brag cusp acid puff kiwi crux soap rock toys bulb hill jade beta jade zone loud void junk kiln soap draw edge pose
-tuna acid epic gyro many meow brag cusp also heat apex plus mild glow saga lava yoga user game diet mild gyro list puma down echo quiz user oboe
+tuna acid epic gyro many meow brag cusp acid puff kiwi crux soap rock toys bulb hill jade beta jade zinc loud void junk kiln soap draw edge pose
+tuna acid epic gyro many meow brag cusp also heat apex plus mild glow saga lava yoga user game diet mild gyro limp puma down echo quiz user oboe
 tuna acid epic gyro many meow brag cusp apex iron lamb yurt taco song veto keep data iris atom idea need bulb king oval calm lava deli echo time
-tuna acid epic gyro many meow brag cusp aqua vast rust bald iron fuel grim gyro eyes chef dark kept surf mild swan bulb slot draw kick zest onyx' \
+tuna acid epic gyro many meow brag cusp aqua vast rust bald iron fuel grim gyro eyes chef dark kept surf mild swan bulb slot draw kick zero onyx' \
     "$(${SEEDTOOL} --out sskr --group-threshold 2 --group 2-of-3 --group 3-of-5 --group 3-of-5)"
 }
 
@@ -189,25 +189,27 @@ testDicePipe()
 
 testInBIP39OutBTW()
 {
-  assertEquals $'love exam mint dark bias item mint atom open kept soap lion whiz view soap fact jugs obey idle jugs' \
+  assertEquals $'love exam mint dark bias item mint atom open kept soap list whiz view soap fact jugs obey idle jugs' \
     "$(${SEEDTOOL} --in bip39 --out btw mechanic royal math burst practice addict noise weekend margin now improve invest)"
 }
 
 testInSSKR()
 {
   assertEquals $'82f188b091c38fced97bb45732bddf7e' \
-    "$(${SEEDTOOL} --in sskr 'tuna acid epic gyro junk gala able able able leaf when logo puff maze scar many taco tuna king quiz hang easy ruby user knob taco yell jump dice')"
+    "$(${SEEDTOOL} --in sskr 'tuna acid epic gyro edge next able able able leaf when logo puff maze scar many taco tuna king quiz hang easy ruby user knob omit time chef slot')"
 }
 
 testInSSKR2Of3()
 {
   assertEquals $'2c4b163bfe9b791dbc0e755b911d01f6' \
-    "$(${SEEDTOOL} --in sskr 'tuna acid epic gyro next time able acid able solo luau girl also tuna gems also rust zero iron frog safe yoga jolt duty part able atom twin good' 'tuna acid epic gyro next time able acid also swan calm road belt duty tiny zero wolf epic also veto trip trip fund vibe yank junk cash oboe jury')"
+    "$(${SEEDTOOL} --in sskr \
+        'tuna acid epic gyro edge next able acid able flux down eyes pool task cyan gyro kept exit paid wave high news bias zone zaps calm note poem aqua' \
+        'tuna acid epic gyro edge next able acid also wolf vows bald sets claw bald dull cost slot inky liar work note tied zest safe crux kiln work exit')"
 }
 
 testOutUR()
 {
-  assertEquals $'ur:crypto-seed/oeadgdnteelblrcygldwvarflojtcywyjytpdkaotpiecffdiovowycwsn' \
+  assertEquals $'ur:crypto-seed/oeadgdnteelblrcygldwvarflojtcywyjytpdkaotpiecffdjzkpfnsafe' \
     "$(${SEEDTOOL} --ur)"
 }
 
@@ -219,43 +221,43 @@ testInUR()
 
 testOutMultipartUR()
 {
-  assertEquals $'ur:crypto-seed/1-5/ltadahcfadndcyfsnbonythdguoeadhkadmhnteelblrcygldwvarflojtcywyjytpdkfwprylienshnjnpluypmamtkmybsjkspvseesawmrltdlplgkplfbkqzztglfeoyaegsnedtrowsdpgtimmwzspfqdjkhshyfrylenpdnnnswmbeheclasztgmdskemwbkwt
-ur:crypto-seed/2-5/ltaoahcfadndcyfsnbonythdgutpoennbtflwykbtpktgwcxdkhtskwkkgmdmdlubblstnoxpkpysotntbcmotbdwfetqzwsckmscadwssgarysfeomohdytfhlbmeottiiogmdnayhholprylstdieytohtweknvtwsdifhbwsptadlzsldrpnspscsutkkghltgmfm
-ur:crypto-seed/3-5/ltaxahcfadndcyfsnbonythdguiyfzeyvtyajlvlsewnhkjltduohddwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezcurgtlpuecwfehgatkspriymotofgcemhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahkgbazces
-ur:crypto-seed/4-5/ltaaahcfadndcyfsnbonythdgutdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvltpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpefppfemlkntknghveglrypslaahtblyvdspolptpkflsfmdfxjydpiolpdtvoko
-ur:crypto-seed/5-5/ltahahcfadndcyfsnbonythdguihlnbnwppfhtielguthtwdpdihaykgoyclentldykkmnvedsbwuyeojejennbkrtkevotacppyjsvdgohtvewenyneylfekihgcpltgljoisgwverkmokgldyavseojehncfvakgehcmrojlweaotpiecffdioaeaeaeaedigrqzey' \
+  assertEquals $'ur:crypto-seed/1-5/lpadahcfadndcypkjpkejshdguoeadhkadmhnteelblrcygldwvarflojtcywyjytpdkfwprylienshnjnpluypmamtkmybsjkspvseesawmrltdlnlgkplfbkqzzoglfeoyaegsnedtrowsdpgtimmwzspfqdjkhshyfrylenpdnnnswmbeheclaszogmdskgzmjtfg
+ur:crypto-seed/2-5/lpaoahcfadndcypkjpkejshdgutpoennbtflwykbtpktgwcxdkhtskwkkgmdmdlubblstnoxpkpysotntbcmotbdwfetqzwsckmscadwssgarysfeomohdytfhlbmeottiiogmdnayhholprylstdieytohtweknvtwsdifhbwsptadlzsldrpnspscsutkkguwyenlo
+ur:crypto-seed/3-5/lpaxahcfadndcypkjpkejshdguiyfzeyvtyajlvlsewnhkjltduohddwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezturgtlnuecwfehgatkspriymotofgcemhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahkeihmkmy
+ur:crypto-seed/4-5/lpaaahcfadndcypkjpkejshdgutdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvltpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpefppfemlkntknghveglrypslaahtblyvdspolptpkflsfmdfxjydpiolyfwlnrt
+ur:crypto-seed/5-5/lpahahcfadndcypkjpkejshdguihltbnwppfhtielguthtwdpdihaykgoyclentldykkmnvedsbwuyeojejennbkrtkevotacppyjsvdgohtvewenyneylfekihgcplpgljoisgwverkmokgldyavseojehncfvakgehcmrojlweaotpiecffdjzaeaeaeaehgwtvymd' \
     "$(${SEEDTOOL} --count 400 --ur=100)"
 }
 
 testInMultipartUR()
 {
   assertEquals $'9d347f841a4e2ce6bc886e1aee74d82442b2f7649c606daedbad06cf8f0f73c8e834c2ebb7d2868d75820ab4fb4e45a1004c9f29b8ef2d4d6a94fab0b373615e3bf736a89e9ceb105f2109fb5226d8a29e0d47ee7ed8774f20245ac5f47b95958b1483daa4aaabc9dad616a30bf338b4ef1e971d2cc449bdcc339258f93f7f91a3d067522b085ca6b2f7c72732ce5aed7ae0ef273f13c8d92ffa89b69cac18dd79664032e0f86fe3c1f1596fd2dc582c690f17407d0852932d23798056a424cacae3bfd4e30fe8030f943645fcdf4d86de1b45570778b26692ce461c9053c54a47443dae67bed34624f5acf2eebdf0b0e5283505d25ce6849aa0d0f10b1fdec20d8e35e6b2072c7fe3d84c4e950c989f0a781a92417732e2076fb302e4cc3ff7506a061a011f4cd4952ff6af41b0378c9d7a54e44ebdac8005d681e7c8a6a9aa47cc9543742d6765870cecb05a648ddd5aeaa865087ba12136d530798ee42613db336b6b9e0ac07ce2d922ab71e7555ae4ed9a9ff7457d5722854e70684fe4bb927b89f8e8336b6019e67b3116b86fed' \
-    "$(${SEEDTOOL} --in ur 'ur:crypto-seed/1-5/ltadahcfadndcyfsnbonythdguoeadhkadmhnteelblrcygldwvarflojtcywyjytpdkfwprylienshnjnpluypmamtkmybsjkspvseesawmrltdlplgkplfbkqzztglfeoyaegsnedtrowsdpgtimmwzspfqdjkhshyfrylenpdnnnswmbeheclasztgmdskemwbkwt' \
-        'ur:crypto-seed/2-5/ltaoahcfadndcyfsnbonythdgutpoennbtflwykbtpktgwcxdkhtskwkkgmdmdlubblstnoxpkpysotntbcmotbdwfetqzwsckmscadwssgarysfeomohdytfhlbmeottiiogmdnayhholprylstdieytohtweknvtwsdifhbwsptadlzsldrpnspscsutkkghltgmfm' \
-        'ur:crypto-seed/3-5/ltaxahcfadndcyfsnbonythdguiyfzeyvtyajlvlsewnhkjltduohddwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezcurgtlpuecwfehgatkspriymotofgcemhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahkgbazces' \
-        'ur:crypto-seed/4-5/ltaaahcfadndcyfsnbonythdgutdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvltpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpefppfemlkntknghveglrypslaahtblyvdspolptpkflsfmdfxjydpiolpdtvoko' \
-        'ur:crypto-seed/5-5/ltahahcfadndcyfsnbonythdguihlnbnwppfhtielguthtwdpdihaykgoyclentldykkmnvedsbwuyeojejennbkrtkevotacppyjsvdgohtvewenyneylfekihgcpltgljoisgwverkmokgldyavseojehncfvakgehcmrojlweaotpiecffdioaeaeaeaedigrqzey')"
+    "$(${SEEDTOOL} --in ur 'ur:crypto-seed/1-5/lpadahcfadndcypkjpkejshdguoeadhkadmhnteelblrcygldwvarflojtcywyjytpdkfwprylienshnjnpluypmamtkmybsjkspvseesawmrltdlnlgkplfbkqzzoglfeoyaegsnedtrowsdpgtimmwzspfqdjkhshyfrylenpdnnnswmbeheclaszogmdskgzmjtfg' \
+    'ur:crypto-seed/2-5/lpaoahcfadndcypkjpkejshdgutpoennbtflwykbtpktgwcxdkhtskwkkgmdmdlubblstnoxpkpysotntbcmotbdwfetqzwsckmscadwssgarysfeomohdytfhlbmeottiiogmdnayhholprylstdieytohtweknvtwsdifhbwsptadlzsldrpnspscsutkkguwyenlo' \
+    'ur:crypto-seed/3-5/lpaxahcfadndcypkjpkejshdguiyfzeyvtyajlvlsewnhkjltduohddwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezturgtlnuecwfehgatkspriymotofgcemhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahkeihmkmy' \
+    'ur:crypto-seed/4-5/lpaaahcfadndcypkjpkejshdgutdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvltpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpefppfemlkntknghveglrypslaahtblyvdspolptpkflsfmdfxjydpiolyfwlnrt' \
+    'ur:crypto-seed/5-5/lpahahcfadndcypkjpkejshdguihltbnwppfhtielguthtwdpdihaykgoyclentldykkmnvedsbwuyeojejennbkrtkevotacppyjsvdgohtvewenyneylfekihgcplpgljoisgwverkmokgldyavseojehncfvakgehcmrojlweaotpiecffdjzaeaeaeaehgwtvymd')"
 }
 
 testOutFountainUR()
 {
-  assertEquals $'ur:crypto-seed/1-7/ltadatcfademcypyfzvarkhddpoeadhkaddwnteelblrcygldwvarflojtcywyjytpdkfwprylienshnjnpluypmamtkmybsjkspvseesawmrltdlplgvehkrlst
-ur:crypto-seed/2-7/ltaoatcfademcypyfzvarkhddpkplfbkqzztglfeoyaegsnedtrowsdpgtimmwzspfqdjkhshyfrylenpdnnnswmbeheclasztgmdstpoennbtflwykbvamsrnbk
-ur:crypto-seed/3-7/ltaxatcfademcypyfzvarkhddptpktgwcxdkhtskwkkgmdmdlubblstnoxpkpysotntbcmotbdwfetqzwsckmscadwssgarysfeomohdytfhlbmeottiptlggmle
-ur:crypto-seed/4-7/ltaaatcfademcypyfzvarkhddpiogmdnayhholprylstdieytohtweknvtwsdifhbwsptadlzsldrpnspscsutkkiyfzeyvtyajlvlsewnhkjltduohdvlqdrfts
-ur:crypto-seed/5-7/ltahatcfademcypyfzvarkhddpdwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezcurgtlpuecwfehgatkspriymotofgcechsrzeee
-ur:crypto-seed/6-7/ltamatcfademcypyfzvarkhddpmhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahtdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvlplgwenie
-ur:crypto-seed/7-7/ltatatcfademcypyfzvarkhddptpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpeaotpiecffdioaeaeaeaedntegunl
-ur:crypto-seed/8-7/ltayatcfademcypyfzvarkhddprfftsghlateseczcwkmuwtfhoxotaytbdkktbwbsehsbftwettgujpprurhhbsrflgsesklnhtldgtghtymdvoeszoqzkilgut
-ur:crypto-seed/9-7/ltasatcfademcypyfzvarkhddpcnntbwlfqdwkrfksjzwyioylsglpuyotbecwoxbtmdsslbgepehhkocejedwlrkttdesnbadzmhpsfdndwhgsglgfhzsdaursa
-ur:crypto-seed/10-7/ltbkatcfademcypyfzvarkhddptpktgwcxdkhtskwkkgmdmdlubblstnoxpkpysotntbcmotbdwfetqzwsckmscadwssgarysfeomohdytfhlbmeottijyjsbwto
-ur:crypto-seed/11-7/ltbdatcfademcypyfzvarkhddpkprhbdadtelkctheaxsrmkvluyhybzwypelkehmnpthtecahoesomkfgneflcpptqznncwecrhtinlbwswjptbgtpluynnrlsn
-ur:crypto-seed/12-7/ltbnatcfademcypyfzvarkhddpknkocmclaystwnluzomyuyoswzfhgmsgpfferyaowzghbyzcmsoxtylfpfgspfdrbdswprrsztknjzfrtyspfxdahlftdketee
-ur:crypto-seed/13-7/ltbtatcfademcypyfzvarkhddpwkckfzemiedisnolvsrorpwzmwtlkblahnhsdrihaoykpsvlwtemcxtahpjesahsfwmsolldiemdcxgrhkwehevwsfqdrswleo
-ur:crypto-seed/14-7/ltbaatcfademcypyfzvarkhddptpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpeaotpiecffdioaeaeaeaeyndlbgut
-ur:crypto-seed/15-7/ltbsatcfademcypyfzvarkhddpiogmdnayhholprylstdieytohtweknvtwsdifhbwsptadlzsldrpnspscsutkkiyfzeyvtyajlvlsewnhkjltduohdbscyhkhp
-ur:crypto-seed/16-7/ltbeatcfademcypyfzvarkhddpmhissszojllpiogdieehtylkflfymwgydnonfrmnzoadhshygridfdimndkgcffdvtnbsfbnvaksjyhgwdksryuoeogsmkqdrn
-ur:crypto-seed/17-7/ltbyatcfademcypyfzvarkhddpdwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezcurgtlpuecwfehgatkspriymotofgcedkqzmwon' \
+  assertEquals $'ur:crypto-seed/1-7/lpadatcfademcyfnmofheohddpoeadhkaddwnteelblrcygldwvarflojtcywyjytpdkfwprylienshnjnpluypmamtkmybsjkspvseesawmrltdlnlgvownswvd
+ur:crypto-seed/2-7/lpaoatcfademcyfnmofheohddpkplfbkqzzoglfeoyaegsnedtrowsdpgtimmwzspfqdjkhshyfrylenpdnnnswmbeheclaszogmdstpoennbtflwykbvtfhtkdr
+ur:crypto-seed/3-7/lpaxatcfademcyfnmofheohddptpktgwcxdkhtskwkkgmdmdlubblstnoxpkpysotntbcmotbdwfetqzwsckmscadwssgarysfeomohdytfhlbmeottipedacnpk
+ur:crypto-seed/4-7/lpaaatcfademcyfnmofheohddpiogmdnayhholprylstdieytohtweknvtwsdifhbwsptadlzsldrpnspscsutkkiyfzeyvtyajlvlsewnhkjltduohdvwcwsnyl
+ur:crypto-seed/5-7/lpahatcfademcyfnmofheohddpdwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezturgtlnuecwfehgatkspriymotofgcebyjelkbb
+ur:crypto-seed/6-7/lpamatcfademcyfnmofheohddpmhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahtdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvlpdvdflfy
+ur:crypto-seed/7-7/lpatatcfademcyfnmofheohddptpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpeaotpiecffdjzaeaeaeaehtpybwpd
+ur:crypto-seed/8-7/lpayatcfademcyfnmofheohddpbswkcemdwfldqzdrzmsrfymngetilblttnttflprfpdijooepsguvodrdmtihpftghvdrkfypthhqznlgeskaasbcnisryrhfl
+ur:crypto-seed/9-7/lpasatcfademcyfnmofheohddpisolemntpedlamutetvekofzbefsahioecynksoyldzehehddavwkblnenbtcphhbbtlhprfswrskpisbwpktbchkgbehgfsih
+ur:crypto-seed/10-7/lpbkatcfademcyfnmofheohddpeygmnsgrjetaasttvloxntimsagadknswkgulrisseimltwzrprtlnwleekgkiylssmhttpaskiyaddkhkpfzeytjtbgpahphf
+ur:crypto-seed/11-7/lpbdatcfademcyfnmofheohddppfttksrylukpsrdtfxjsvlsbaarnursrnehlpakghevsztgutbutsgindenyfhjotinsvajoykdpdpmedwtlflqzpyfzdeckle
+ur:crypto-seed/12-7/lpbnatcfademcyfnmofheohddpkplfbkqzzoglfeoyaegsnedtrowsdpgtimmwzspfqdjkhshyfrylenpdnnnswmbeheclaszogmdstpoennbtflwykbkomspagm
+ur:crypto-seed/13-7/lpbtatcfademcyfnmofheohddpwladkepycslrtydktenehdgyherpjtaszscwiagecpgyswrnktcwswcfwzclsamwvouovaaecwzssfdyltecherscffmwfynfw
+ur:crypto-seed/14-7/lpbaatcfademcyfnmofheohddpmhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahtdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvljnpatyie
+ur:crypto-seed/15-7/lpbsatcfademcyfnmofheohddpdwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezturgtlnuecwfehgatkspriymotofgcevwisrkzt
+ur:crypto-seed/16-7/lpbeatcfademcyfnmofheohddpwkdafplfgsvwmshdwmempaetyliefgcnonkkvyhpcsuoyaroinasmnemhtpfbdtpptdeqzflmyiahszsbkmotofgcesfrhsogh
+ur:crypto-seed/17-7/lpbyatcfademcyfnmofheohddpmhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahtdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvlprjlhdkk' \
     "$(${SEEDTOOL} --count 300 --ur=50 --parts 10)"
 }
 
@@ -263,22 +265,22 @@ testInFountainUR()
 {
   assertEquals $'9d347f841a4e2ce6bc886e1aee74d82442b2f7649c606daedbad06cf8f0f73c8e834c2ebb7d2868d75820ab4fb4e45a1004c9f29b8ef2d4d6a94fab0b373615e3bf736a89e9ceb105f2109fb5226d8a29e0d47ee7ed8774f20245ac5f47b95958b1483daa4aaabc9dad616a30bf338b4ef1e971d2cc449bdcc339258f93f7f91a3d067522b085ca6b2f7c72732ce5aed7ae0ef273f13c8d92ffa89b69cac18dd79664032e0f86fe3c1f1596fd2dc582c690f17407d0852932d23798056a424cacae3bfd4e30fe8030f943645fcdf4d86de1b45570778b26692ce461c9053c54a47443dae67bed34624f5acf2eebdf0b0e5283505d25ce6849aa0d0f10b1fdec20d8e35e6b2072c7fe3d84c4e950c989f0a781a92417732e2076fb302e4cc3ff7506a061a011f4cd4952ff6af' \
     "$(${SEEDTOOL} --in ur \
-    'ur:crypto-seed/2-7/ltaoatcfademcypyfzvarkhddpkplfbkqzztglfeoyaegsnedtrowsdpgtimmwzspfqdjkhshyfrylenpdnnnswmbeheclasztgmdstpoennbtflwykbvamsrnbk' \
-    'ur:crypto-seed/4-7/ltaaatcfademcypyfzvarkhddpiogmdnayhholprylstdieytohtweknvtwsdifhbwsptadlzsldrpnspscsutkkiyfzeyvtyajlvlsewnhkjltduohdvlqdrfts' \
-    'ur:crypto-seed/5-7/ltahatcfademcypyfzvarkhddpdwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezcurgtlpuecwfehgatkspriymotofgcechsrzeee' \
-    'ur:crypto-seed/7-7/ltatatcfademcypyfzvarkhddptpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpeaotpiecffdioaeaeaeaedntegunl' \
-    'ur:crypto-seed/8-7/ltayatcfademcypyfzvarkhddprfftsghlateseczcwkmuwtfhoxotaytbdkktbwbsehsbftwettgujpprurhhbsrflgsesklnhtldgtghtymdvoeszoqzkilgut' \
-    'ur:crypto-seed/9-7/ltasatcfademcypyfzvarkhddpcnntbwlfqdwkrfksjzwyioylsglpuyotbecwoxbtmdsslbgepehhkocejedwlrkttdesnbadzmhpsfdndwhgsglgfhzsdaursa' \
-    'ur:crypto-seed/10-7/ltbkatcfademcypyfzvarkhddptpktgwcxdkhtskwkkgmdmdlubblstnoxpkpysotntbcmotbdwfetqzwsckmscadwssgarysfeomohdytfhlbmeottijyjsbwto' \
-    'ur:crypto-seed/14-7/ltbaatcfademcypyfzvarkhddptpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpeaotpiecffdioaeaeaeaeyndlbgut' \
-    'ur:crypto-seed/16-7/ltbeatcfademcypyfzvarkhddpmhissszojllpiogdieehtylkflfymwgydnonfrmnzoadhshygridfdimndkgcffdvtnbsfbnvaksjyhgwdksryuoeogsmkqdrn' \
-    'ur:crypto-seed/17-7/ltbyatcfademcypyfzvarkhddpdwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezcurgtlpuecwfehgatkspriymotofgcedkqzmwon')"
+    'ur:crypto-seed/2-7/lpaoatcfademcyfnmofheohddpkplfbkqzzoglfeoyaegsnedtrowsdpgtimmwzspfqdjkhshyfrylenpdnnnswmbeheclaszogmdstpoennbtflwykbvtfhtkdr' \
+    'ur:crypto-seed/4-7/lpaaatcfademcyfnmofheohddpiogmdnayhholprylstdieytohtweknvtwsdifhbwsptadlzsldrpnspscsutkkiyfzeyvtyajlvlsewnhkjltduohdvwcwsnyl' \
+    'ur:crypto-seed/5-7/lpahatcfademcyfnmofheohddpdwinbschfzkiaygmmudpcnkklahfoxdksgsgvlrstyvlbsvsaxbsmwenfezturgtlnuecwfehgatkspriymotofgcebyjelkbb' \
+    'ur:crypto-seed/7-7/lpatatcfademcyfnmofheohddptpgsglmdbnmknebkkscymofpkteyvoatjlqdaovesffhylgdimamcyadctgstymddlynpeaotpiecffdjzaeaeaeaehtpybwpd' \
+    'ur:crypto-seed/8-7/lpayatcfademcyfnmofheohddpbswkcemdwfldqzdrzmsrfymngetilblttnttflprfpdijooepsguvodrdmtihpftghvdrkfypthhqznlgeskaasbcnisryrhfl' \
+    'ur:crypto-seed/9-7/lpasatcfademcyfnmofheohddpisolemntpedlamutetvekofzbefsahioecynksoyldzehehddavwkblnenbtcphhbbtlhprfswrskpisbwpktbchkgbehgfsih' \
+    'ur:crypto-seed/10-7/lpbkatcfademcyfnmofheohddpeygmnsgrjetaasttvloxntimsagadknswkgulrisseimltwzrprtlnwleekgkiylssmhttpaskiyaddkhkpfzeytjtbgpahphf' \
+    'ur:crypto-seed/14-7/lpbaatcfademcyfnmofheohddpmhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahtdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvljnpatyie' \
+    'ur:crypto-seed/16-7/lpbeatcfademcyfnmofheohddpwkdafplfgsvwmshdwmempaetyliefgcnonkkvyhpcsuoyaroinasmnemhtpfbdtpptdeqzflmyiahszsbkmotofgcesfrhsogh' \
+    'ur:crypto-seed/17-7/lpbyatcfademcyfnmofheohddpmhguskgeflfyfspliorntefgdkykpswzwyrywtpfvwdeecahtdhhvalrnynbtiwnbdctuesabtmnecvapratdwlbvlprjlhdkk')"
 }
 
 testInSSKRUR()
 {
   assertEquals $'b8d12ba46f50afd6b2c7a879bf5feebd' \
-    "$(${SEEDTOOL} --in ur ur:crypto-sskr/taadecgolywpaeadaelfesaxylbetokntnbsgessutmtecdtyttshnfncp ur:crypto-sskr/taadecgolywpaeadaoskfmnlmhbtemmovyzohffniaeehlcendglsfmkem)"
+    "$(${SEEDTOOL} --in ur ur:crypto-sskr/taadecgoeentaeadaefwtymhdnpmmeaaskrkzcbbgawechjepmaacllawd ur:crypto-sskr/taadecgoeentaeadaomkbnwtflfzeesocxhdrduoonprglpsaegsgeontk)"
 }
 
 # Eat all command-line arguments before calling shunit2.

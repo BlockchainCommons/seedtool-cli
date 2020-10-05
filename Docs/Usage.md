@@ -52,7 +52,7 @@ $ seedtool --in bip39 "matrix pull accuse apart horn chat next rifle resemble ar
 ### Decode Bytewords to hex
 
 ```
-$ seedtool --in btw "deli need cats taxi dice door webs vows free zest legs wall half waxy trip oval memo sets rock hill"
+$ seedtool --in btw "deli need cats taxi dice door webs vows free zero legs wall half waxy trip oval memo sets rock hill"
 279b18d0282aefe845fb83e956eed8a6
 ```
 
@@ -62,19 +62,19 @@ $ seedtool --in btw "deli need cats taxi dice door webs vows free zest legs wall
 
 ```
 $ seedtool --out sskr --group 2-of-3
-tuna acid epic gyro edge twin able acid able yoga nail wand keno paid ruin jazz keys acid time film pool skew flew luck ruby song owls soap obey
-tuna acid epic gyro edge twin able acid acid yell omit mild webs warm epic flew liar view fuel deli fund glow skew dull knob claw gray surf wand
-tuna acid epic gyro edge twin able acid also visa wave bulb hope drum quad duty need tied vast barn kick task gray tent crux owls easy jolt toil
+tuna acid epic gyro many meow able acid able mild fern pool door purr calm trip cyan flew zest cats tuna omit figs bias acid aunt keys play frog
+tuna acid epic gyro many meow able acid acid keep undo peck poem kiwi jazz cola luck hope rock into film jolt lava flux rust gala sets ruin toil
+tuna acid epic gyro many meow able acid also girl void oval fish exam veto gala inky keys jump visa barn cusp high miss monk jazz numb dice foxy
 ```
 
 ### Recover a SSKR-encoded seed using 2 of the 3 shares
 
 ```
 $ seedtool --in sskr
-tuna acid epic gyro edge twin able acid able yoga nail wand keno paid ruin jazz keys acid time film pool skew flew luck ruby song owls soap obey
-tuna acid epic gyro edge twin able acid also visa wave bulb hope drum quad duty need tied vast barn kick task gray tent crux owls easy jolt toil
+tuna acid epic gyro many meow able acid able mild fern pool door purr calm trip cyan flew zest cats tuna omit figs bias acid aunt keys play frog
+tuna acid epic gyro many meow able acid also girl void oval fish exam veto gala inky keys jump visa barn cusp high miss monk jazz numb dice foxy
 ^D
-8a7e9c3c0d783371d80e1192e5f6217d
+9d347f841a4e2ce6bc886e1aee74d824
 ```
 
 ## UR
@@ -83,7 +83,7 @@ tuna acid epic gyro edge twin able acid also visa wave bulb hope drum quad duty 
 
 ```
 $ seedtool --ur | tr [:lower:] [:upper:] | tee /dev/tty | qrencode -o seedqrcode.png -l L
-UR:CRYPTO-SEED/OEADGDHHGTPKFXLGHHLBPYMHLFRYHLPLSSRKPKAOTPIECFFDENTNJNWNPF
+UR:CRYPTO-SEED/OEADGDJOCNNEESSPDECECMVLFMLUOSBTDWQZFEAOTPIECFFDJZPYTAIEKK
 ```
 
 ![](../manual-images/seedqrcode.png)
@@ -92,35 +92,36 @@ UR:CRYPTO-SEED/OEADGDHHGTPKFXLGHHLBPYMHLFRYHLPLSSRKPKAOTPIECFFDENTNJNWNPF
 
 ```
 $ seedtool --deterministic=TEST --count 64 --ur=20
-ur:crypto-seed/1-4/ltadaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytpfsmdidpk
-ur:crypto-seed/2-4/ltaoaacsgecyuywdrnesgudkfwprylienshnjnpluypmamtkmybsjkspvseeehwnpdbb
-ur:crypto-seed/3-4/ltaxaacsgecyuywdrnesgusawmrltdlplgkplfbkqzztglfeoyaegsnedtronnfgpsas
-ur:crypto-seed/4-4/ltaaaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaedmnsoxhf
+ur:crypto-seed/1-4/lpadaacsgecydiguenfeguoeadhdfznteelblrcygldwvarflojtcywyjytpcmvdgwgm
+ur:crypto-seed/2-4/lpaoaacsgecydiguenfegudkfwprylienshnjnpluypmamtkmybsjkspvseecylslpwp
+ur:crypto-seed/3-4/lpaxaacsgecydiguenfegusawmrltdlnlgkplfbkqzzoglfeoyaegsnedtroreeelywn
+ur:crypto-seed/4-4/lpaaaacsgecydiguenfeguwsdpgtimmwzspfqdjkhshyaotpiecffdjzaeaeihatfdzm
 ```
 
 ### Same as above, but generate 5 additional parts using fountain codes
 
 ```
 $ seedtool --deterministic=TEST --count 64 --ur=20 --parts 5
-ur:crypto-seed/1-4/ltadaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytpfsmdidpk
-ur:crypto-seed/2-4/ltaoaacsgecyuywdrnesgudkfwprylienshnjnpluypmamtkmybsjkspvseeehwnpdbb
-ur:crypto-seed/3-4/ltaxaacsgecyuywdrnesgusawmrltdlplgkplfbkqzztglfeoyaegsnedtronnfgpsas
-ur:crypto-seed/4-4/ltaaaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaedmnsoxhf
-ur:crypto-seed/5-4/ltahaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaegtndkijp
-ur:crypto-seed/6-4/ltamaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytptkwfjech
-ur:crypto-seed/7-4/ltataacsgecyuywdrnesgusbjlzontwtiytiueutrdwfaachwmcmfrzovseerfsefmdp
-ur:crypto-seed/8-4/ltayaacsgecyuywdrnesguhnwdwsmocwrhbkambezstspdytdtjthfjshlhnbdpygmao
-ur:crypto-seed/9-4/ltasaacsgecyuywdrnesgusawmrltdlplgkplfbkqzztglfeoyaegsnedtroynmduyvl
+ur:crypto-seed/1-4/lpadaacsgecydiguenfeguoeadhdfznteelblrcygldwvarflojtcywyjytpcmvdgwgm
+ur:crypto-seed/2-4/lpaoaacsgecydiguenfegudkfwprylienshnjnpluypmamtkmybsjkspvseecylslpwp
+ur:crypto-seed/3-4/lpaxaacsgecydiguenfegusawmrltdlnlgkplfbkqzzoglfeoyaegsnedtroreeelywn
+ur:crypto-seed/4-4/lpaaaacsgecydiguenfeguwsdpgtimmwzspfqdjkhshyaotpiecffdjzaeaeihatfdzm
+ur:crypto-seed/5-4/lpahaacsgecydiguenfegudkfwprylienshnjnpluypmamtkmybsjkspvseevsvwlkgy
+ur:crypto-seed/6-4/lpamaacsgecydiguenfegupylpbebswmurtntpsnfzdkpswysaksjntlreghwnlyktgr
+ur:crypto-seed/7-4/lpataacsgecydiguenfeguoeadhdfznteelblrcygldwvarflojtcywyjytpltlnnesb
+ur:crypto-seed/8-4/lpayaacsgecydiguenfeguwsdpgtimmwzspfqdjkhshyaotpiecffdjzaeaensrewslk
+ur:crypto-seed/9-4/lpasaacsgecydiguenfeguwsdpgtimmwzspfqdjkhshyaotpiecffdjzaeaezmprenpd
 ```
 
 ### Recover the seed from UR using a subset of the generated parts
 
 ```
 $ seedtool --in ur
-ur:crypto-seed/2-4/ltaoaacsgecyuywdrnesgudkfwprylienshnjnpluypmamtkmybsjkspvseeehwnpdbb
-ur:crypto-seed/4-4/ltaaaacsgecyuywdrnesguwsdpgtimmwzspfqdjkhshyaotpiecffdemaeaedmnsoxhf
-ur:crypto-seed/6-4/ltamaacsgecyuywdrnesguoeadhdfznteelblrcygldwvarflojtcywyjytptkwfjech
-ur:crypto-seed/8-4/ltayaacsgecyuywdrnesguhnwdwsmocwrhbkambezstspdytdtjthfjshlhnbdpygmao
+ur:crypto-seed/1-4/lpadaacsgecydiguenfeguoeadhdfznteelblrcygldwvarflojtcywyjytpcmvdgwgm
+ur:crypto-seed/2-4/lpaoaacsgecydiguenfegudkfwprylienshnjnpluypmamtkmybsjkspvseecylslpwp
+ur:crypto-seed/4-4/lpaaaacsgecydiguenfeguwsdpgtimmwzspfqdjkhshyaotpiecffdjzaeaeihatfdzm
+ur:crypto-seed/6-4/lpamaacsgecydiguenfegupylpbebswmurtntpsnfzdkpswysaksjntlreghwnlyktgr
+ur:crypto-seed/8-4/lpayaacsgecydiguenfeguwsdpgtimmwzspfqdjkhshyaotpiecffdjzaeaensrewslk
 ^D
 9d347f841a4e2ce6bc886e1aee74d82442b2f7649c606daedbad06cf8f0f73c8e834c2ebb7d2868d75820ab4fb4e45a1004c9f29b8ef2d4d6a94fab0b373615e
 ```
