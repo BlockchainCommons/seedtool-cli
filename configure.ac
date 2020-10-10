@@ -12,6 +12,12 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
+# on windows/msys2/mingw64:
+AS_CASE([$(uname -s)],
+  [*MINGW*], [LIBS=-lws2_32],
+  [LIBS=]
+)
+
 # Checks for libraries.
 AC_CHECK_LIB([bc-crypto-base], [sha256_Raw], [], [
   echo "### Error! libbc-crypto-base must be installed first."
@@ -29,7 +35,7 @@ AC_CHECK_LIB([bc-bip39], [bip39_mnemonic_from_word], [], [
   echo "### Error! libbc-bip39 must be installed first."
   exit -1
   ])
-AC_CHECK_LIB([bc-ur], [crc32n], [], [
+AC_CHECK_LIB([bc-ur], [ur_crc32n], [], [
   echo "### Error! libbc-ur must be installed first."
   exit -1
   ])
