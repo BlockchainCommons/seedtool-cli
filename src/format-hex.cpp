@@ -48,7 +48,7 @@ void FormatHex::process_output(Params* p) {
         ByteVector byte_string;
         encode_byte_string(byte_string, p->seed);
         ByteVector dict;
-        encode_dict_with_birthdate(dict, byte_string);
+        encode_dict_with_birthdate(dict, byte_string, false);
         p->set_ur_output(dict, "crypto-seed");
     } else {
         p->output = data_to_hex(p->seed);

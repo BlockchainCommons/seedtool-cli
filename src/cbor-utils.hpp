@@ -66,13 +66,16 @@ void decode_array_of_string_arrays(Iter& pos, Iter end, std::vector<StringVector
 }
 
 template <typename Buffer>
-void encode_dict_with_birthdate(Buffer& cbor, const ByteVector& embedded_cbor) {
-    ur::CborLite::encodeMapSize(cbor, size_t(2));
+void encode_dict_with_birthdate(Buffer& cbor, const ByteVector& embedded_cbor, bool include_birthdate) {
+    size_t map_size = include_birthdate ? 2 : 1;
+    ur::CborLite::encodeMapSize(cbor, size_t(map_size));
     ur::CborLite::encodeInteger(cbor, 1);
     append(cbor, embedded_cbor);
-    ur::CborLite::encodeInteger(cbor, 2);
-    ur::CborLite::encodeTagAndValue(cbor, ur::CborLite::Major::semantic, size_t(100));
-    ur::CborLite::encodeInteger(cbor, days_since_epoch());
+    if(include_birthdate) {
+        ur::CborLite::encodeInteger(cbor, 2);
+        ur::CborLite::encodeTagAndValue(cbor, ur::CborLite::Major::semantic, size_t(100));
+        ur::CborLite::encodeInteger(cbor, days_since_epoch());
+    }
 }
 
 template <typename Iter, typename Func>

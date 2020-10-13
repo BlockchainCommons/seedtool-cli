@@ -69,7 +69,7 @@ void FormatBIP39::process_output(Params* p) {
         ByteVector encoded_words;
         encode_string_array(encoded_words, words);
         ByteVector dict;
-        encode_dict_with_birthdate(dict, encoded_words);
+        encode_dict_with_birthdate(dict, encoded_words, false);
         p->set_ur_output(dict, "crypto-bip39");
     } else {
         p->output = s;
