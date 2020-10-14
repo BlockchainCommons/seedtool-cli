@@ -829,7 +829,7 @@ Inputting this byte sequence into the [CBOR Playground](http://cbor.me/), we see
 
 This is a map with two fields, labeled `1` (the seed itself) and `2` (the date the seed was encoded as number of days since the Unix epoch, tagged with `100` as per the [IETF specification for such dates](https://datatracker.ietf.org/doc/draft-ietf-cbor-date-tag/?include_text=1). The map labels and their meanings are defined in the [Registry of Uniform Resource (UR) Types](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-0006-urtypes.md).
 
-**✳️ NOTE:** Currently seedtool encodes the current date as the seed birthdate when encoding output in UR format. Currently seedtool ignores this field when decoding UR format.
+**✳️ NOTE:** Currently seedtool doe not encode the a seed birthdate when encoding output in UR format, and currently seedtool ignores this field when decoding UR format.
 
 When a UR encoding must be broken up into parts, seedtool prints each part on a separate line.
 
