@@ -3515,6 +3515,15 @@ $as_echo "no" >&6; }
 fi
 
 
+# on windows/msys2/mingw64:
+case $(uname -s) in #(
+  *MINGW*) :
+    LIBS=-lws2_32 ;; #(
+  *) :
+    LIBS=
+ ;;
+esac
+
 # Checks for libraries.
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sha256_Raw in -lbc-crypto-base" >&5
@@ -3717,6 +3726,10 @@ else
 
 fi
 
+# AC_CHECK_LIB([bc-ur], [ur_crc32n], [], [
+#   echo "### Error! libbc-ur must be installed first."
+#   exit -1
+#   ])
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for argp_parse in -largp" >&5
 $as_echo_n "checking for argp_parse in -largp... " >&6; }
 if ${ac_cv_lib_argp_argp_parse+:} false; then :
