@@ -54,7 +54,8 @@ a minimum recommended version 10.
 #### Build on Ubuntu and Debian
 
 ```bash
-$ sudo apt-get install make
+$ sudo apt install build-essential
+$ sudo apt install shunit2
 
 $ wget https://apt.llvm.org/llvm.sh
 $ chmod +x llvm.sh
