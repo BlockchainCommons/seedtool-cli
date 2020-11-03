@@ -41,6 +41,8 @@ The dependencies will be automatically installed as submodules when you run the 
 $ brew install autoconf automake libtool shunit2
 ```
 
+You must then download or clone this repo. Afterward, cd into the repo directory and:
+
 ```bash
 $ ./build.sh
 $ sudo make install
@@ -59,12 +61,16 @@ $ sudo apt install shunit2
 
 $ wget https://apt.llvm.org/llvm.sh
 $ chmod +x llvm.sh
+$ sudo apt install lsb-release wget software-properties-common
 $ sudo ./llvm.sh 10  # version 10
 
 $ sudo apt-get install libc++-10-dev libc++abi-10-dev
 ```
 
 ```bash
+$ sudo apt-get install git
+$  git clone https://github.com/BlockchainCommons/bc-seedtool-cli.git
+$  cd bc-seedtool-cli/  
 $ export CC="clang-10" && export CXX="clang++-10" && ./build.sh
 $ sudo make install
 ```
