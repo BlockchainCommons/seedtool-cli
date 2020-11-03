@@ -69,8 +69,8 @@ $ sudo apt-get install libc++-10-dev libc++abi-10-dev
 
 ```bash
 $ sudo apt-get install git
-$  git clone https://github.com/BlockchainCommons/bc-seedtool-cli.git
-$  cd bc-seedtool-cli/  
+$ git clone https://github.com/BlockchainCommons/bc-seedtool-cli.git
+$ cd bc-seedtool-cli/  
 $ export CC="clang-10" && export CXX="clang++-10" && ./build.sh
 $ sudo make install
 ```
