@@ -1,5 +1,7 @@
 # 🌱 Blockchain Commons bc-seedtool-cli
 
+![](images/logos/seedtool-screen.png)
+
 ## Introduction
 
 `seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications.
