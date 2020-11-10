@@ -1,6 +1,8 @@
 # 🌱 Blockchain Commons bc-seedtool-cli
 
-![](images/logos/seedtool-screen.png)
+<p align="center">
+  <img width="640" height="320" src="images/logos/seedtool-screen.png">
+</p>
 
 ## Introduction
 
