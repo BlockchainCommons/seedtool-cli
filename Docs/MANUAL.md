@@ -795,7 +795,7 @@ edge duty king luck monk exit each very vast jury kept zest cost gift roof vibe 
 The UR format is designed to be efficiently transmitted in QR codes, because it uses only characters in the QR Code "alphanumeric" character set. This set uses only upper case letters. The Unix `tr` tool can be used to transform the QR to upper case:
 
 ```
-$ seedtool --ur | tr [:lower:] [:upper:]
+$ seedtool --ur | tr '[:lower:]' '[:upper:]'
 UR:CRYPTO-SEED/OYADGDFMOTZEWPCAHHFYUTREKPEYGHGSGAKESKJYHPWYEY
 ```
 
@@ -806,7 +806,7 @@ UR:CRYPTO-SEED/OYADGDFMOTZEWPCAHHFYUTREKPEYGHGSGAKESKJYHPWYEY
 # the file "seedqrcode.png".
 #
 
-$ seedtool --ur | tr [:lower:] [:upper:] | tee /dev/tty | qrencode -o seedqrcode.png -l L
+$ seedtool --ur | tr '[:lower:]' '[:upper:]' | tee /dev/tty | qrencode -o seedqrcode.png -l L
 UR:CRYPTO-SEED/OYADGDCPCNKOCSNNQDCKUEGABKMUZMYNSGGUBDRYTYVTSN
 ```
 
