@@ -176,7 +176,7 @@ void Params::validate_bip39_specific() {
 sskr_group_descriptor Params::parse_group_spec(const string &string) {
     size_t threshold;
     size_t count;
-    auto items = sscanf(string.c_str(), "%zd-of-%zd", &threshold, &count);
+    auto items = sscanf(string.c_str(), "%zu-of-%zu", &threshold, &count);
     if(items != 2) {
         argp_error(state, "Could not parse group specifier: \"%s\"", string.c_str());
     }

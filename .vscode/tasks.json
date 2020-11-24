@@ -63,6 +63,23 @@
             "type": "shell",
             "command": "sudo make uninstall",
             "problemMatcher": { "base": "$gcc", "fileLocation": ["relative", "${workspaceRoot}/src"] }
+        },
+        {
+            "label": "Lint",
+            "type": "shell",
+            "command": "make lint",
+            "problemMatcher": {
+                "fileLocation": ["relative", "${workspaceRoot}/src"],
+                "severity": "warning",
+                "pattern": {
+                    "regexp": "^(.*?):(\\d+):(\\d+):\\s+(error|warning|style|performance|portability|note|information):(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
         }
     ]
 }

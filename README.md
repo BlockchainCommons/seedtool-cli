@@ -118,9 +118,12 @@ Before accepting a PR that can affect build or unit tests, make sure the followi
 
 ```bash
 $ ./build.sh
+$ make lint
 $ make check
 $ make distclean
 ```
+
+`make lint` uses [Cppcheck](https://en.wikipedia.org/wiki/Cppcheck) to perform static analysis on the code. All PRs should pass with no warnings.
 
 ## Related Projects
 

@@ -146,7 +146,8 @@ void FormatSSKR::process_output(Params* p) {
     }
 }
 
-FormatSSKR::FormatSSKR() : Format(Format::Key::sskr, "sskr") {
+FormatSSKR::FormatSSKR() 
+    : Format(Format::Key::sskr, "sskr"),
+    groups({{1, 1}}) {
     groups_threshold = 1;
-    groups = {{1, 1}};
 }

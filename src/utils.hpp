@@ -36,10 +36,6 @@ const std::string join(const StringVector &strings, const std::string &separator
 const StringVector split(const std::string& s, const char& separator);
 
 const ByteVector sha256(const ByteVector &buf);
-const ByteVector crc32(const ByteVector &buf);
-
-const std::string to_lower(const std::string& s);
-const bool has_prefix(const std::string& s, const std::string& prefix);
 
 template<typename T>
 const std::vector<T> take(const std::vector<T> &buf, size_t count) {
@@ -50,14 +46,11 @@ const std::vector<T> take(const std::vector<T> &buf, size_t count) {
 }
 
 const std::string take(const std::string &s, size_t count);
-const std::string drop(const std::string &s, size_t count);
 
 template<typename T>
 void append(std::vector<T>& target, const std::vector<T>& source) {
     target.insert(target.end(), source.begin(), source.end());
 }
-
-const StringVector partition(const std::string& string, size_t size);
 
 int days_since_epoch();
 
