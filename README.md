@@ -1,5 +1,7 @@
 # 🌱 Blockchain Commons bc-seedtool-cli
 
+### _by Wolf McNally and Christopher Allen_
+
 <p align="center">
   <img width="640" height="320" src="images/logos/seedtool-screen.png">
 </p>
