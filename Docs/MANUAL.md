@@ -1,6 +1,6 @@
 # 🌱 Seedtool
 
-**Version 0.9.0**<br/>**October 4, 2020**
+**Version 0.10.0**<br/>**October 4, 2020**
 
 *Copyright © 2020 by Blockchain Commons, LLC*<br/>*Licensed under the "BSD-2-Clause Plus Patent License"*
 
@@ -934,6 +934,10 @@ ur:crypto-sskr/taadecgoretkaeadaoeeoystlowdrlutylgllaampyfwswwppsaocfbtns
 ```
 
 ## Version History
+
+### 0.10.0, 12/15/2020
+
+* Now parses (and ignores) the `name` and `note` fields of a `ur:crypto-seed` given as input.
 
 ### 0.9.1, 10/13/2020
 

@@ -104,6 +104,7 @@ $ source set_build_paths.sh # sets shell variables used by make
 $ make clean # If you want a clean build
 $ make
 ```
+
 ## Usage Instructions
 
 See [usage examples](Docs/Usage.md) for examples of using seedtool.
