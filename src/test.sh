@@ -3,7 +3,9 @@
 # Echo any provided arguments.
 # [ $# -gt 0 ] && echo "#:$# 1:$1 2:$2 3:$3"
 
-SEEDTOOL="${1:-seedtool} --deterministic TEST"
+SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+SEEDTOOL="${1:-${SCRIPT_DIR}/seedtool} --deterministic TEST"
+SHUNIT2="${SCRIPT_DIR}/../deps/shunit2/shunit2"
 
 testDefault()
 {
@@ -294,10 +296,7 @@ testInSSKRUR()
 
 # Eat all command-line arguments before calling shunit2.
 shift $#
-if [ "$(uname)" == "Darwin" ]; then
-. shunit2
-elif [ "$(uname)" == "Linux" ]; then
-# Linux
-. shunit2
 # TODO no shunit2 on windows/msys2/mingw64 platform
+if [ "$(uname)" == "Darwin" ] || [ "$(uname)" == "Linux" ]; then
+  . "${SHUNIT2}"
 fi

@@ -17,3 +17,6 @@
 [submodule "deps/bc-sskr"]
 	path = deps/bc-sskr
 	url = https://github.com/BlockchainCommons/bc-sskr.git
+[submodule "deps/shunit2"]
+	path = deps/shunit2
+	url = https://github.com/kward/shunit2
