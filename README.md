@@ -43,6 +43,17 @@ To build `seedtool` you'll need to use the following tools:
 
 The dependencies will be automatically installed as submodules when you run the build script. This is the recommended way to install.
 
+### Build with Docker
+
+[Install docker](https://docs.docker.com/get-docker/) and run:
+
+```bash
+# Build the image
+$ docker build -t bc-seedtool-cli .
+# Run the container
+$ docker run --rm -it bc-seedtool-cli --help
+```
+
 ### Build on MacOS
 
 ```bash
