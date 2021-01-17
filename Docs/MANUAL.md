@@ -805,8 +805,13 @@ UR:CRYPTO-SEED/OYADGDFMOTZEWPCAHHFYUTREKPEYGHGSGAKESKJYHPWYEY
 # display it on the console, and encode it to a QR Code in
 # the file "seedqrcode.png".
 #
+# Note: Seedtool outputs a newline character at the end of its
+# output. The `tr -d '\n'` command before the `qrencode` command 
+# deletes this newline, ensuring that the generated QR code uses 
+# the pure alphanumeric encoding mode.
+#
 
-$ seedtool --ur | tr '[:lower:]' '[:upper:]' | tee /dev/tty | qrencode -o seedqrcode.png -l L
+$ seedtool --ur | tr '[:lower:]' '[:upper:]' | tee /dev/tty | tr -d '\n' | qrencode -o seedqrcode.png -l L
 UR:CRYPTO-SEED/OYADGDCPCNKOCSNNQDCKUEGABKMUZMYNSGGUBDRYTYVTSN
 ```
 
