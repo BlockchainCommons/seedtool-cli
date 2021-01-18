@@ -25,6 +25,8 @@
 
 class RawParams {
 public:
+    RawParams() { }
+
     std::string input_format;
     std::string output_format;
     std::string count;
@@ -33,7 +35,7 @@ public:
     std::string ints_high;
 
     std::string random_deterministic;
-    bool is_ur;
+    bool is_ur = false;
     std::string max_fragment_length;
     std::string fountain_parts;
 
@@ -75,7 +77,7 @@ public:
 
     RawParams raw;
 
-    struct argp_state* state;
+    struct argp_state* state = nullptr;
 
     static Params* parse( int argc, char *argv[] );
     void read_args_from_stdin();

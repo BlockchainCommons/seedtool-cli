@@ -1,6 +1,6 @@
 # 🌱 Seedtool
 
-**Version 0.9.0**<br/>**October 4, 2020**
+**Version 0.10.0**<br/>**October 4, 2020**
 
 *Copyright © 2020 by Blockchain Commons, LLC*<br/>*Licensed under the "BSD-2-Clause Plus Patent License"*
 
@@ -805,8 +805,13 @@ UR:CRYPTO-SEED/OYADGDFMOTZEWPCAHHFYUTREKPEYGHGSGAKESKJYHPWYEY
 # display it on the console, and encode it to a QR Code in
 # the file "seedqrcode.png".
 #
+# Note: Seedtool outputs a newline character at the end of its
+# output. The `tr -d '\n'` command before the `qrencode` command 
+# deletes this newline, ensuring that the generated QR code uses 
+# the pure alphanumeric encoding mode.
+#
 
-$ seedtool --ur | tr '[:lower:]' '[:upper:]' | tee /dev/tty | qrencode -o seedqrcode.png -l L
+$ seedtool --ur | tr '[:lower:]' '[:upper:]' | tee /dev/tty | tr -d '\n' | qrencode -o seedqrcode.png -l L
 UR:CRYPTO-SEED/OYADGDCPCNKOCSNNQDCKUEGABKMUZMYNSGGUBDRYTYVTSN
 ```
 
@@ -934,6 +939,10 @@ ur:crypto-sskr/taadecgoretkaeadaoeeoystlowdrlutylgllaampyfwswwppsaocfbtns
 ```
 
 ## Version History
+
+### 0.10.0, 12/15/2020
+
+* Now parses (and ignores) the `name` and `note` fields of a `ur:crypto-seed` given as input.
 
 ### 0.9.1, 10/13/2020
 

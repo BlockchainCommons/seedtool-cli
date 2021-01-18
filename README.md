@@ -108,6 +108,7 @@ $ source set_build_paths.sh # sets shell variables used by make
 $ make clean # If you want a clean build
 $ make
 ```
+
 ## Usage Instructions
 
 See [usage examples](Docs/Usage.md) for examples of using seedtool.
@@ -122,9 +123,12 @@ Before accepting a PR that can affect build or unit tests, make sure the followi
 
 ```bash
 $ ./build.sh
+$ make lint
 $ make check
 $ make distclean
 ```
+
+`make lint` uses [Cppcheck](https://en.wikipedia.org/wiki/Cppcheck) to perform static analysis on the code. All PRs should pass with no warnings.
 
 ## Related Projects
 

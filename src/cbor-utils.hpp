@@ -95,7 +95,8 @@ void decode_dict_with_birthdate(Iter& pos, Iter end, Func f) {
             case 1:
                 f(pos, end);
                 break;
-            case 2:
+            case 2: {
+                // Birthday field ignored
                 ur::CborLite::Tag tag;
                 size_t value;
                 ur::CborLite::decodeTagAndValue(pos, end, tag, value, cborDecodingFlags);
@@ -103,6 +104,19 @@ void decode_dict_with_birthdate(Iter& pos, Iter end, Func f) {
                     throw std::runtime_error("Invalid date.");
                 }
                 ur::CborLite::decodeInteger(pos, end, date, cborDecodingFlags);
+            }
+                break;
+            case 3: {
+                // Name field ignored
+                std::string name;
+                ur::CborLite::decodeText(pos, end, name, cborDecodingFlags);
+            }
+                break;
+            case 4: {
+                // Note field ignored
+                std::string note;
+                ur::CborLite::decodeText(pos, end, note, cborDecodingFlags);
+            }
                 break;
             default:
                 throw std::runtime_error("Unknown label.");

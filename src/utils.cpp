@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <chrono>
+#include <algorithm>
 
 #include <bc-crypto-base/bc-crypto-base.h>
 
@@ -59,9 +60,7 @@ const ByteVector hex_to_data(const string& hex) {
 const ByteVector data_to_base(const ByteVector& buf, size_t base) {
     ByteVector result;
     result.reserve(buf.size());
-    for(auto b: buf) {
-        result.push_back(roundf(b / 255.0 * (base - 1)));
-    }
+    transform(buf.begin(), buf.end(), back_inserter(result), [&](auto b) { return roundf(b / 255.0 * (base - 1)); });
     return result;
 }
 
@@ -83,7 +82,7 @@ const string data_to_alphabet(const ByteVector &in,
 const string data_to_ints(const ByteVector &in,
     size_t low, size_t high, const string &separator)
 {
-    if (!(0 <= low && low < high && high <= 255)) {
+    if (!(low < high && high <= 255)) {
         throw runtime_error("Int conversion range must be in 0 <= low < high <= 255.");
     }
     size_t base = high - low + 1;
@@ -152,44 +151,11 @@ const ByteVector sha256(const ByteVector &buf) {
     return ByteVector(digest, digest + SHA256_DIGEST_LENGTH);
 }
 
-const ByteVector crc32(const ByteVector &buf) {
-    uint32_t checksum = crc32n(buf.data(), buf.size());
-    auto cbegin = (uint8_t*)&checksum;
-    auto cend = cbegin + sizeof(uint32_t);
-    return ByteVector(cbegin, cend);
-}
-
-const string to_lower(const string& s) {
-    string out;
-    transform(s.begin(), s.end(), back_inserter(out), ::tolower);
-    return out;
-}
-
-const bool has_prefix(const string& s, const string& prefix) {
-    if(s.length() < prefix.length()) return false;
-    return string(s.begin(), s.begin() + prefix.length()) == prefix;
-}
-
 const string take(const string &s, size_t count) {
     auto first = s.begin();
     auto c = min(s.size(), count);
     auto last = first + c;
     return string(first, last);
-}
-
-const string drop(const string& s, size_t count) {
-    if(count >= s.length()) { return ""; }
-    return string(s.begin() + count, s.end());
-}
-
-const StringVector partition(const string& s, size_t size) {
-    StringVector result;
-    auto remaining = s;
-    while(remaining.length() > 0) {
-        result.push_back(take(remaining, size));
-        remaining = drop(remaining, size);
-    }
-    return result;
 }
 
 int days_since_epoch() {
