@@ -940,6 +940,10 @@ ur:crypto-sskr/taadecgoretkaeadaoeeoystlowdrlutylgllaampyfwswwppsaocfbtns
 
 ## Version History
 
+### 0.10.1, 1/19/2020
+
+* Now parses (but still ignores) wider range of CBOR date formats for seed birthdate.
+
 ### 0.10.0, 12/15/2020
 
 * Now parses (and ignores) the `name` and `note` fields of a `ur:crypto-seed` given as input.
