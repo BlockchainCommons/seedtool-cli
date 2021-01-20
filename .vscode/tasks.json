@@ -47,6 +47,12 @@
             "problemMatcher": []
         },
         {
+            "label": "Distribution Build",
+            "type": "shell",
+            "command": "source set_build_paths.sh && ./build.sh",
+            "problemMatcher": []
+        },
+        {
             "label": "Clean",
             "type": "shell",
             "command": "source set_build_paths.sh && make clean",

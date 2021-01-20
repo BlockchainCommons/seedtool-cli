@@ -100,10 +100,28 @@ void decode_dict_with_birthdate(Iter& pos, Iter end, Func f) {
                 ur::CborLite::Tag tag;
                 size_t value;
                 ur::CborLite::decodeTagAndValue(pos, end, tag, value, cborDecodingFlags);
-                if(tag != ur::CborLite::Major::semantic || value != 100) {
+                if(tag != ur::CborLite::Major::semantic) {
                     throw std::runtime_error("Invalid date.");
                 }
-                ur::CborLite::decodeInteger(pos, end, date, cborDecodingFlags);
+                switch(value) {
+                    case 0: {
+                        std::string date;
+                        ur::CborLite::decodeText(pos, end, date, cborDecodingFlags);
+                    }
+                        break;
+                    case 1: {
+                        double date;
+                        ur::CborLite::decodeDoubleFloat(pos, end, date, cborDecodingFlags);
+                    }
+                        break;
+                    case 100: {
+                        int date;
+                        ur::CborLite::decodeInteger(pos, end, date, cborDecodingFlags);
+                    }
+                        break;
+                    default:
+                        throw std::runtime_error("Invalid date.");
+                }
             }
                 break;
             case 3: {
