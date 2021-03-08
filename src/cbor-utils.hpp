@@ -90,7 +90,6 @@ void decode_dict_with_birthdate(Iter& pos, Iter end, Func f) {
             throw std::runtime_error("Duplicate label.");
         }
         labels.insert(label);
-        int date;
         switch (label) {
             case 1:
                 f(pos, end);
