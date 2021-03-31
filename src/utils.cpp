@@ -132,7 +132,7 @@ const StringVector split(const string& s, const char& separator) {
 	for(auto c: s) {
 		if(c != separator) {
             buf += c;
-        } else if(c == separator && buf.length() > 0) {
+        } else if(buf.length() > 0) {
             result.push_back(buf);
             buf = "";
         }
