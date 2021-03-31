@@ -43,10 +43,21 @@ To build `seedtool` you'll need to use the following tools:
 
 The dependencies will be automatically installed as submodules when you run the build script. This is the recommended way to install.
 
+### Build with Docker
+
+[Install docker](https://docs.docker.com/get-docker/) and run:
+
+```bash
+# Build the image
+$ docker build -t bc-seedtool-cli .
+# Run the container
+$ docker run --rm -it bc-seedtool-cli --help
+```
+
 ### Build on MacOS
 
 ```bash
-$ brew install autoconf automake libtool shunit2
+$ brew install autoconf automake libtool
 ```
 
 You must then download or clone this repo. Afterward, cd into the repo directory and:
@@ -65,7 +76,6 @@ a minimum recommended version 10.
 
 ```bash
 $ sudo apt install build-essential
-$ sudo apt install shunit2
 
 $ wget https://apt.llvm.org/llvm.sh
 $ chmod +x llvm.sh
@@ -155,7 +165,6 @@ This table below also establishes provenance (repository of origin, permalink, a
 To build `seedtool` you'll need to use the following tools:
 
 - autotools - Gnu Build System from Free Software Foundation ([intro](https://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html)).
-- shunit2 - Unit testing for shell scripts
 
 ## Financial Support
 
