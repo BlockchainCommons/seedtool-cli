@@ -2,7 +2,6 @@
 # invalidated when editing them because the build context changes.
 Dockerfile
 .dockerignore
-.git
 
 # Created by https://www.gitignore.io/api/macos
 

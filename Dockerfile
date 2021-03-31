@@ -4,7 +4,6 @@ RUN apt-get update -y
 # Install build dependencies
 RUN apt-get install -y git
 RUN apt-get install -y build-essential
-RUN apt-get install -y shunit2
 RUN apt-get install -y libc++-10-dev libc++abi-10-dev
 RUN apt-get install -y lsb-release wget software-properties-common
 RUN wget https://apt.llvm.org/llvm.sh
@@ -15,6 +14,7 @@ ENV CC="clang-10"
 ENV CXX="clang++-10"
 COPY . /bc-seedtool-cli
 WORKDIR /bc-seedtool-cli
+RUN git submodule update --init --recursive
 RUN CC="clang-10" CXX="clang++-10" ./build.sh
 
 # Export built executable to a minimal runtime image and run as an unprivileged
