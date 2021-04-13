@@ -1,0 +1,9 @@
+name: linter
+on: [push, pull_request]
+jobs:
+  Lint:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: brew install cppcheck
+    - run: cppcheck --enable=all --error-exitcode=1 --inline-suppr --suppress=missingInclude --suppress=ConfigurationNotChecked .

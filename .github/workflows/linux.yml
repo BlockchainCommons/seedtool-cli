@@ -1,16 +1,6 @@
-name: ci
+name: linux
 on: [push, pull_request]
 jobs:
-  build-MacOS:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - run: brew install autoconf automake libtool shunit2 cppcheck
-    - run: ./build.sh
-    - run: make lint
-    - run: sudo make install
-    - run: make distclean
-
   build-Linux:
     runs-on: ubuntu-18.04
     steps:
