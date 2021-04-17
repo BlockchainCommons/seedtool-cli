@@ -1,6 +1,6 @@
 # 🌱 Seedtool
 
-**Version 0.10.0**<br/>**October 4, 2020**
+**Version 0.10.2**<br/>**April 16, 2021**
 
 *Copyright © 2020 by Blockchain Commons, LLC*<br/>*Licensed under the "BSD-2-Clause Plus Patent License"*
 
@@ -940,7 +940,7 @@ ur:crypto-sskr/taadecgoretkaeadaoeeoystlowdrlutylgllaampyfwswwppsaocfbtns
 
 ## Version History
 
-### 0.10.1, 4/16/2021
+### 0.10.2, 4/16/2021
 
 * Fixed: BIP39 output format would accept seeds with lengths not divisible by 4 (per BIP-39 spec) and then throw an unexplained error. The error is now clearer. (Issue #50)
 
