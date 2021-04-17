@@ -169,7 +169,7 @@ void Params::validate_ints_specific() {
 void Params::validate_bip39_specific() {
     if(!is_bip39(output_format)) { return; }
     if(!FormatBIP39::is_seed_length_valid(count)) {
-        argp_error(state, "For BIP39 COUNT must be in [12-32] and even.");
+        argp_error(state, "For BIP39 COUNT must be in [12-32] and divisible by 4.");
     }
 }
 

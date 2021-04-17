@@ -473,7 +473,7 @@ seedtool: The --count option is not available for Bytewords input.
 #
 
 $ seedtool --in hex --out bip39 8a3796240f6a
-seedtool: Invalid seed length for BIP39. Must be in [12-32] and even.
+seedtool: Invalid seed length for BIP39. Must be in [12-32] and divisible by 4.
 ```
 
 `bip39` can be used as an input format, in which case the original seed is recovered. The BIP39 mnemonic sequence may be passed as one or more arguments on the command line, or entered via stdin.
@@ -806,8 +806,8 @@ UR:CRYPTO-SEED/OYADGDFMOTZEWPCAHHFYUTREKPEYGHGSGAKESKJYHPWYEY
 # the file "seedqrcode.png".
 #
 # Note: Seedtool outputs a newline character at the end of its
-# output. The `tr -d '\n'` command before the `qrencode` command 
-# deletes this newline, ensuring that the generated QR code uses 
+# output. The `tr -d '\n'` command before the `qrencode` command
+# deletes this newline, ensuring that the generated QR code uses
 # the pure alphanumeric encoding mode.
 #
 
@@ -939,6 +939,10 @@ ur:crypto-sskr/taadecgoretkaeadaoeeoystlowdrlutylgllaampyfwswwppsaocfbtns
 ```
 
 ## Version History
+
+### 0.10.1, 4/16/2021
+
+* Fixed: BIP39 output format would accept seeds with lengths not divisible by 4 (per BIP-39 spec) and then throw an unexplained error. The error is now clearer. (Issue #50)
 
 ### 0.10.1, 1/19/2020
 
