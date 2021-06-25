@@ -1,8 +1,8 @@
-# 🌱 Blockchain Commons bc-seedtool-cli
+# 🌱 Blockchain Commons seedtool-cli
 
-![macos](https://github.com/BlockchainCommons/bc-seedtool-cli/workflows/macOS/badge.svg)
-![linux](https://github.com/BlockchainCommons/bc-seedtool-cli/workflows/linux/badge.svg)
-![linter](https://github.com/BlockchainCommons/bc-seedtool-cli/workflows/linter/badge.svg)
+![macos](https://github.com/BlockchainCommons/seedtool-cli/workflows/macOS/badge.svg)
+![linux](https://github.com/BlockchainCommons/seedtool-cli/workflows/linux/badge.svg)
+![linter](https://github.com/BlockchainCommons/seedtool-cli/workflows/linter/badge.svg)
 
 ### _by [Wolf McNally](https://www.github.com/wolfmcnally) and [Christopher Allen](https://www.github.com/ChristopherA)_
 
@@ -53,9 +53,9 @@ The dependencies will be automatically installed as submodules when you run the 
 
 ```bash
 # Build the image
-$ docker build -t bc-seedtool-cli .
+$ docker build -t seedtool-cli .
 # Run the container
-$ docker run --rm -it bc-seedtool-cli --help
+$ docker run --rm -it seedtool-cli --help
 ```
 
 ### Build on MacOS
@@ -91,8 +91,8 @@ $ sudo apt-get install libc++-10-dev libc++abi-10-dev
 
 ```bash
 $ sudo apt-get install git
-$ git clone https://github.com/BlockchainCommons/bc-seedtool-cli.git
-$ cd bc-seedtool-cli/  
+$ git clone https://github.com/BlockchainCommons/seedtool-cli.git
+$ cd seedtool-cli/
 $ export CC="clang-10" && export CXX="clang++-10" && ./build.sh
 $ sudo make install
 ```
@@ -184,7 +184,7 @@ We encourage public contributions through issues and pull-requests! Please revie
 
 The best place to talk about Blockchain Commons and its projects is in our GitHub Discussions areas.
 
-[**Wallet Standard Discussions**](https://github.com/BlockchainCommons/AirgappedSigning/discussions). For standards and open-source developers who want to talk about wallet standards, please use the Discussions area of the [Airgapped Signing repo](https://github.com/BlockchainCommons/AirgappedSigning). This is where you can talk about projects like our [LetheKit](https://github.com/BlockchainCommons/bc-lethekit) and command line tools such as [seedtool](https://github.com/BlockchainCommons/bc-seedtool-cli), both of which are intended to testbed wallet technologies, plus the libraries that we've built to support your own deployment of wallet technology such as [bc-bip39](https://github.com/BlockchainCommons/bc-bip39), [bc-slip39](https://github.com/BlockchainCommons/bc-slip39), [bc-shamir](https://github.com/BlockchainCommons/bc-shamir), [Sharded Secret Key Reconstruction](https://github.com/BlockchainCommons/bc-sskr), [bc-ur](https://github.com/BlockchainCommons/bc-ur), and the [bc-crypto-base](https://github.com/BlockchainCommons/bc-crypto-base). If it's a wallet-focused technology or a more general discussion of wallet standards,discuss it here.
+[**Wallet Standard Discussions**](https://github.com/BlockchainCommons/AirgappedSigning/discussions). For standards and open-source developers who want to talk about wallet standards, please use the Discussions area of the [Airgapped Signing repo](https://github.com/BlockchainCommons/AirgappedSigning). This is where you can talk about projects like our [LetheKit](https://github.com/BlockchainCommons/bc-lethekit) and command line tools such as [seedtool](https://github.com/BlockchainCommons/seedtool-cli), both of which are intended to testbed wallet technologies, plus the libraries that we've built to support your own deployment of wallet technology such as [bc-bip39](https://github.com/BlockchainCommons/bc-bip39), [bc-slip39](https://github.com/BlockchainCommons/bc-slip39), [bc-shamir](https://github.com/BlockchainCommons/bc-shamir), [Sharded Secret Key Reconstruction](https://github.com/BlockchainCommons/bc-sskr), [bc-ur](https://github.com/BlockchainCommons/bc-ur), and the [bc-crypto-base](https://github.com/BlockchainCommons/bc-crypto-base). If it's a wallet-focused technology or a more general discussion of wallet standards,discuss it here.
 
 [**Blockchain Commons Discussions**](https://github.com/BlockchainCommons/Community/discussions). For developers, interns, and patrons of Blockchain Commons, please use the discussions area of the [Community repo](https://github.com/BlockchainCommons/Community) to talk about general Blockchain Commons issues, the intern program, or topics other than the [Gordian System](https://github.com/BlockchainCommons/Gordian/discussions) or the [wallet standards](https://github.com/BlockchainCommons/AirgappedSigning/discussions), each of which have their own discussion areas.
 

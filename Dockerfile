@@ -9,11 +9,11 @@ RUN apt-get install -y lsb-release wget software-properties-common
 RUN wget https://apt.llvm.org/llvm.sh
 RUN chmod +x llvm.sh
 RUN ./llvm.sh 10  # version 10
-# Build bc-seedtool-cli
+# Build seedtool-cli
 ENV CC="clang-10"
 ENV CXX="clang++-10"
-COPY . /bc-seedtool-cli
-WORKDIR /bc-seedtool-cli
+COPY . /seedtool-cli
+WORKDIR /seedtool-cli
 RUN git submodule update --init --recursive
 RUN CC="clang-10" CXX="clang++-10" ./build.sh
 
@@ -25,7 +25,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y
 RUN apt-get install -y libc++1 libc++abi1
 # Install binary
-COPY --from=build-stage /bc-seedtool-cli/src/seedtool /usr/local/bin/seedtool
+COPY --from=build-stage /seedtool-cli/src/seedtool /usr/local/bin/seedtool
 # Create an unprivileged user
 RUN useradd --create-home --user-group user
 USER user

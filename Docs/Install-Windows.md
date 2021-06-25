@@ -23,8 +23,8 @@ This document describes building `seedtool` with `MSYS2` and its usage on `Windo
 
 ## Compiling Seedtool
 
-1. Clone `bc-seedtool-cli`, e.g. into `C:\msys64\home`
-2. Open `MSYS2 MinGW 64-bit` application and `cd` into `C:\msys64\home\bc-seedtool-cli`
+1. Clone `seedtool-cli`, e.g. into `C:\msys64\home`
+2. Open `MSYS2 MinGW 64-bit` application and `cd` into `C:\msys64\home\seedtool-cli`
 3. Run the build script with:
 ```bash
 # export CC="clang" && export CXX="clang++" && ./build.sh
