@@ -11,10 +11,10 @@ We love your input! We want to make contributing to this project as easy and tra
 ## We Develop with Github
 We use GitHub to host code, to track issues and feature requests, as well as accept Pull Requests.
 
-## Report bugs using Github's [issues](https://github.com/BlockchainCommons/bc-seedtool-cli/issues)
+## Report bugs using Github's [issues](https://github.com/BlockchainCommons/seedtool-cli/issues)
 We use GitHub issues to track public bugs.
 
-If you find bugs, mistakes, inconsistencies in this project's code or documents, please let us know by [opening a new issue](https://github.com/BlockchainCommons/bc-seedtool-cli/issues), but consider searching through existing issues first to check and see if the problem has already been reported. If it has, it never hurts to add a quick "+1" or "I have this problem too". This helps prioritize the most common problems and requests.
+If you find bugs, mistakes, inconsistencies in this project's code or documents, please let us know by [opening a new issue](https://github.com/BlockchainCommons/seedtool-cli/issues), but consider searching through existing issues first to check and see if the problem has already been reported. If it has, it never hurts to add a quick "+1" or "I have this problem too". This helps prioritize the most common problems and requests.
 
 ## Write bug reports with detail, background, and sample code
 [This is an example](http://stackoverflow.com/q/12488905/180626) of a good bug report by @briandk. Here's [another example from craig.hockenberry](http://www.openradar.me/11905408).
@@ -35,7 +35,7 @@ People *love* thorough bug reports. I'm not even kidding.
 
 Simple Pull Requests to fix typos, document, or fix small bugs are always welcome.
 
-We ask that more significant improvements to the project be first proposed before anybody starts to code as an [issue](https://github.com/BlockchainCommons/bc-seedtool-cli/issues) or as a [draft Pull Request](https://github.com/BlockchainCommons/bc-seedtool-cli/pulls) (GitHub has a nice new feature for simple Pull Requests called [Draft Pull Requests](https://github.blog/2019-02-14-introducing-draft-pull-requests/). This gives other contributors a chance to point you in the right direction, give feedback on the design, and maybe point out if related work is already under way.
+We ask that more significant improvements to the project be first proposed before anybody starts to code as an [issue](https://github.com/BlockchainCommons/seedtool-cli/issues) or as a [draft Pull Request](https://github.com/BlockchainCommons/seedtool-cli/pulls) (GitHub has a nice new feature for simple Pull Requests called [Draft Pull Requests](https://github.blog/2019-02-14-introducing-draft-pull-requests/). This gives other contributors a chance to point you in the right direction, give feedback on the design, and maybe point out if related work is already under way.
 
 ## We Use [Github Flow](https://guides.github.com/introduction/flow/index.html), So All Code Changes Happen Through Pull Requests
 Pull Requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your Pull Requests:
