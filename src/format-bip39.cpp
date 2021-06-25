@@ -21,7 +21,7 @@ using namespace std;
 
 bool FormatBIP39::is_seed_length_valid(size_t seed_len) {
     if(!(12 <= seed_len && seed_len <= 32)) { return false; }
-    if(seed_len % 2 != 0) { return false; }
+    if(seed_len % 4 != 0) { return false; }
     return true;
 }
 
@@ -56,7 +56,7 @@ void FormatBIP39::process_input(Params* p) {
 
 void FormatBIP39::process_output(Params* p) {
     if(!is_seed_length_valid(p->seed.size())) {
-        throw runtime_error("Invalid seed length for BIP39. Must be in [12-32] and even.");
+        throw runtime_error("Invalid seed length for BIP39. Must be in [12-32] and divisible by 4.");
     }
 
     size_t max_mnemonics_len = 300;
