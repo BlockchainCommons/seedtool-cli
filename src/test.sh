@@ -294,6 +294,27 @@ testInSSKRUR()
     "$(${SEEDTOOL} --in ur ur:crypto-sskr/taadecgomymwaeadaemdfnpldrprcmtpcnfwztcstaotfsbsadatkspyfg ur:crypto-sskr/taadecgomymwaeadaoglvdolfhemvogaiyksjpvabncphhmsmkjznbdefy)"
 }
 
+testBip39ToSskr()
+{
+  assertEquals $'tuna acid epic hard data edge next acid acid able rust claw zaps curl zero exit wolf solo beta whiz jowl keys beta help nail flap data peck beta task flap blue grim holy warm curl ruin main cook twin exit dark when brag zero blue
+tuna acid epic hard data edge next acid acid acid aqua solo legs away back poem inky cash view ruin nail stub puma duty hang inch edge rock lion taco iron puma legs knob many keno note work huts next meow kept pose view buzz item
+tuna acid epic hard data edge next acid acid also guru onyx away junk also axis saga jolt scar item monk arch jade lung cook axis aunt logo arch swan body gala warm cook cyan many zest kiln vast gush king leaf horn bulb vibe meow
+tuna acid epic hard data edge next acid brag able toil edge wall gala obey task body zinc cyan solo meow view roof free wall what tomb paid brew note judo owls chef kept stub deli down wall owls wave fair kept kept duty vows city
+tuna acid epic hard data edge next acid brag acid runs lion note blue glow flux legs slot purr claw task quad roof list grim cash ruin what iris fizz cash mild slot cost bias wolf runs quiz ruin wave iced navy gear monk huts blue
+tuna acid epic hard data edge next acid brag also bald down vibe foxy iced part wasp heat kiwi mint cyan kite kick redo wall fair judo zest chef edge fuel game legs poem apex keys lava oboe cats hard time ramp gift drum zoom hang
+tuna acid epic hard data edge next acid brag apex huts nail memo cola luck data knob horn wasp foxy keys door kick kiln grim undo cats onyx iced warm crux keys hill silk slot plus bulb zoom acid hard love help jugs lion keno hill
+tuna acid epic hard data edge next acid brag aqua heat maze heat nail draw luck toil solo cats twin view cats bulb exam frog arch flew ruby twin wand toys jury saga what exam aqua duty mint rust knob legs waxy beta quiz knob taco' \
+    "$(${SEEDTOOL} --in bip39 --out sskr --group-threshold 1 --group 2-of-3 --group 3-of-5 'slender horse coil sketch public wink nest point royal believe inform lyrics critic harbor scheme enrich burden glance song chicken grief first panic actor')"
+}
+
+testSskrToBip39()
+{
+  assertEquals $'clump flavor moment wood resource mom usual solid fortune material document under' \
+    "$(${SEEDTOOL} --in sskr --out bip39 \
+        'tuna acid epic gyro edge next able acid able flux down eyes pool task cyan gyro kept exit paid wave high news bias zone zaps calm note poem aqua' \
+        'tuna acid epic gyro edge next able acid also wolf vows bald sets claw bald dull cost slot inky liar work note tied zest safe crux kiln work exit')"
+}
+
 # Eat all command-line arguments before calling shunit2.
 shift $#
 # TODO no shunit2 on windows/msys2/mingw64 platform

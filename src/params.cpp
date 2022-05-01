@@ -100,46 +100,6 @@ void Params::validate_output_format() {
     }
 }
 
-void Params::validate_output_for_input() {
-    // Any input format works with hex output format.
-    if(is_hex(output_format)) {
-        return;
-    }
-
-    // Any input format works with any Bytewords output format.
-    if(is_bytewords_any(output_format)) {
-        return;
-    }
-
-    // Random input works with any output format.
-    if(is_random(input_format)) {
-        return;
-    }
-
-    // Hex input works with any output format.
-    if(is_hex(input_format)) {
-        return;
-    }
-
-    // Any Bytewords input works with any output format.
-    if(is_bytewords_any(input_format)) {
-        return;
-    }
-
-    // BIP39 UR input works with BIP39 output format.
-    if(is_ur_in && is_bip39(input_format) && is_bip39(output_format)) {
-        return;
-    }
-
-    // SSKR UR input works with SSKR output format.
-    if(is_ur_in && is_sskr(input_format) && is_sskr(output_format)) {
-        return;
-    }
-
-    argp_error(state, "Input format %s cannot be used with output format %s",
-        input_format->name.c_str(), output_format->name.c_str());
-}
-
 void Params::validate_ints_specific() {
     auto f = dynamic_cast<FormatInts*>(output_format);
     if(f != NULL) {
@@ -378,7 +338,6 @@ void Params::validate() {
     validate_input();
     validate_count_for_input_format();
     validate_output_format();
-    validate_output_for_input();
     validate_ints_specific();
     validate_bip39_specific();
     validate_sskr_specific();
