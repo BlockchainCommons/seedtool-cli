@@ -315,6 +315,25 @@ testSskrToBip39()
         'tuna acid epic gyro edge next able acid also wolf vows bald sets claw bald dull cost slot inky liar work note tied zest safe crux kiln work exit')"
 }
 
+testAllInputOutputCombinations()
+{
+  # Tests all combinations of input and output formats. We don't want to
+  # hard-code these all, so we just test whether `hex -> A` is the same as `hex
+  # -> A -> B -> A`.
+  #
+  # The formats below are all the formats that can represent a full seed. There
+  # are others like "ints", but these don't represent a full seed with the
+  # default --count setting.
+  formats="hex bip39 sskr btw btwu btwm"
+  for dst_format in $formats; do
+    for src_format in $formats; do
+      output_orig="$(${SEEDTOOL} | ${SEEDTOOL} --out $dst_format)"
+      output_roundtrip="$(${SEEDTOOL} | ${SEEDTOOL} --out $dst_format | ${SEEDTOOL} --in $dst_format --out $src_format | ${SEEDTOOL} --in $src_format --out $dst_format)"
+      assertEquals "dst=$dst_format and src=$src_format must be compatible." "$output_orig" "$output_roundtrip"
+    done
+  done
+}
+
 # Eat all command-line arguments before calling shunit2.
 shift $#
 # TODO no shunit2 on windows/msys2/mingw64 platform
