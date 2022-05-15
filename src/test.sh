@@ -327,8 +327,8 @@ testAllInputOutputCombinations()
   formats="hex bip39 sskr btw btwu btwm"
   for dst_format in $formats; do
     for src_format in $formats; do
-      output_orig="$(${SEEDTOOL} | ${SEEDTOOL} --out $dst_format)"
-      output_roundtrip="$(${SEEDTOOL} | ${SEEDTOOL} --out $dst_format | ${SEEDTOOL} --in $dst_format --out $src_format | ${SEEDTOOL} --in $src_format --out $dst_format)"
+      output_orig="$(${SEEDTOOL} | ${SEEDTOOL} --in hex --out $dst_format)"
+      output_roundtrip="$(${SEEDTOOL} | ${SEEDTOOL} --in hex --out $dst_format | ${SEEDTOOL} --in $dst_format --out $src_format | ${SEEDTOOL} --in $src_format --out $dst_format)"
       assertEquals "dst=$dst_format and src=$src_format must be compatible." "$output_orig" "$output_roundtrip"
     done
   done
