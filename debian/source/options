@@ -1,0 +1,4 @@
+# This, when put here, doesn't work.
+# extend-diff-ignore = "(/deps/.*)|(/src/Makefile.in)|(/debian/)$" 
+extend-diff-ignore  = "packaging.md"
+# skip-patches

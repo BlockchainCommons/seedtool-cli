@@ -1,0 +1,5 @@
+seedtool-cli (0.9.1-1) UNRELEASED; urgency=medium
+
+  * Initial release for Debian packaging.
+
+ -- Nick Ochiel <nochiel@users.noreply.github.com>  Mon, 06 Feb 2023 14:50:21 +0300

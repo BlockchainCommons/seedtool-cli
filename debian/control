@@ -1,0 +1,21 @@
+Source: seedtool-cli
+Section: unknown
+Priority: optional
+Maintainer: Wolf McNally <Wolf@WolfMcNally.com>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+ autotools-dev,
+Standards-Version: 4.6.1
+Homepage: https://github.com/BlockchainCommons/seedtool-cli 
+#Vcs-Browser: https://salsa.debian.org/debian/seedtool-cli
+Vcs-Git: https://github.com/BlockchainCommons/seedtool-cli.git
+
+Package: seedtool-cli
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: A command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications.
+
+ 
