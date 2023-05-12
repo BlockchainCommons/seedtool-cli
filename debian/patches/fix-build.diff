@@ -1515,3 +1515,15 @@ Index: seedtool-cli/src/Makefile.in
  else ifeq ($(findstring MINGW64, $(UNAME)), MINGW64)
      # on windows building with msys2/mingw64
      LDLIBS += -lm -lc++ -lws2_32
+Index: seedtool-cli/configure.ac
+===================================================================
+--- seedtool-cli-0.9.1.orig/configure.ac
++++ seedtool-cli-0.9.1/configure.ac
+@@ -5,6 +5,7 @@ AC_PREREQ([2.69] 
+ AC_INIT([seedtool-cli], [0.10.2])
+ AC_CONFIG_SRCDIR([src/seedtool.cpp])
+ AC_CONFIG_HEADERS([src/config.h])
++AC_CONFIG_AUX_DIR([/usr/share/libtool/build-aux])
+
+ # Checks for programs.
+ AC_PROG_CXX

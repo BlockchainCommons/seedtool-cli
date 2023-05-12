@@ -7,7 +7,7 @@ deps/argp-standalone/argp-standalone/config.status
 deps/argp-standalone/argp-standalone/configure
 deps/argp-standalone/argp-standalone/stamp-h1
 deps/argp-standalone/argp-standalone/testsuite/Makefile
-deps/argp-standalone/argp-standalone/testsuite/Makefile.in
+# deps/argp-standalone/argp-standalone/testsuite/Makefile.in
 deps/bc-bip39/Makefile
 deps/bc-bip39/config.guess
 deps/bc-bip39/config.h
@@ -53,3 +53,7 @@ deps/bc-ur/config.sub
 deps/bc-ur/configure
 deps/bc-ur/src/Makefile
 deps/bc-ur/test/Makefile
+config.log
+config.status
+src/Makefile
+src/config.h

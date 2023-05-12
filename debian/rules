@@ -64,8 +64,9 @@ export LDFLAGS += -L${LIB}
 
 	dh $@
 
-#override_dh_autoreconf:
-#	dh_autoreconf
+override_dh_autoreconf:
+	autoreconf --install
+	dh_autoreconf
 
 # dh_make generated override targets.
 # This is an example for Cmake (see <https://bugs.debian.org/641051>).
@@ -86,6 +87,8 @@ override_dh_auto_clean:
 	cd deps/bc-ur && make clean || true
 	cd deps/argp-standalone/argp-standalone && make clean || true
 	if [ -f ./Makefile ];then make distclean; fi
+# TEST that this clears old copies of source/seedtool
+	# dh_auto_clean	
 
 override_dh_dwz:
 	true
