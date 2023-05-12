@@ -1,1 +1,0 @@
-To build a Debian package run the following dommand in a checked-out `debian/latest` branch: `gbp buildpackage --git-upstream-tree=master --git-debian-branch=debian/latest --git-ignore-new  --git-force-create --git-submodules`.
