@@ -96,3 +96,6 @@ config.status
 configure.scan
 config.h
 sysroot/
+.vscode/configurationCache.log
+.vscode/dryrun.log
+.vscode/targets.log
