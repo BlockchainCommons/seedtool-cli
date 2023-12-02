@@ -1,0 +1,94 @@
+#!/usr/bin/make -f
+
+# See debhelper(7) (uncomment to enable).
+# Output every command that modifies files on the build system.
+#export DH_VERBOSE = 1
+
+# See FEATURE AREAS in dpkg-buildflags(1).
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# See ENVIRONMENT in dpkg-buildflags(1).
+# Package maintainers to append CFLAGS.
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# Package maintainers to append LDFLAGS.
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+export CC=clang 
+export CXX=clang++
+export SYSROOT=/tmp/sysroot
+export LIB=${SYSROOT}/lib
+export INCLUDE=${SYSROOT}/include
+
+export CFLAGS += -I${INCLUDE}
+export CXXFLAGS += -I${INCLUDE}
+export LDFLAGS += -L${LIB}
+
+%:
+	cd deps/bc-crypto-base && \
+	autoreconf --install && \
+	./configure --prefix ${SYSROOT} && \
+	make check && \
+	make install && make clean || true
+
+	cd deps/bc-shamir && \
+	autoreconf --install && \
+	./configure --prefix ${SYSROOT} && \
+	make check && \
+	make install && make clean || true
+
+	cd deps/bc-sskr && \
+	autoreconf --install && \
+	./configure --prefix ${SYSROOT} && \
+	make check && \
+	make install && make clean || true 
+
+	cd deps/bc-bip39 && \
+	autoreconf --install && \
+	./configure --prefix ${SYSROOT} && \
+	make check && \
+	make install && make clean || true
+
+	cd deps/bc-ur && \
+	autoreconf --install && \
+	./configure --prefix ${SYSROOT} && \
+	make check && \
+	make install && make clean || true
+
+	cd deps/argp-standalone/argp-standalone && \
+	autoreconf --install && \
+	./configure --prefix ${SYSROOT} && \
+	make install && \
+	cp libargp.a ${SYSROOT}/lib/ && \
+	cp argp.h ${SYSROOT}/include/ && \
+	make distclean
+
+	dh $@
+
+override_dh_autoreconf:
+	autoreconf --install
+	dh_autoreconf
+
+# dh_make generated override targets.
+# This is an example for Cmake (see <https://bugs.debian.org/641051>).
+# override_dh_auto_configure:
+# 	./configure
+
+# override_dh_auto_build:
+# 	dh_auto_build
+
+# override_dh_auto_test:
+# 	dh_auto_test
+
+override_dh_auto_clean:
+	cd deps/bc-crypto-base && make clean || true 
+	cd deps/bc-shamir && make clean || true
+	cd deps/bc-sskr && make clean || true
+	cd deps/bc-bip39 && make clean || true
+	cd deps/bc-ur && make clean || true
+	cd deps/argp-standalone/argp-standalone && make clean || true
+	if [ -f ./Makefile ];then make distclean; fi
+# TEST that this clears old copies of source/seedtool
+	# dh_auto_clean	
+
+override_dh_dwz:
+	true
