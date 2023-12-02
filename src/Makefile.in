@@ -30,7 +30,7 @@ CBOR_DIR = ../deps/cbor-lite
 
 COMPILER = g++
 CFLAGS += --debug -O0
-CXXFLAGS += -std=c++17 -stdlib=libc++ --debug -O0 -I"$(CBOR_DIR)/include"
+CXXFLAGS += -std=c++17  --debug -O0 -I"$(CBOR_DIR)/include"
 
 toolname = seedtool
 
@@ -63,7 +63,7 @@ LDLIBS += -lbc-sskr -lbc-shamir -lbc-crypto-base -lbc-bip39 -lbc-ur -largp
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
-    LDLIBS += -lm -lc++ -lc++abi -lgcc_s -lgcc
+    LDLIBS += -lm -lgcc_s -lgcc -lstdc++
 else ifeq ($(findstring MINGW64, $(UNAME)), MINGW64)
     # on windows building with msys2/mingw64
     LDLIBS += -lm -lc++ -lws2_32

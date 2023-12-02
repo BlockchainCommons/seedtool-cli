@@ -83,7 +83,7 @@ tuna acid epic gyro many meow able acid also girl void oval fish exam veto gala 
 
 ```
 $ seedtool --ur | tr [:lower:] [:upper:] | tee /dev/tty | qrencode -o seedqrcode.png -l L
-UR:CRYPTO-SEED/OEADGDJOCNNEESSPDECECMVLFMLUOSBTDWQZFEAOTPIECFFDJZPYTAIEKK
+UR:SEED/OEADGDJOCNNEESSPDECECMVLFMLUOSBTDWQZFEAOTPIECFFDJZPYTAIEKK
 ```
 
 ![](../manual-images/seedqrcode.png)
@@ -92,37 +92,36 @@ UR:CRYPTO-SEED/OEADGDJOCNNEESSPDECECMVLFMLUOSBTDWQZFEAOTPIECFFDJZPYTAIEKK
 
 ```
 $ seedtool --deterministic=TEST --count 64 --ur=20
-ur:crypto-seed/1-4/lpadaacsfycyutrpgrfggyoyadhdfznteelblrcygldwvarflojtcywyhtmtdpeh
-ur:crypto-seed/2-4/lpaoaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybswddnkolg
-ur:crypto-seed/3-4/lpaxaacsfycyutrpgrfggyjkspvseesawmrltdlnlgkplfbkqzzoglfejtgylpfw
-ur:crypto-seed/4-4/lpaaaacsfycyutrpgrfggyoyaegsnedtrowsdpgtimmwzspfqdjkhshyqzwfssln
+ur:seed/1-4/lpadaacsfycyutrpgrfggyoyadhdfznteelblrcygldwvarflojtcywyhtmtdpeh
+ur:seed/2-4/lpaoaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybswddnkolg
+ur:seed/3-4/lpaxaacsfycyutrpgrfggyjkspvseesawmrltdlnlgkplfbkqzzoglfejtgylpfw
+ur:seed/4-4/lpaaaacsfycyutrpgrfggyoyaegsnedtrowsdpgtimmwzspfqdjkhshyqzwfssln
 ```
 
 ### Same as above, but generate 5 additional parts using fountain codes
 
 ```
 $ seedtool --deterministic=TEST --count 64 --ur=20 --parts 5
-ur:crypto-seed/1-4/lpadaacsfycyutrpgrfggyoyadhdfznteelblrcygldwvarflojtcywyhtmtdpeh
-ur:crypto-seed/2-4/lpaoaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybswddnkolg
-ur:crypto-seed/3-4/lpaxaacsfycyutrpgrfggyjkspvseesawmrltdlnlgkplfbkqzzoglfejtgylpfw
-ur:crypto-seed/4-4/lpaaaacsfycyutrpgrfggyoyaegsnedtrowsdpgtimmwzspfqdjkhshyqzwfssln
-ur:crypto-seed/5-4/lpahaacsfycyutrpgrfggyoyaegsnedtrowsdpgtimmwzspfqdjkhshytnlburst
-ur:crypto-seed/6-4/lpamaacsfycyutrpgrfggyoyadhdfznteelblrcygldwvarflojtcywylofxjerl
-ur:crypto-seed/7-4/lpataacsfycyutrpgrfggytdsopfjyheursphfnssrhkierpfnmdghpywnylisbt
-ur:crypto-seed/8-4/lpayaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybsykpamtlp
-ur:crypto-seed/9-4/lpasaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybsndfslgss
+ur:seed/1-4/lpadaacsfycyutrpgrfggyoyadhdfznteelblrcygldwvarflojtcywyhtmtdpeh
+ur:seed/2-4/lpaoaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybswddnkolg
+ur:seed/3-4/lpaxaacsfycyutrpgrfggyjkspvseesawmrltdlnlgkplfbkqzzoglfejtgylpfw
+ur:seed/4-4/lpaaaacsfycyutrpgrfggyoyaegsnedtrowsdpgtimmwzspfqdjkhshyqzwfssln
+ur:seed/5-4/lpahaacsfycyutrpgrfggyoyaegsnedtrowsdpgtimmwzspfqdjkhshytnlburst
+ur:seed/6-4/lpamaacsfycyutrpgrfggyoyadhdfznteelblrcygldwvarflojtcywylofxjerl
+ur:seed/7-4/lpataacsfycyutrpgrfggytdsopfjyheursphfnssrhkierpfnmdghpywnylisbt
+ur:seed/8-4/lpayaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybsykpamtlp
+ur:seed/9-4/lpasaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybsndfslgss
 ```
 
 ### Recover the seed from UR using a subset of the generated parts
 
 ```
 $ seedtool --in ur
-ur:crypto-seed/1-4/lpadaacsfycyutrpgrfggyoyadhdfznteelblrcygldwvarflojtcywyhtmtdpeh
-ur:crypto-seed/3-4/lpaxaacsfycyutrpgrfggyjkspvseesawmrltdlnlgkplfbkqzzoglfejtgylpfw
-ur:crypto-seed/5-4/lpahaacsfycyutrpgrfggyoyaegsnedtrowsdpgtimmwzspfqdjkhshytnlburst
-ur:crypto-seed/7-4/lpataacsfycyutrpgrfggytdsopfjyheursphfnssrhkierpfnmdghpywnylisbt
-ur:crypto-seed/9-4/lpasaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybsndfslgss
+ur:seed/1-4/lpadaacsfycyutrpgrfggyoyadhdfznteelblrcygldwvarflojtcywyhtmtdpeh
+ur:seed/3-4/lpaxaacsfycyutrpgrfggyjkspvseesawmrltdlnlgkplfbkqzzoglfejtgylpfw
+ur:seed/5-4/lpahaacsfycyutrpgrfggyoyaegsnedtrowsdpgtimmwzspfqdjkhshytnlburst
+ur:seed/7-4/lpataacsfycyutrpgrfggytdsopfjyheursphfnssrhkierpfnmdghpywnylisbt
+ur:seed/9-4/lpasaacsfycyutrpgrfggyjytpdkfwprylienshnjnpluypmamtkmybsndfslgss
 ^D
 9d347f841a4e2ce6bc886e1aee74d82442b2f7649c606daedbad06cf8f0f73c8e834c2ebb7d2868d75820ab4fb4e45a1004c9f29b8ef2d4d6a94fab0b373615e
 ```
-

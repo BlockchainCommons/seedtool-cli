@@ -50,7 +50,12 @@ distclean:
 	rm -f Makefile
 	rm -rf autom4te.cache
 	rm -f autoscan.log
-	rm -f configure.scan configure.status config.log
-	rm -f config.log config.status config.h
-	rm -rf deps/*
+	rm -f configure.scan configure.status config.log config.status config.h
+	for d in deps/*; do \
+		if [[ -d "$d" ]]; then \
+			pushd $d;		\
+			make clean;		\
+			popd;			\
+		fi;				\
+	done
 	rm -rf sysroot

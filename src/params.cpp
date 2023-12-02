@@ -313,7 +313,7 @@ void Params::validate_input() {
                 argp_error(state, "Incomplete UR parts.");
             } else {
                 auto type = ur_shares.front().type();
-                if(type == "crypto-seed") {
+                if(type == "seed" || type == "crypto-seed") {
                     input_format = new FormatHex();
                 } else if(type == "crypto-bip39") {
                     input_format = new FormatBIP39();
