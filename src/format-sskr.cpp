@@ -116,7 +116,6 @@ void FormatSSKR::process_output(Params* p) {
     assert(gen_share_count == share_count);
     assert(bytes_in_each_share == share_len);
 
-    if(p->is_ur_out) {
         StringVector strings;
         for (int i = 0; i < share_count; i++) {
             uint8_t* bytes = shares_buffer + (i * bytes_in_each_share);
@@ -124,26 +123,15 @@ void FormatSSKR::process_output(Params* p) {
             ByteVector cbor;
             ur::CborLite::encodeTagAndValue(cbor, ur::CborLite::Major::semantic, size_t(309));
             ur::CborLite::encodeBytes(cbor, v);
+        if (p->is_ur_out) {
             ur::UR ur("crypto-sskr", cbor);
-            auto s = ur::UREncoder::encode(ur);
-            strings.push_back(s);
-        }
-        auto all_strings = join(strings, "\n");
-        p->output = all_strings;
+            strings.push_back(ur::UREncoder::encode(ur));
     } else {
-        StringVector strings;
-        for (int i = 0; i < share_count; i++) {
-            uint8_t* bytes = shares_buffer + (i * bytes_in_each_share);
-            auto v = ByteVector(bytes, bytes + bytes_in_each_share);
-            ByteVector cbor;
-            ur::CborLite::encodeTagAndValue(cbor, ur::CborLite::Major::semantic, size_t(309));
-            ur::CborLite::encodeBytes(cbor, v);
-            auto s = ur::Bytewords::encode(ur::Bytewords::standard, cbor);
-            strings.push_back(s);
+            strings.push_back(ur::Bytewords::encode(ur::Bytewords::standard, cbor));
+        }
         }
         auto all_strings = join(strings, "\n");
         p->output = all_strings;
-    }
 }
 
 FormatSSKR::FormatSSKR() 

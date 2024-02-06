@@ -96,7 +96,6 @@ private:
     void validate_input_format();
     void validate_count_for_input_format();
     void validate_output_format();
-    void validate_output_for_input();
     void validate_ints_specific();
     void validate_bip39_specific();
     void validate_sskr_specific();
