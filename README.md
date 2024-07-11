@@ -13,6 +13,10 @@
   <img width="640" height="320" src="images/logos/seedtool-screen.png">
 </p>
 
+## Deprecation of C++ SeedTool
+
+This repo contains the original SeedTool written in C++, and is now deprecated. The [new SeedTool is written in Rust](https://github.com/BlockchainCommons/seedtool-cli-rust) and is a complete rewrite. The new SeedTool's inputs and outputs are compatible with the old SeedTool, and most of the same command line options are supported. The new SeedTool is more flexible and extensible, and is designed to support additional functionality.
+
 ## Introduction
 
 `seedtool` is a command-line tool for creating and transforming cryptographic seeds of the sort commonly used by blockchain applications.
@@ -187,7 +191,7 @@ The best place to talk about Blockchain Commons and its projects is in our GitHu
 
 [**Gordian User Community**](https://github.com/BlockchainCommons/Gordian/discussions). For users of the Gordian reference apps, including [Gordian Coordinator](https://github.com/BlockchainCommons/iOS-GordianCoordinator), [Gordian Seed Tool](https://github.com/BlockchainCommons/GordianSeedTool-iOS), [Gordian Server](https://github.com/BlockchainCommons/GordianServer-macOS), [Gordian Wallet](https://github.com/BlockchainCommons/GordianWallet-iOS), and [SpotBit](https://github.com/BlockchainCommons/spotbit) as well as our whole series of [CLI apps](https://github.com/BlockchainCommons/Gordian/blob/master/Docs/Overview-Apps.md#cli-apps). This is a place to talk about bug reports and feature requests as well as to explore how our reference apps embody the [Gordian Principles](https://github.com/BlockchainCommons/Gordian#gordian-principles).
 
-[**Blockchain Commons Discussions**](https://github.com/BlockchainCommons/Community/discussions). For developers, interns, and patrons of Blockchain Commons, please use the discussions area of the [Community repo](https://github.com/BlockchainCommons/Community) to talk about general Blockchain Commons issues, the intern program, or topics other than those covered by the [Gordian Developer Community](https://github.com/BlockchainCommons/Gordian-Developer-Community/discussions) or the 
+[**Blockchain Commons Discussions**](https://github.com/BlockchainCommons/Community/discussions). For developers, interns, and patrons of Blockchain Commons, please use the discussions area of the [Community repo](https://github.com/BlockchainCommons/Community) to talk about general Blockchain Commons issues, the intern program, or topics other than those covered by the [Gordian Developer Community](https://github.com/BlockchainCommons/Gordian-Developer-Community/discussions) or the
 [Gordian User Community](https://github.com/BlockchainCommons/Gordian/discussions).
 
 ### Other Questions & Problems
